@@ -14,11 +14,6 @@ const Styles = styled.div`
     position: relative;
     z-index: -2;
   }
-
-  .heading {
-    
-  }
-
   .next-line {
     color: #fffee6;
     
