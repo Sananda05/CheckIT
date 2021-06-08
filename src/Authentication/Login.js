@@ -2,6 +2,8 @@ import React from "react";
 
 import { Form, Button, Container, Col, Row, Image } from "react-bootstrap";
 import styled from "styled-components";
+import {FcGoogle} from "react-icons/fc";
+
 
 import AuthNavbar from "../Components/AuthNavBar";
 import logimg from "../Assets/log.jpg";
@@ -17,7 +19,7 @@ const Styles = styled.div`
     position: absolute;
     height: 400px;
     width: 300px;
-    top: 17rem;
+    top: 13rem;
     left: 63rem;
     font-size: 1rem;
     text-anchor: middle;
@@ -45,15 +47,37 @@ const Styles = styled.div`
     }
   }
 
-  .register-btn {
+  .next-line {
     color: #000000;
+    position : relative;
     font-family: "Open Sans", sans-serif;
-    top: 5rem;
+    top: 1rem;
+    font-size : 0.8rem;
+    padding-left : 1rem;
   }
+.Or{
+  position : relative;
+    font-family: "Open Sans", sans-serif;
+    top: 1rem;
+    font-size : 1 rem;
+    padding-left : 7.6rem;
+}
+.google-btn{
+  color : #252827;
+  background-color : #FFFFFF;
+  width: 250px;
+  text-align : center;
+
+}
+.google-icn{
+  position : relative;
+  width : 25px;
+  height : 25px;
+  margin-right : 1rem;
+}
 `;
 
-const Login = () => {
-  return (
+const Login = () => (
     <div>
       <AuthNavbar />
       <Styles>
@@ -78,12 +102,20 @@ const Login = () => {
               <Button variant="primary" className="sign-in-btn">
                 Sign in
               </Button>
+              <p className="next-line">
+                Do not have an account? <a href="registration">Registration</a> <br />
+              </p>
+              <p className="Or"> Or </p>
+               
+              <Button variant="outline-dark" className="google-btn">
+                <FcGoogle className="google-icn"/>
+                Continue with Google
+              </Button>
             </Form>
           </Form>
         </Container>
       </Styles>
     </div>
-  );
-};
+);
 
 export default Login;
