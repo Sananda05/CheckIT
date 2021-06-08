@@ -43,15 +43,6 @@ const Styles = styled.div`
       color: white;
     }
   }
-
-  .next-line {
-    color: #000000;
-    position: relative;
-    font-family: "Open Sans", sans-serif;
-    top: 1rem;
-    font-size: 0.8rem;
-    padding-left: 1rem;
-  }
   .Or {
     position: relative;
     font-family: "Open Sans", sans-serif;
@@ -96,10 +87,6 @@ const Register = () => {
               <Button variant="primary" className="sign-in-btn">
                 Sign in
               </Button>
-              <p className="next-line">
-                Do not have an account? <a href="registration">Registration</a>{" "}
-                <br />
-              </p>
               <p className="Or"> Or </p>
 
               <Button variant="outline-dark" className="google-btn">
