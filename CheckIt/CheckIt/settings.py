@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'HomePage',
+    'rest_framework',
+    'FrontEnd',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,8 @@ ROOT_URLCONF = 'CheckIt.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['D:\Projects\Emojify\CheckIt\Templates'],
+        #'DIRS': ['D:\Projects\CheckIt\CheckIt\Templates'],
+        'DIRS': ['D:\Projects\CheckIt\Frontend'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +79,11 @@ WSGI_APPLICATION = 'CheckIt.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'CheckIt',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
     }
 }
 
@@ -120,9 +126,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#STATICFILES_DIRS = [
+#    BASE_DIR / "static",
+#    '/var/www/static/',
+#]
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    '/var/www/static/',
+    os.path.join(BASE_DIR, '../Frontend/src'),
 ]
 
 # Default primary key field type
