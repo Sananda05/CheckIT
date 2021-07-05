@@ -1,0 +1,19 @@
+{% extends 'src\Views\Home\Homepage.html' %}
+{% block HomeContent %}
+
+<div class="page-wrapper mdc-toolbar-fixed-adjust">
+        <main class="content-wrapper" style= "background-color: white;">
+          
+            <div class="mdc-layout-grid__inner">
+              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+                <div> 
+                    <h6> Username = {{ username }} </h6>
+                    <br>
+                    <h6> Email = {{ email }} </h6>
+                    <br>
+                    <h6> Total courses Added = {{ courses | length }}</h6>
+                </div>
+            </div>
+        </main>
+</div>
+{% endblock %}
