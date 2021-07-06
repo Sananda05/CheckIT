@@ -44,7 +44,7 @@ def Register_view(request):
 
             return redirect('/login')
         else: 
-            messages.success(request, 'Something went Wrong. Try Again.')
+            messages.success(request, 'Something went Wrong. Username exists or Password is not too long. Please Try Again.')
             return redirect('/register')
 
     else:

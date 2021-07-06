@@ -1,4 +1,4 @@
-{% extends 'src\Views\Home\Homepage.html' %}
+{% extends 'src\Views\Users\Exams\Exam_Base.html' %}
 {% block HomeContent %}
 
 <!--static-->
@@ -11,24 +11,24 @@
 <div class="page-wrapper mdc-toolbar-fixed-adjust">
   <main class="content-wrapper">
     <div class="mdc-layout-grid__inner">
-      <form action="" method="POST">
+      <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal" tabindex="-1" id="newFolder">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Create New Course</h5>
+                <h5 class="modal-title">Add New File</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                   <div class="mdc-text-field mdc-text-field--outlined">
-                    <input class="mdc-text-field__input" id="name" name="name">
+                    <input class="mdc-text-field__input" id="student_id" name="student_id">
                     <div class="mdc-notched-outline">
                       <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
                           <label for="name" class="mdc-floating-label">
-                            Course Name 
+                            Student ID 
                           </label>    
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
@@ -39,12 +39,12 @@
                
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                   <div class="mdc-text-field mdc-text-field--outlined">
-                    <input class="mdc-text-field__input" id="text-field-hero-input" id="CourseCode" name="CourseCode">
+                    <input class="mdc-text-field__input" id="text-field-hero-input" id="exam_file" name="exam_file" type = "file" style="padding-top: 6px;">
                     <div class="mdc-notched-outline">
                       <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
                           <label for="CourseCode" class="mdc-floating-label">
-                            Course Code
+                            File
                           </label>
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
@@ -67,14 +67,13 @@
   <main class="content-wrapper"> 
     <div class="mdc-layout-grid__inner">
       {% if zipped_lists %}
-        {% for course, exam_counts in zipped_lists %}             
+        {% for examScript, file_name in zipped_lists %}
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
             <div class="mdc-card info-card info-card--success">
               <div class="card-inner">
-                <a href = "{{ course.name }}/" style = "text-decoration: None;"><h5 class="card-title" >{{ course.name }}</h5></a>
-                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ course.CourseCode }}</h5>
-                    
-                <p class="tx-12 text-muted">{{ exam_counts }} Exams Added</p>
+                <a href = "Script{{ examScript.student_id }}/" style = "text-decoration: None;"><h5 class="card-title">{{ examScript.student_id }}</h5></a>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ file_name }}</h5>
+                
                 <div class="card-icon-wrapper">
                   <i class="material-icons">dvr</i>
                 </div>
@@ -86,13 +85,12 @@
         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
           <div class="mdc-card info-card info-card--success">
             <div class="card-inner">
-              No Courses Added. Add one Now!
+              No Scripts Added. Add one Now!
             </div>
           </div>  
         </div>
-      {% endif %}  
+      {% endif %}
     </div>  
   </main>
 </div>
-
 {% endblock %}
