@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name='ExamScripts',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('student_id', models.CharField(max_length=100, unique=True)),
+                ('student_id', models.CharField(max_length=100)),
                 ('pdf', models.FileField(upload_to='Scripts/')),
                 ('is_Checked', models.BooleanField(default=False)),
                 ('Marks', models.IntegerField(default=0)),

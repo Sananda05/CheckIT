@@ -4,6 +4,10 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+from django.contrib.auth.models import User
+from HomePage.models import Courses, Exams
+from ExamScripts.models import ExamScripts
+
 from .forms import CreateUserForms
 
 def index(request):
@@ -53,3 +57,61 @@ def Register_view(request):
         else:
             context = {'RegisterForm' : RegisterForm}
             return render(request, 'src/Views/Authentication/Register.html', context)
+
+def UserProfile(request, username):
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+        courses = Courses.objects.filter( owner_id_id = users.id )
+        exams = Exams.objects.filter( owner_id_id = users.id )
+        examScripts = ExamScripts.objects.filter( owner_id_id = users.id )
+
+        if request.method == 'POST':
+            password = request.POST['password']
+
+            user = authenticate(username = username, password = password)
+            if user is not None:
+                print("Password is correct")
+
+                request.session['passwordChecked'] = True
+                passwordChecked = request.session.get('passwordChecked')
+                print("After POST:")
+                print(passwordChecked)
+                return redirect('/EditProfile')
+            else:
+                messages.info(request, 'Password is incorrect.')
+                return redirect('/' +  username)
+        else:
+            passwordChecked = False
+            return render(request, 'src/Views/Users/User.html', {'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
+    else:
+        return redirect("/login")
+
+def EditProfile(request):
+    if request.user.is_authenticated:
+        users = User.objects.get( username = request.user )
+        courses = Courses.objects.filter( owner_id_id = users.id )
+        exams = Exams.objects.filter( owner_id_id = users.id )
+        examScripts = ExamScripts.objects.filter( owner_id_id = users.id )
+
+        #if request.method == 'POST':
+        #    password = request.POST['password']
+        #    print(password)
+
+        #    user = authenticate(username = username, password = password)
+        #    if user is not None:
+        #        return redirect('/EditProfile')
+        #    else:
+        #        messages.info(request, 'Password is incorrect.')
+        #        return redirect('/' +  request.user)
+        #else:
+        passwordChecked = request.session.get('passwordChecked')
+        print ("Before: ")
+        print (passwordChecked)
+        if passwordChecked == True:
+            request.session['passwordChecked'] = False
+            print (passwordChecked)
+            return render(request, 'src/Views/Users/Edit.html', {'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
+        else:
+            return redirect('/' + users.username)
+    else:
+        return redirect("/login")

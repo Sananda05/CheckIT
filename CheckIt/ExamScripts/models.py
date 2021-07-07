@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from HomePage.models import Courses, Exams
 
 class ExamScripts (models.Model):
-    student_id = models.CharField(max_length = 100, unique = True)
+    student_id = models.CharField(max_length = 100)
     pdf = models.FileField(upload_to = 'Scripts/')
     is_Checked = models.BooleanField(default = False)
     Marks = models.IntegerField(default = 0)

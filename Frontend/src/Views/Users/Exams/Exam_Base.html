@@ -40,15 +40,15 @@
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/home/{{ courses.name }}/{{ exam.exam_name }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                {{ exam.exam_name }}
-              </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home/{{ courses.name }}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
                 {{ courses.name }}
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home/{{ courses.name }}/{{ exam.exam_name }}">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
+                {{ exam.exam_name }}
               </a>
             </div>
             <!--<div class="mdc-list-item mdc-drawer-item">
@@ -151,7 +151,7 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">Greetings {{ user.username }}!</span>
+            <span class="mdc-top-app-bar__title">{{ exam.exam_name }}</span>
             
           </div>
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">

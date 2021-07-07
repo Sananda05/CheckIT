@@ -26,7 +26,7 @@
     <!-- partial:partials/_sidebar.html -->    
     <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
       <div class="mdc-drawer__header">
-        <a href="/" class="brand-logo">
+        <a href="/" class="brand-logo" style = "text-decoration: None;">
           <h1 style = "color: white;" >CheckIt</h1>
         </a>
       </div>
@@ -150,7 +150,7 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">Greetings {{ user.username }}!</span>
+            <span class="mdc-top-app-bar__title">{{ user.username }}</span>
             
           </div>
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
@@ -178,7 +178,7 @@
             </div>
             <div class="divider d-none d-md-block"></div>
             <div class="menu-button-container d-none d-md-block">
-              <a class="mdc-button mdc-menu-button" href = "#">
+              <a class="mdc-button mdc-menu-button" data-bs-toggle="modal" data-bs-target="#newFolder">
                 <i class="mdi mdi-account-edit-outline"></i>
               </a>
             </div>

@@ -91,15 +91,6 @@ def AddExam(request, coursename):
     else:
        return redirect("/login")
 
-def UserProfile(request, username):
-    if request.user.is_authenticated :
-        users = User.objects.get( username = request.user )
-        courses = Courses.objects.filter( owner_id_id = users.id )
-
-        return render(request, 'src/Views/Users/User.html', {'username' : request.user, 'email' : users.email, 'courses' : courses})
-    else:
-        return redirect("/login")
-
 def CourseView(request, coursename):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )

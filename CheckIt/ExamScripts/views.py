@@ -21,8 +21,7 @@ def ExamView(request, coursename, examname):
                 return redirect("/home/"+ coursename + "/" + examname)
         
         else:
-            examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
-
+            examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = False )
             file_names = []
             for i in examScripts:
                 pdf_name = str(i.pdf).replace("Scripts/", "")
@@ -31,7 +30,16 @@ def ExamView(request, coursename, examname):
             print(file_names)
             zipped_lists = zip(examScripts, file_names)
 
-            return render(request, 'src/Views/Users/Exams/Exam.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScripts, "zipped_lists" : zipped_lists})
+            checkedExamScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = True )
+            checked_file_names = []
+            for i in examScripts:
+                checked_pdf_name = str(i.pdf).replace("Scripts/", "")
+                checked_file_names.append(checked_pdf_name)
+            
+            print(checked_file_names)
+            zipped_lists_2 = zip(checkedExamScripts, checked_file_names)
+
+            return render(request, 'src/Views/Users/Exams/Exam.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScripts, 'checkedExamScripts' : checkedExamScripts, "zipped_lists" : zipped_lists, "zipped_lists_2" : zipped_lists_2})
     else:
         return redirect("/login")
 
