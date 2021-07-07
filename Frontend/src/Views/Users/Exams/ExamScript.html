@@ -10,35 +10,50 @@
 
   <script type='text/javascript'>
     $(document).ready(function(){
-      var maxField = 10; //Input fields increment limitation
+      var maxField = 100; //Input fields increment limitation
       var addButton = $('.add_button'); //Add button selector
       var wrapper = $('.field_wrapper'); //Input field wrapper
-      var fieldHTML = '<tr name="field_name[]"><td><div class="form-group No_of_Teachers"><input type="text" class="form-control" id="inputDefault"></div></td><td><div class="form-group No_of_Sec"><input type="text" class="form-control" id="inputDefault" onkeyup="mult(this.value)"></div></td><td><a href="javascript:void(0);" class="add_button" title="Add field"><i class="mdi mdi-plus"></i></a></td></tr></div>'; //New input field html 
+      var fieldHTML = '<tr><td><div class="form-group No_of_Teachers"><input type="text" class="form-control" id="inputDefault"></div></td><td><div class="form-group No_of_Sec"><input type="text" class="form-control" id="inputDefault" name="field_name[]" onkeyup="add(this.value)"></div></td><td><a href="javascript:void(0);" class="remove_button"><i class="mdi mdi-minus"></i></a></td></tr>'; //New input field html 
       var x = 1; //Initial field counter is 1
     
-    //Once add button is clicked
+      //Once add button is clicked
       $(addButton).click(function(){
         //Check maximum number of input fields
         if(x < maxField){ 
-            x++; //Increment field counter
-            $(wrapper).append(fieldHTML); //Add field html
+          x++; //Increment field counter
+          $(wrapper).append(fieldHTML); //Add field html
         }
       });
     
-    //Once remove button is clicked
+      //Once remove button is clicked
       $(wrapper).on('click', '.remove_button', function(e){
         e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
+
+        var total = parseInt(document.getElementById('Total').value);
+        var mark_to_be_reduced = parseInt($(this).closest("tr").find("input[name = 'field_name[]']").val());
+        
+        if( Number.isNaN(mark_to_be_reduced) ){
+          mark_to_be_reduced = 0;
+        }
+
+        document.getElementById('Total').value = total - mark_to_be_reduced ;
+        $(this).closest('tr').remove(); //Remove field html
         x--; //Decrement field counter
       });
     });
-    function mult(value){
-            var load, credit;
-            credit = document.getElementById("Total").value;
-            Total = credit + value;
 
-            document.getElementById('Total').value = load;
-        }
+    function add(value){
+      if( Number.isNaN(value) ){
+          value = 0;
+          document.getElementById('Total').value = marks + value;
+      }
+      else{
+        marks = parseInt(document.getElementById("Total").value);
+        int_value = parseInt(value);
+
+        document.getElementById('Total').value = marks + int_value;
+      }
+    }
   </script>
 
 <!---->
@@ -47,7 +62,7 @@
   <main class="content-wrapper" style = "padding-top: 0px;"> 
     <div style = "width: 65%; float: left; padding: 20px;">
       <embed
-        src="{{examScripts.pdf.url}}"
+        src="{{ examScripts.pdf.url }}"
         type="application/pdf"
         frameBorder="0"
         scrolling="auto"
@@ -59,29 +74,30 @@
       <h1>Marks</h1>
       <br>
       <form action = "" method = "post">
-            <table  class="table table-hover">
-            <tbody>
-                <tr>
-                    <td>Total Marks</td>
-                    <td><div class="form-group No_of_Teachers"><input type="text" class="form-control" id="inputDefault" name="Marks"></div></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><div class="form-group No_of_Teachers"><input type="text" class="form-control" id="inputDefault"></div></td>    
-                    <td><div class="form-group No_of_Sec"><input type="text" class="form-control" name="field_name[]"  id="inputDefault" onkeyup="mult(this.value)"></div></td>
-                    <td><a href="javascript:void(0);" class="add_button" title="Add field"><i class="mdi mdi-plus"></i></a></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                    <input type = 'submit'class="btn btn-primary btn-edit" value = "Offer" />
-                    </td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
-</div>
+        {% csrf_token %}
+        <table style = "text-align: center;" class="table table-hover field_wrapper">
+          <tbody>
+            <tr style = "text-align: center;">
+              <th>No.</th>
+              <th>Mark</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th>Total</td>
+                <td><div class="form-group No_of_Teachers"><input type="text" class="form-control" id="Total" name="Marks" value = 0></div></td>
+                <td>
+                  <input type='submit' class="btn btn-primary btn-edit" value = "Submit" />
+                </td>
+            </tr>
+            <tr>
+              <td><div class="form-group No_of_Teachers"><input type="text" class="form-control" id="inputDefault"></div></td>    
+              <td><div class="form-group No_of_Sec"><input type="text" class="form-control" id="inputDefault" onkeyup="add(this.value)"></div></td>
+              <td><a href="javascript:void(0);" class="add_button" title="Add field"><i class="mdi mdi-plus"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
   </main>
 </div>
 

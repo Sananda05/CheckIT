@@ -32,7 +32,7 @@ def ExamView(request, coursename, examname):
 
             checkedExamScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = True )
             checked_file_names = []
-            for i in examScripts:
+            for i in checkedExamScripts:
                 checked_pdf_name = str(i.pdf).replace("Scripts/", "")
                 checked_file_names.append(checked_pdf_name)
             
@@ -50,4 +50,17 @@ def ScriptView(request, coursename, examname, student_id):
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
         examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
 
-        return render(request, 'src/Views/Users/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript})
+        if request.method == "POST":
+            Marks = request.POST['Marks']
+            
+            print(Marks)
+
+            ExamScripts.objects.filter( id = examScript.id ).update( is_Checked = True, Marks = Marks )
+
+            #ExamScripts.objects.create(student_id = student_id, pdf = pdf, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
+            return redirect("/home/"+ coursename + "/" + examname)
+        else:
+            print(examScript.id)
+            return render(request, 'src/Views/Users/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript})
+    else:
+        return redirect("/login")
