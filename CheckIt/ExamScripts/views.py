@@ -92,7 +92,26 @@ def Recheck(request, coursename, examname, student_id):
         examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
         script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
 
-        return render(request, 'src/Views/Users/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+        if request.method == 'POST':
+            Marks = request.POST['Marks']
+            marks_details = request.POST.getlist('field_name[]')
+            ques_no = request.POST.getlist('ques_no[]')
+
+            ExamScripts.objects.filter( id = examScript.id ).update( is_Checked = True, Marks = Marks )
+
+            zipped_list = zip(marks_details, ques_no)
+            print(zipped_list)
+            for mark, ques in zipped_list:
+                if mark != "" and ques != "":                    
+                    if ScriptDetails.objects.filter(Script_id_id = examScript.id, ques_no = ques).exists():
+                        ScriptDetails.objects.filter( Script_id_id = examScript.id, ques_no = ques ).update( Marks = mark )
+                    else:
+                        ScriptDetails.objects.create(ques_no = ques, Marks = mark, Script_id_id = examScript.id, exam_id_id = exam.id)
+                        
+            return redirect("/home/"+ coursename + "/" + examname)
+
+        else:
+            return render(request, 'src/Views/Users/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
     
     else:
         return redirect("/login")
