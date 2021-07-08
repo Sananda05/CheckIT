@@ -1,4 +1,4 @@
-{% extends 'src\Views\Users\Exams\Exam_Base.html' %}
+{% extends 'src\Views\Extensions\Exam-Edit-Navbar.html' %}
 {% block HomeContent %}
 
 <!--static-->
@@ -9,53 +9,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script type='text/javascript'>
-  /* 
-    $(document).ready(function(){
-      var maxField = 100; //Input fields increment limitation
-      var addButton = $('.add_button'); //Add button selector
-      var wrapper = $('.field_wrapper'); //Input field wrapper
-      var fieldHTML = '<tr><td><div class="form-group"><input type="text" class="form-control" name="ques_no[]" id="inputDefault"></div></td><td><div class="form-group"><input type="text" class="form-control" id="inputDefault" name="field_name[]" onkeyup="add(this.value)"></div></td><td><a href="javascript:void(0);" class="remove_button"><i class="mdi mdi-minus"></i></a></td></tr>'; //New input field html 
-      var x = 1; //Initial field counter is 1
-    
-      //Once add button is clicked
-      $(addButton).click(function(){
-        //Check maximum number of input fields
-        if(x < maxField){ 
-          x++; //Increment field counter
-          $(wrapper).append(fieldHTML); //Add field html
-        }
-      });
-    
-      //Once remove button is clicked
-      $(wrapper).on('click', '.remove_button', function(e){
-        e.preventDefault();
-
-        var total = parseInt(document.getElementById('Total').value);
-        var mark_to_be_reduced = parseInt($(this).closest("tr").find("input[name = 'field_name[]']").val());
-        
-        if( Number.isNaN(mark_to_be_reduced) ){
-          mark_to_be_reduced = 0;
-        }
-
-        document.getElementById('Total').value = total - mark_to_be_reduced ;
-        $(this).closest('tr').remove(); //Remove field html
-        x--; //Decrement field counter
-      });
-    });
-
-    function add(value){
-      if( Number.isNaN(value) ){
-          value = 0;
-          document.getElementById('Total').value = marks + value;
-      }
-      else{
-        marks = parseInt(document.getElementById("Total").value);
-        int_value = parseInt(value);
-
-        document.getElementById('Total').value = marks + int_value;
-      }
-    }
-  */
 
   $(function () {
       //calculation script
@@ -79,7 +32,7 @@
     //add dynamic field script
     $(document).ready(function() {
 
-    var MaxInputs       = 5; //maximum input boxes allowed
+    var MaxInputs       = 50; //maximum input boxes allowed
     var InputsWrapper   = $("#InputsIncomeWrapper"); //Input boxes wrapper ID
     var AddButton       = $("#AddMoreIncomeBox"); //Add button ID
 
@@ -107,8 +60,8 @@
       if( x > 1 ) {
         
         //Add
-        var total = parseInt(document.getElementById('income_sum').value);
-        var mark_to_be_reduced = parseInt($(this).closest("tr").find("input[name = 'field_name[]']").val()) || 0;
+        var total = parseFloat(document.getElementById('income_sum').value);
+        var mark_to_be_reduced = parseFloat($(this).closest("tr").find("input[name = 'field_name[]']").val()) || 0;
 
         document.getElementById('income_sum').value = total - mark_to_be_reduced ;
 
@@ -139,7 +92,6 @@
     <div style = "width: 35%; float: right; padding: 20px;">
       <span>
         <h1>Marks</h1><br>
-        <a class="btn btn-primary btn-edit" href="uncheck/">Check Later</a>
       </span>
       <br><br>
       <form action = "" id="whereEntry" method = "post">

@@ -70,7 +70,7 @@ def ScriptView(request, coursename, examname, student_id):
     else:
         return redirect("/login")
 
-def Uncheck(request, coursename, examname, student_id):
+#def Uncheck(request, coursename, examname, student_id):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )

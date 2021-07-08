@@ -8,7 +8,7 @@ class ExamScripts (models.Model):
     student_id = models.CharField(max_length = 100)
     pdf = models.FileField(upload_to = 'Scripts/')
     is_Checked = models.BooleanField(default = False)
-    Marks = models.IntegerField(default = 0)
+    Marks = models.FloatField(default = 0)
 
     course_id = models.ForeignKey(Courses, on_delete = CASCADE)
     exam_id = models.ForeignKey(Exams, on_delete = CASCADE)
@@ -19,7 +19,7 @@ class ExamScripts (models.Model):
 
 class ScriptDetails (models.Model):
     ques_no = models.CharField(max_length = 100)
-    Marks = models.IntegerField(default = 0)
+    Marks = models.FloatField(default = 0)
 
     Script_id = models.ForeignKey(ExamScripts, on_delete = CASCADE)
     exam_id = models.ForeignKey(Exams, on_delete = CASCADE)

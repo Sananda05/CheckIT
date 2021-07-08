@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('ques_no', models.CharField(max_length=100)),
-                ('Marks', models.IntegerField(default=0)),
+                ('Marks', models.FloatField(default=0)),
                 ('Script_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ExamScripts.examscripts')),
                 ('exam_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='HomePage.exams')),
             ],

@@ -33,7 +33,7 @@
     //add dynamic field script
     $(document).ready(function() {
 
-    var MaxInputs       = 5; //maximum input boxes allowed
+    var MaxInputs       = 50; //maximum input boxes allowed
     var InputsWrapper   = $("#InputsIncomeWrapper"); //Input boxes wrapper ID
     var AddButton       = $("#AddMoreIncomeBox"); //Add button ID
 
@@ -61,8 +61,8 @@
       if( x > 1 ) {
         
         //Add
-        var total = parseInt(document.getElementById('income_sum').value);
-        var mark_to_be_reduced = parseInt($(this).closest("tr").find("input[name = 'field_name[]']").val()) || 0;
+        var total = parseFloat(document.getElementById('income_sum').value);
+        var mark_to_be_reduced = parseFloat($(this).closest("tr").find("input[name = 'field_name[]']").val()) || 0;
 
         document.getElementById('income_sum').value = total - mark_to_be_reduced ;
 

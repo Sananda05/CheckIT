@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('student_id', models.CharField(max_length=100)),
                 ('pdf', models.FileField(upload_to='Scripts/')),
                 ('is_Checked', models.BooleanField(default=False)),
-                ('Marks', models.IntegerField(default=0)),
+                ('Marks', models.FloatField(default=0)),
                 ('course_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='HomePage.courses')),
                 ('exam_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='HomePage.exams')),
                 ('owner_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
