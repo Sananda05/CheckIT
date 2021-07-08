@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
-from .models import Courses, Exams, ExamScripts
+from .models import Courses, Exams, ExamScripts, ScriptDetails
 
 def ExamView(request, coursename, examname):
     if request.user.is_authenticated :
@@ -12,12 +12,12 @@ def ExamView(request, coursename, examname):
 
         if request.method == "POST":
                 student_id = request.POST['student_id']
-                pdf = request.FILES['exam_file']
+                pdf_name = request.FILES['exam_file']
             
                 print(student_id)
-                print(pdf)
+                print(pdf_name)
 
-                ExamScripts.objects.create(student_id = student_id, pdf = pdf, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
+                ExamScripts.objects.create(student_id = student_id, pdf = pdf_name, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
                 return redirect("/home/"+ coursename + "/" + examname)
         
         else:
@@ -49,18 +49,50 @@ def ScriptView(request, coursename, examname, student_id):
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
         examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
+        script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
 
         if request.method == "POST":
             Marks = request.POST['Marks']
-            
-            print(Marks)
+            marks_details = request.POST.getlist('field_name[]')
+            ques_no = request.POST.getlist('ques_no[]')
+
+            zipped_list = zip(marks_details, ques_no)
+            print(zipped_list)
 
             ExamScripts.objects.filter( id = examScript.id ).update( is_Checked = True, Marks = Marks )
+            for mark, ques in zipped_list:
+                ScriptDetails.objects.create(ques_no = ques, Marks = mark, Script_id_id = examScript.id, exam_id_id = exam.id)
 
-            #ExamScripts.objects.create(student_id = student_id, pdf = pdf, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
             return redirect("/home/"+ coursename + "/" + examname)
         else:
             print(examScript.id)
-            return render(request, 'src/Views/Users/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript})
+            return render(request, 'src/Views/Users/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+    else:
+        return redirect("/login")
+
+def Uncheck(request, coursename, examname, student_id):
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+        courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
+        exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
+        examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
+
+        ExamScripts.objects.filter( id = examScript.id ).update( is_Checked = False )
+
+        return redirect("/home/"+ coursename + "/" + examname)
+    
+    else:
+        return redirect("/login")
+
+def Recheck(request, coursename, examname, student_id):
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+        courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
+        exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
+        examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
+        script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
+
+        return render(request, 'src/Views/Users/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+    
     else:
         return redirect("/login")

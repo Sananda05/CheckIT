@@ -93,25 +93,22 @@ def EditProfile(request):
         exams = Exams.objects.filter( owner_id_id = users.id )
         examScripts = ExamScripts.objects.filter( owner_id_id = users.id )
 
-        #if request.method == 'POST':
-        #    password = request.POST['password']
-        #    print(password)
+        if request.method == 'POST':
+            name = request.POST['username']
+            email = request.POST['email']
+            print(name)
+            print(email)
 
-        #    user = authenticate(username = username, password = password)
-        #    if user is not None:
-        #        return redirect('/EditProfile')
-        #    else:
-        #        messages.info(request, 'Password is incorrect.')
-        #        return redirect('/' +  request.user)
-        #else:
-        passwordChecked = request.session.get('passwordChecked')
-        print ("Before: ")
-        print (passwordChecked)
-        if passwordChecked == True:
-            request.session['passwordChecked'] = False
-            print (passwordChecked)
-            return render(request, 'src/Views/Users/Edit.html', {'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
+            User.objects.filter( id = users.id ).update( username = name, email = email )
         else:
-            return redirect('/' + users.username)
+            passwordChecked = request.session.get('passwordChecked')
+            print ("Before: ")
+            print (passwordChecked)
+            if passwordChecked == True:
+                request.session['passwordChecked'] = False
+                print (passwordChecked)
+                return render(request, 'src/Views/Users/Edit.html', {'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
+            else:
+                return redirect('/' + users.username)
     else:
         return redirect("/login")

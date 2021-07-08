@@ -7,6 +7,8 @@ from django.conf import settings
 urlpatterns = [
     path('home/<str:coursename>/<str:examname>/', views.ExamView),
     path('home/<str:coursename>/<str:examname>/Script<str:student_id>/', views.ScriptView),
+    path('home/<str:coursename>/<str:examname>/Script<str:student_id>/Review/uncheck/', views.Uncheck),
+    path('home/<str:coursename>/<str:examname>/Script<str:student_id>/Review/', views.Recheck),
 ]
    
 if settings.DEBUG:

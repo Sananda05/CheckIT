@@ -16,3 +16,13 @@ class ExamScripts (models.Model):
 
     def __str__(self):
         return self.name
+
+class ScriptDetails (models.Model):
+    ques_no = models.CharField(max_length = 100)
+    Marks = models.IntegerField(default = 0)
+
+    Script_id = models.ForeignKey(ExamScripts, on_delete = CASCADE)
+    exam_id = models.ForeignKey(Exams, on_delete = CASCADE)
+
+    def __str__(self):
+        return self.name
