@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 
 from django.contrib.auth.models import User
 from .models import Courses, ExamFolder
+from Exams.models import UncheckedFile
 
 def HomePage(request):
     print (request.user)
@@ -55,6 +56,18 @@ def CourseView(request, coursename):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
+        exams = ExamFolder.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
+        scripts = UncheckedFile.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
+        
+
+        script_count = []
+        for exam in exams:
+            count = 0
+            for script in scripts:
+                if script.exam_id_id == exam.id:
+                    count = count + 1
+            script_count.append(count)
+        print(script_count)
 
         print(courses.id)
 
@@ -70,14 +83,15 @@ def CourseView(request, coursename):
             print(exam_name)
             print(semester)
 
-            ExamFolder.objects.create(exam_name= exam_name, semester=semester,owner_id_id = courses.id)
+            ExamFolder.objects.create(exam_name= exam_name, semester=semester,owner_id_id = users.id, course_id_id= courses.id)
             print(courses.id)
            
             return redirect("/Course/"+courses.name)
 
         elif request.method == "GET":
-             exams = ExamFolder.objects.filter(owner_id_id= courses.id)
-             return render(request, 'src/Views/Users/Course.html', {'exams' : exams,'coursename' : coursename})
+            
+             zipped_lists = zip(exams, script_count)
+             return render(request, 'src/Views/Users/Course.html', {'exams' : exams,'coursename' : coursename, "zipped_lists" : zipped_lists })
     else :
         return redirect("/login")    
 

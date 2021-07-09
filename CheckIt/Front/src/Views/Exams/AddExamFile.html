@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
+    <div class="page-wrapper mdc-toolbar-fixed-adjust" >
         <main class="content-wrapper">
         <div class="mdc-layout-grid__inner">
         <form action="" method="POST">
@@ -30,9 +30,9 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                      <input type="text" name="student_id" placeholder="Student ID">
+                      
                       <div class="input-group">
-                        <input type="file" name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <input type="file" multiple name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                       </div>
                   </div>   
                   <div class="modal-footer">
@@ -43,27 +43,67 @@
           </div>
        </form>
   </div>
-    
+
+
+<div class="page-wrapper mdc-toolbar-fixed-adjust">
+<main class="content-wrapper" style=" padding-top: 0px; padding-bottom: 0px;">
+<h3 style = "padding-bottom: 10px;"> Unchecked Scripts</h3>
+<div class="mdc-layout-grid__inner">
+  {% if unchecked %}
     {% for files in unchecked %}
    
-    <div class="container-xxl">
-      <div class="card-inner">
-        <div class="mdc-card info-card info-card--success">
+    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+      <div class="mdc-card info-card info-card--success">
+        <div class="card-inner">
           
            <div class="shadow-sm p-3 mb-5 bg-body rounded">
-          
-          <h5 class="card-header">Student ID : {{files.student_id}}</h5>
-         <div class="card-body" >
-          <a href="{{files.pdf.url}}" class="btn btn-info" style=" width:100px; background-color: rgb(42, 140, 231); color:aliceblue">open</a>
-        </div>
+            <a href = "{{ files.pdf }}/" style = "text-decoration: None;"><h5 class="card-title">{{ files.pdf }}</h5></a>
+            <div class="card-icon-wrapper">
+              <i class="material-icons">description</i>
+            </div>
+         
          </div>
             </div>
           </div>
         </div>
-   
-    
     {% endfor %}
-
+    {% else %}
+        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card info-card info-card--success">
+            <div class="card-inner">
+              No Unchecked Scripts. Add one Now!
+            </div>
+          </div>  
+        </div>
+      {% endif %}
+</div>
+<h3 style = "padding-bottom: 10px; padding-top: 30px;"> Checked Scripts</h3>
+    <div class="mdc-layout-grid__inner">
+      {% if checkedExamScripts %}
+        {% for checkedExamScript in checkExamScripts%}
+          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+            <div class="mdc-card info-card info-card--success">
+              <div class="card-inner">
+                <a href = "Script{{ checkedExamScript.student_id }}/Review/" style = "text-decoration: None;"><h5 class="card-title">{{ checkedExamScript.student_id }}</h5></a>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ checkedExamScript.student_id }}.pdf</h5>
+                
+                <div class="card-icon-wrapper" style="width: 100px;">
+                  <h3 style = "color: white;">{{ checkedExamScript.Marks }}</h3>
+                </div>
+              </div>
+            </div>  
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card info-card info-card--success">
+            <div class="card-inner">
+              No Checked Scripts. Check one Now!
+            </div>
+          </div>  
+        </div>
+      {% endif %}
+    </div>
   </main>        
 </body>
 </html>

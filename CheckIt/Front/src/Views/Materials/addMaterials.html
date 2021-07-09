@@ -1,6 +1,6 @@
 {% extends 'src\Views\Home\Homepage.html' %}
 {% block HomeContent%}
-
+{% load embed_video_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,49 +19,51 @@
     <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
         <main class="content-wrapper">
         <div class="mdc-layout-grid__inner">
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
-              
-          <button type="button" data-bs-toggle="modal" data-bs-target="#newFolder" class="btn btn-outline-info" style="margin: 30px; width:200px; border-radius: 10px;">Upload Files</button><br>
-            <div class="modal" tabindex="-1" id="newFolder" style="margin-top: 10rem;">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title">Select File</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#newFolder" class="btn btn-outline-info" style="margin: 30px; width:200px; background-color:#76649b; color:aliceblue; border-radius:30px; border-color:#76649b">Upload Files</button><br>
+              <div class="modal" tabindex="-1" id="newFolder" style="margin-top: 10rem;">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select File</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="university" placeholder="University name" style="margin:1rem;"></span>
+                        <input type="text" name="coursename" placeholder="Course name" style="margin:1rem;"><br><span>
+                        <textarea name = "description" placeholder="Description" style="height: 100px; width: 400px; margin:1rem"></textarea>
+                        <div class="input-group">
+                          <input type="file" multiple name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        </div>
+                        <input type="text" name="vid_file" placeholder="video Link" style="margin:1rem;"><br><span></span>
+                    </div>   
+                    <div class="modal-footer">
+                          <input type="submit" value="upload" class="btn btn-primary">
+                    </div>
                   </div>
-                  <div class="modal-body">
-                      <input type="text" name="university" placeholder="University name" style="margin:1rem;"></span>
-                      <input type="text" name="coursename" placeholder="Course name" style="margin:1rem;"><br><span>
-                      <textarea name = "description" placeholder="Description" style="height: 100px; width: 400px; margin:1rem"></textarea>
-                      <div class="input-group">
-                        <input type="file" name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                      </div>
-                  </div>   
-                  <div class="modal-footer">
-                        <input type="submit" value="upload" class="btn btn-primary">
-                  </div>
-                </div>
-             </div>
-          </div>
-       </form>
-  </div>
-  {% for files in material %}
+               </div>
+            </div>
+         </form>
+    </div>
+    {% for files in material %}
     <div class="container-xxl">
-      <div class="shadow-sm p-3 mb-5 bg-body rounded">
-        
-        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);">Course name : {{files.course_name}}</h5>
-        <div class="card-body">
-          <h6>Topic : {{files.description}}</h6>
-          <p>{{files.uni_name}}</p>
-          <a href="/Course/{{coursename}}" class="btn btn-outline-danger">Delete</a>
-          <a href="/Course/{{coursename}}" class="btn btn-info" style="background-color: rgb(42, 140, 231); color:aliceblue">Edit</a>
+        <div class="shadow-sm p-3 mb-5 bg-body rounded">   
+          <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;">Course name : {{files.course_name}}</h5>
+          <div class="card-body">
+            <h6>Topic : {{files.description}}</h6>
+            <p>{{files.uni_name}}</p>
+            <p>{{files.pdf}}</p>
+            {% video files.video 'small' %} <br>
+            <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-info" style="width: 100px;background-color: rgb(42, 140, 231); color:aliceblue; margin-right:20px;">Edit</a>
+            <a href="/Course/{{coursename}}" class="btn btn-outline-danger" style="width: 100px;">Delete</a>
+            
+          </div>
         </div>
-      </div>
-    </div>
-    </div>
+      </div>  
     {% endfor %}
 </main>
+    </div>
 </body>
 </html>
 

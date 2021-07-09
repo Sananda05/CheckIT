@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'FrontEnd',
     'HomePage',
     'Exams',
-    'Materials'
+    'Materials',
+    'embed_video',
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -139,10 +142,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, './Front/src'),
 ]
-
+MEDIA_URL ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/home'
+

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CheckIt | Home</title>
+  <title>CheckIt | {{ courses.name }} | {{ exam.exam_name }}</title>
   {% load static %}
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/mdi/css/materialdesignicons.min.css' %}">
@@ -25,37 +25,36 @@
   <div class="body-wrapper">
     <!-- partial:partials/_sidebar.html -->    
     <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open" style="background-color: #3e276d;">
-      <div class="mdc-drawer__header" >
-        <a href="/" style="text-decoration:None;" class="brand-logo">
-          <h1 style = "color: white;" >CheckIt?</h1>
+      <div class="mdc-drawer__header">
+        <a href="/" class="brand-logo" style = "text-decoration: None;">
+          <h1 style = "color: white;" >CheckIt</h1>
         </a>
       </div>
-      <div class="mdc-drawer__content">
+      <div class="mdc-drawer__content" >
         <div class="user-info">
-          <p class="name">{{ username }}</p>
-          <p class="email">{{ email }}</p>
-          <p class="email">{{ courses | length }} courses are added</p>
+          <p class="name">{{ user.username }}</p>
+          <p class="email">{{ user.email }}</p><br>
+          <p class="email">{{ exam.exam_name }}</p>
+          <p class="email">{{ examScripts | length }} unchecked Scripts remaining</p>
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
                 Courses
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/{{ username }}">
+              <a class="mdc-drawer-link" href="/home/{{ courses.name }}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-                Profile
+                {{ courses.name }}
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/Materials">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
-                  file_upload
-                  </span></i>
-               Materials
+              <a class="mdc-drawer-link" href="/home/{{ courses.name }}/{{ exam.exam_name }}">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
+                {{ exam.exam_name }}
               </a>
             </div>
             <!--<div class="mdc-list-item mdc-drawer-item">
@@ -93,7 +92,7 @@
             </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sample-page-submenu">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
                 Sample Pages
                 <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
@@ -147,11 +146,8 @@
         </div>
         
         <div class="profile-actions">
-         
-          <a href="/logout">Logout</a>
-        
+          <a style = "text-decoration: None;" href="/logout">Logout</a>
         </div>
-        
       </div>
     </aside>
     <!-- partial -->
@@ -161,15 +157,10 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title" style="width: 400px;">Greetings {{ username }}!</span>      
+            <span class="mdc-top-app-bar__title">{{ exam.exam_name }}</span>
+            
           </div>
-          <div class="mdc-top-app-bar__row">
-            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
-              <span><a type="text" class="fw-normal" href="/Materials" style="color:rgb(11, 122, 187);">Upload Materials</span>
-            </div>
-          </div>
-         
-        <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
+          <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
             <div class="menu-button-container menu-profile d-none d-md-block">
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
@@ -179,7 +170,6 @@
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
                       <h6 class="item-subject font-weight-normal">Edit profile</h6>
-                      
                     </div>
                   </li>
                   <li class="mdc-list-item" role="menuitem">
@@ -195,9 +185,9 @@
             </div>
             <div class="divider d-none d-md-block"></div>
             <div class="menu-button-container d-none d-md-block">
-              <a class="mdc-button mdc-menu-button" href = "/addCourse">
+              <button class="mdc-button mdc-menu-button" data-bs-toggle="modal" data-bs-target="#newFolder">
                 <i class="mdi mdi-plus"></i>
-              </a>
+              </button>
             </div>
             
           </div>
