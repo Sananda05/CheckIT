@@ -16,19 +16,39 @@
                 <div class="card user-card-full">
                     <div class="row m-l-0 m-r-0">
                         <div class="col-sm-2 bg-c-lite-green user-profile"></div>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" style="padding-top: 20px; padding-bottom: 20px; padding-left: 20px;">
                         <form action="" method="POST">
                         {% csrf_token %}
-                            <div class="card-block">
-                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6><br>
+                        <div>
+                            {{form.as_p}}
+                        </div>
+                        <div class="row" style="padding-bottom: 20px; margin: 5px;">
+                            <a class="mdc-button text-button--success"><input type="submit" value="Change Password" class="mdc-button text-button--success"></a>
+                        </div>
+                            <!--<div class="card-block">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Change Password</h6><br>
                                 <div class="row">
                                     <div class="mdc-text-field mdc-text-field--outlined">
-                                        <input class="mdc-text-field__input" id="username" name="username" value= {{ username }}>
+                                        <input class="mdc-text-field__input" id="o_password" name="o_password" type="password">
                                         <div class="mdc-notched-outline">
                                             <div class="mdc-notched-outline__leading"></div>
                                             <div class="mdc-notched-outline__notch">
                                                 <label for="name" class="mdc-floating-label">
-                                                    Username 
+                                                    Enter Your Old Password 
+                                                </label>
+                                            </div>
+                                            <div class="mdc-notched-outline__trailing"></div>
+                                        </div>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="mdc-text-field mdc-text-field--outlined">
+                                        <input class="mdc-text-field__input" id="password" name="password" type="password">
+                                        <div class="mdc-notched-outline">
+                                            <div class="mdc-notched-outline__leading"></div>
+                                            <div class="mdc-notched-outline__notch">
+                                                <label for="name" class="mdc-floating-label">
+                                                    Enter New Password 
                                                 </label>
                                             </div>
                                             <div class="mdc-notched-outline__trailing"></div>
@@ -38,12 +58,12 @@
                                 <br>
                                 <div class="row">
                                     <div class="mdc-text-field mdc-text-field--outlined">
-                                        <input class="mdc-text-field__input" id="email" name="email" value= {{ email }}>
+                                        <input class="mdc-text-field__input" id="c_password" name="c_password" type="password">
                                         <div class="mdc-notched-outline">
                                             <div class="mdc-notched-outline__leading"></div>
                                             <div class="mdc-notched-outline__notch">
                                                 <label for="name" class="mdc-floating-label">
-                                                    Email
+                                                    Re-type Your New Password
                                                 </label>
                                             </div>
                                             <div class="mdc-notched-outline__trailing"></div>
@@ -51,27 +71,10 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="row" style="padding-left: 20px; padding-bottom: 20px;">
-                                    <div class="col-sm-4">
-                                        <p class="m-b-10 f-w-600">Total Courses Added</p>
-                                        <h6 class="text-muted f-w-400">{{ courses | length }}</h6>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <p class="m-b-10 f-w-600">Total Exams Added</p>
-                                        <h6 class="text-muted f-w-400">{{ exams | length }}</h6>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <p class="m-b-10 f-w-600">Total Scripts Added</p>
-                                        <h6 class="text-muted f-w-400">{{ examScripts | length }}</h6>
-                                    </div>
-                                </div>
                                 <div class="row" style="padding-bottom: 20px; margin: 5px;">
-                                    <a href="/ChangePassword" class="mdc-button text-button--success">Change Password</a>
+                                    <a class="mdc-button text-button--success"><input type="submit" value="Change Password" class="mdc-button text-button--success"></a>
                                 </div>
-                                <div class="row" style="padding-bottom: 20px; margin: 5px;">
-                                    <a class="mdc-button text-button--success"><input type="submit" value="Save" class="mdc-button text-button--success"></a>
-                                </div>
-                            </div>
+                            </div>-->
                         </form>
                         </div>
                     </div>
