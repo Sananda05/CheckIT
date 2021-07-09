@@ -39,7 +39,7 @@ def ExamView(request, coursename, examname):
             print(checked_file_names)
             zipped_lists_2 = zip(checkedExamScripts, checked_file_names)
 
-            return render(request, 'src/Views/Users/Exams/Exam.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScripts, 'checkedExamScripts' : checkedExamScripts, "zipped_lists" : zipped_lists, "zipped_lists_2" : zipped_lists_2})
+            return render(request, 'src/Views/Exams/Exam.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScripts, 'checkedExamScripts' : checkedExamScripts, "zipped_lists" : zipped_lists, "zipped_lists_2" : zipped_lists_2})
     else:
         return redirect("/login")
 
@@ -68,7 +68,7 @@ def ScriptView(request, coursename, examname, student_id):
             return redirect("/home/"+ coursename + "/" + examname)
         else:
             print(examScript.id)
-            return render(request, 'src/Views/Users/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+            return render(request, 'src/Views/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
     else:
         return redirect("/login")
 
@@ -113,7 +113,7 @@ def Recheck(request, coursename, examname, student_id):
             return redirect("/home/"+ coursename + "/" + examname)
 
         else:
-            return render(request, 'src/Views/Users/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+            return render(request, 'src/Views/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
     
     else:
         return redirect("/login")

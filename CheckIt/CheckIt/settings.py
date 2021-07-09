@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'FrontEnd',
     'HomePage',
     'ExamScripts',
+    'Materials',
+    'embed_video',
 ]
 
 SITE_ID = 1

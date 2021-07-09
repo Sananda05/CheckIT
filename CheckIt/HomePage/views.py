@@ -42,7 +42,7 @@ def HomePage(request):
     else:
        return redirect("/login")
 
-def AddCourse(request):
+#def AddCourse(request):
     print (request.user)
 
     if request.user.is_authenticated :
@@ -68,7 +68,7 @@ def AddCourse(request):
     else:
        return redirect("/login")
 
-def AddExam(request, coursename):
+#def AddExam(request, coursename):
     print (request.user)
 
     if request.user.is_authenticated :
@@ -122,7 +122,7 @@ def CourseView(request, coursename):
             return redirect('/home/'+ courses.name)
         else:
             zipped_lists = zip(exams, script_count)
-            return render(request, 'src/Views/Users/Course.html', {'user' : users, 'coursename' : courses.name, 'exams' : exams, "zipped_lists" : zipped_lists})
+            return render(request, 'src/Views/Home/Course.html', {'user' : users, 'coursename' : courses.name, 'exams' : exams, "zipped_lists" : zipped_lists})
     else:
         return redirect("/login")
 
