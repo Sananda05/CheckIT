@@ -35,10 +35,16 @@
           <p class="name">{{ user.username }}</p>
           <p class="email">{{ user.email }}</p><br>
           <p class="email">{{ exam.exam_name }}</p>
-          <p class="email">{{ examScripts | length }} Scripts are added</p>
+          <p class="email">{{ examScripts | length }} unchecked Scripts remaining</p>
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
+                Courses
+              </a>
+            </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home/{{ courses.name }}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
@@ -86,7 +92,7 @@
             </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sample-page-submenu">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
                 Sample Pages
                 <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>

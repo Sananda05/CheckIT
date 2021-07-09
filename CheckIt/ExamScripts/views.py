@@ -11,14 +11,14 @@ def ExamView(request, coursename, examname):
         print(exam.exam_name)
 
         if request.method == "POST":
-                student_id = request.POST['student_id']
-                pdf_name = request.FILES['exam_file']
+            #student_id = request.POST['student_id']
+            pdf_name = request.FILES.getlist('exam_file')
             
-                print(student_id)
-                print(pdf_name)
-
-                ExamScripts.objects.create(student_id = student_id, pdf = pdf_name, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
-                return redirect("/home/"+ coursename + "/" + examname)
+            print(pdf_name)
+            for file in pdf_name:
+                ExamScripts.objects.create(pdf = file, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
+                
+            return redirect("/home/"+ coursename + "/" + examname)
         
         else:
             examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = False )
@@ -45,21 +45,23 @@ def ExamView(request, coursename, examname):
 
 def ScriptView(request, coursename, examname, student_id):
     if request.user.is_authenticated :
+        pdf_name = 'Scripts/'+ student_id
         users = User.objects.get( username = request.user )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
-        examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
+        examScript = ExamScripts.objects.get( pdf = pdf_name, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
         script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
 
         if request.method == "POST":
             Marks = request.POST['Marks']
+            studentId = request.POST['studentId']
             marks_details = request.POST.getlist('field_name[]')
             ques_no = request.POST.getlist('ques_no[]')
 
             zipped_list = zip(marks_details, ques_no)
             print(zipped_list)
 
-            ExamScripts.objects.filter( id = examScript.id ).update( is_Checked = True, Marks = Marks )
+            ExamScripts.objects.filter( id = examScript.id ).update( student_id = studentId, is_Checked = True, Marks = Marks )
             for mark, ques in zipped_list:
                 ScriptDetails.objects.create(ques_no = ques, Marks = mark, Script_id_id = examScript.id, exam_id_id = exam.id)
 

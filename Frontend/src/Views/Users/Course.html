@@ -51,13 +51,13 @@
   <main class="content-wrapper"> 
     <div class="mdc-layout-grid__inner">
       {% if exams %}
-        {% for exam in exams %}
+        {% for exam, script_count in zipped_lists %}
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
             <div class="mdc-card info-card info-card--success">
               <div class="card-inner">
                 <a href = "{{ exam.exam_name }}/" style = "text-decoration: None;" ><h5 class="card-title">{{ exam.exam_name }}</h5></a>
                 <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{course.CourseCode}}</h5>
-                <p class="tx-12 text-muted">0 Scripts Added</p>
+                <p class="tx-12 text-muted">{{ script_count }} Scripts Added</p>
                 <div class="card-icon-wrapper">
                   <i class="material-icons">dvr</i>
                 </div>

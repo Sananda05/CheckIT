@@ -21,25 +21,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                  <div class="mdc-text-field mdc-text-field--outlined">
-                    <input class="mdc-text-field__input" id="student_id" name="student_id">
-                    <div class="mdc-notched-outline">
-                      <div class="mdc-notched-outline__leading"></div>
-                        <div class="mdc-notched-outline__notch">
-                          <label for="name" class="mdc-floating-label">
-                            Student ID 
-                          </label>    
-                        </div>
-                        <div class="mdc-notched-outline__trailing"></div>
-                      </div>
-                    </div>
-                  </div>
+                
                 <br>
                
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                   <div class="mdc-text-field mdc-text-field--outlined">
-                    <input class="mdc-text-field__input" id="text-field-hero-input" id="exam_file" name="exam_file" type = "file" style="padding-top: 6px;">
+                    <input class="mdc-text-field__input" id="text-field-hero-input" id="exam_file" type = "file" multiple name ="exam_file" style="padding-top: 6px;">
                     <div class="mdc-notched-outline">
                       <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
@@ -72,7 +59,7 @@
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
             <div class="mdc-card info-card info-card--success">
               <div class="card-inner">
-                <a href = "Script{{ examScript.student_id }}/" style = "text-decoration: None;"><h5 class="card-title">{{ examScript.student_id }}</h5></a>
+                <a href = "{{ file_name }}/" style = "text-decoration: None;"><h5 class="card-title">{{ file_name }}</h5></a>
                 <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ file_name }}</h5>
                 
                 <div class="card-icon-wrapper">
@@ -86,7 +73,7 @@
         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
           <div class="mdc-card info-card info-card--success">
             <div class="card-inner">
-              No Unchecked Scripts Added. Add one Now!
+              No Unchecked Scripts. Add one Now!
             </div>
           </div>  
         </div>
@@ -101,7 +88,7 @@
             <div class="mdc-card info-card info-card--success">
               <div class="card-inner">
                 <a href = "Script{{ checkedExamScripts.student_id }}/Review/" style = "text-decoration: None;"><h5 class="card-title">{{ checkedExamScripts.student_id }}</h5></a>
-                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ checked_file_names }}</h5>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ checkedExamScripts.student_id }}.pdf</h5>
                 
                 <div class="card-icon-wrapper" style="width: 100px;">
                   <h3 style = "color: white;">{{ checkedExamScripts.Marks }}</h3>

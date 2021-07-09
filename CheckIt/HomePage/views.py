@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 
 from django.contrib.auth.models import User
 from .models import Courses, Exams
+from ExamScripts.models import ExamScripts
 
 def HomePage(request):
     print (request.user)
@@ -96,7 +97,17 @@ def CourseView(request, coursename):
         users = User.objects.get( username = request.user )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exams = Exams.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
-
+        scripts = ExamScripts.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
+        
+        script_count = []
+        for exam in exams:
+            count = 0
+            for script in scripts:
+                if script.exam_id_id == exam.id:
+                    count = count + 1
+            script_count.append(count)
+        print(script_count)
+        
         if request.method == "POST":
             owner_id = users.id
             course_id = courses.id    
@@ -110,7 +121,8 @@ def CourseView(request, coursename):
 
             return redirect('/home/'+ courses.name)
         else:
-            return render(request, 'src/Views/Users/Course.html', {'user' : users, 'coursename' : courses.name, 'exams' : exams})
+            zipped_lists = zip(exams, script_count)
+            return render(request, 'src/Views/Users/Course.html', {'user' : users, 'coursename' : courses.name, 'exams' : exams, "zipped_lists" : zipped_lists})
     else:
         return redirect("/login")
 

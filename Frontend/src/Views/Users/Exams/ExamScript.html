@@ -1,4 +1,4 @@
-{% extends 'src\Views\Users\Exams\Exam_Base.html' %}
+{% extends 'src\Views\Extensions\Exam-Edit-Navbar.html' %}
 {% block HomeContent %}
 
 <!--static-->
@@ -92,11 +92,24 @@
     <div style = "width: 35%; float: right; padding: 20px;">
       <span>
         <h1>Marks</h1><br>
-        <a class="btn btn-primary btn-edit" href="Review/uncheck/">Review Later</a>
+        <form action = "" id="whereEntry" method = "post">
+        {% csrf_token %}
+        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                  <div class="mdc-text-field mdc-text-field--outlined">
+                    <input class="mdc-text-field__input" id="text-field-hero-input" name ="studentId" style="padding-top: 6px;">
+                    <div class="mdc-notched-outline">
+                      <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                          <label for="studentId" class="mdc-floating-label">
+                            Student Id
+                          </label>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                      </div>
+                    </div>
+                  </div>
       </span>
       <br><br>
-      <form action = "" id="whereEntry" method = "post">
-        {% csrf_token %}
         <table style = "text-align: center;" class="table table-hover field_wrapper">
           <tbody id="InputsIncomeWrapper">
             <fieldset>
