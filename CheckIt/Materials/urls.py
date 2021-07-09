@@ -6,5 +6,5 @@ urlpatterns = [
 
 path('Materials', views.AddMaterials),
 path('uploadMaterial', views.AllMaterials),
-
+path('searchMaterials', views.searchMaterials,name='searchMaterials'),
 ]

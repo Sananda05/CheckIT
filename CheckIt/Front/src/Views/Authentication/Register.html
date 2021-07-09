@@ -49,7 +49,7 @@
               </div>
               <p style = "color: red;">{{ RegisterForm.errors }}</p>
               <input name="Create User" id="Register" class="btn btn-block login-btn" type="submit" value="Register">
-              <a class="btn btn-block login-btn" type="button" href="#"><img src= "{% static 'Static/Assets-For-Auth/images/google-logo.png' %}" style=" length:30px; width: 30px; "> Or Sign In with Google </a>
+              <a class="btn btn-block login-btn" type="button" href="/accounts/google/login/?process=login/"><img src= "{% static 'Static/Assets-For-Auth/images/google-logo.png' %}" style=" length:30px; width: 30px; "> Or Sign In with Google </a>
             </form>
             <p class="login-wrapper-footer-text" style="text-align: center;">Already have an account? <a href="/login" class="text-reset">Login to get started!</a></p>
           </div>

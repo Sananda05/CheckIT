@@ -38,12 +38,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    
+    'gdstorage',
     
     'FrontEnd',
     'HomePage',
     'Exams',
     'Materials'
 ]
+ 
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,6 +99,26 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',
+    }
+}
+
+AUTHENTICATION_BACKENDS = (
+    
+   'django.contrib.auth.backends.ModelBackend',
+
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# Google as the OAuth provider
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
     }
 }
 
@@ -146,3 +176,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/home'

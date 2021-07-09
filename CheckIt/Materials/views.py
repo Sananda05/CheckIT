@@ -1,6 +1,9 @@
+from django.contrib import messages
+from django.db.models import query
 from Materials.models import materials
 from django.shortcuts import redirect, render
 from HomePage.models import User
+
 
 # Create your views here.
 
@@ -27,3 +30,21 @@ def AddMaterials (request):
 def AllMaterials (request):
     material = materials.objects.all()
     return render(request, "src/Views/Materials/AllMaterials.html", {'material':material})
+
+
+def searchMaterials(request):
+    query=request.GET['query']
+    if len(query)>78:
+        AllMaterials=materials.objects.none()
+    else:
+        AllMaterialsCourse=materials.objects.filter(course_name__icontains=query)
+        AllMaterialsUni_name=materials.objects.filter(uni_name__icontains=query)
+        AllMaterials=AllMaterialsCourse.union(AllMaterialsUni_name)
+
+    if AllMaterials.count()==0:
+        messages.warning(request, "No search results found. Please refine your query.")
+        
+    params={'AllMaterials':AllMaterials,'query':query}
+    return render(request, "src/Views/Materials/searchMaterials.html",params)
+
+

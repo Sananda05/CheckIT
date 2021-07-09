@@ -60,15 +60,26 @@
             </ul>
             
           </nav><!-- .nav-menu -->
-          <form class="d-flex" method="GET" action="{% url 'searchMaterials' %}">
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="Search Materials" aria-label="Search" name="query" id="query"><button class="btn btn-outline-secondary" type="submit">Search</button>
-          </form>
+          
     
         </div>
       </header>
-
-    {% for files in material %}
+      <div class="container-xxl" style="margin-top: 10rem;">
+        {% if AllMaterials|length < 1 %}
+       <h1>Search Results:</h1>
+        Your search query : <b>{{query}}</b> did not match any documents. <br>
+        Suggestions:
+        <ul>
+        <li>Make sure that all words are spelled correctly.</li>
+        <li>Try more general keywords.</li>
+       <li> Try fewer keywords.</li>
+       <li> Try different keywords.</li>
+        </li>
+        </ul>
+       
+    {% endif %}
+    
+    {% for files in AllMaterials %}
     <div class="container-xxl" style="margin-top: 10rem;">
      
       <div class="shadow-sm p-3 mb-5 bg-body rounded">
@@ -85,6 +96,7 @@
     
   </div>
     {% endfor %}
+    </div>
     
 </body>
 </html>
