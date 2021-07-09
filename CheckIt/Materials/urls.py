@@ -10,7 +10,8 @@ urlpatterns = [
 
 path('Materials', views.AddMaterials),
 path('uploadMaterial', views.AllMaterials),
-url(r'^download/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT})
+url(r'^download/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT}),
+path('searchMaterials', views.searchMaterials,name='searchMaterials'),
 
 ]
 if settings.DEBUG:
