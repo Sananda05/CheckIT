@@ -15,9 +15,15 @@
             <div class="col-xl-12 col-md-12">
                 <div class="card user-card-full">
                     <div class="row m-l-0 m-r-0">
-                        <div class="col-sm-2 bg-c-lite-green user-profile"></div>
-                        <div class="col-sm-10">
-                        <form action="" method="POST">
+                        <div class="col-sm-12 bg-c-lite-green user-profile">
+                        {% if picture != no_picture %}
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25"> <img src="{{ picture }}" class="img-radius" style="border-radius: 50%;" alt="User-Profile-Image"> </div>
+                            </div>
+                        {% endif %}
+                        </div><br>
+                        <div class="col-sm-12">
+                        <form action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                             <div class="card-block">
                                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6><br>
@@ -65,6 +71,10 @@
                                         <h6 class="text-muted f-w-400">{{ examScripts | length }}</h6>
                                     </div>
                                 </div>
+                                <!--<h6 class="m-b-20 p-b-5 b-b-default f-w-600" style="margin-bottom: 5px;">Change Profile Picture</h6>
+                                <div class="mdc-text-field mdc-text-field--outlined">
+                                    <input class="mdc-text-field__input" id="picture" name="picture" type="File">
+                                </div>-->
                                 <div class="row" style="padding-bottom: 20px; margin: 5px;">
                                     <a href="/ChangePassword" class="mdc-button text-button--success">Change Password</a>
                                 </div>

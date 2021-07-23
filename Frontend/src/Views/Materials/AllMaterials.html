@@ -46,9 +46,9 @@
           <nav class="nav-menu d-none d-lg-block" style="color: rgb(24, 24, 24);">
             <ul>
               <li class="active" ><a href="/" style="color: aliceblue;">Home</a></li>
-              <li><a href="#services" style="color: aliceblue;">Features</a></li>
+              <li><a href="/#services" style="color: aliceblue;">Features</a></li>
               <li><a href="/uploadMaterial" style="color: aliceblue;">Materials</a></li>
-              <li><a href="#team" style="color: aliceblue;">Team</a></li>
+              <li><a href="/#team" style="color: aliceblue;">Team</a></li>
               <li class="drop-down" style="color: aliceblue;"><a href="">Sign In</a>
                 <ul>
                   <li><a href="login">Log In</a></li>
@@ -65,6 +65,7 @@
     
         </div>
       </header>
+    
 
     {% for files in material %}
     <div class="container-xxl" style="margin-top: 5rem;">
@@ -76,7 +77,13 @@
           <h6>Topic : {{files.description}}</h6>
           <p>{{files.uni_name}}</p>
           <p>Uploaded by {{files.username}}</p>
-          {% video files.video 'small' %} <br>
+          <h5>Video</h5>
+          {% if files.video == "" %}
+            <p>No Relevant Video Added.</p> 
+          {% endif %}
+          {% video files.video 'small' %} <br><br>
+          <h5>Source Materials</h5>
+          <h6>{{ files.pdf }}</h6>
           <a href="{{files.pdf.url}}" target="_blank" class="btn btn-outline-dark" style="width: 100px;">Open</a>
           <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-primary" style="width: 100px;">Download</a>
         </div>

@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from django.contrib.auth.models import User
 from .models import Courses, Exams, ExamScripts, ScriptDetails
+
+import datetime
+import xlwt
 
 def ExamView(request, coursename, examname):
     if request.user.is_authenticated :
@@ -68,7 +72,8 @@ def ScriptView(request, coursename, examname, student_id):
             return redirect("/home/"+ coursename + "/" + examname)
         else:
             print(examScript.id)
-            return render(request, 'src/Views/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+            examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = False )
+            return render(request, 'src/Views/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details, 'total_examScripts' : examScripts})
     else:
         return redirect("/login")
 
@@ -113,7 +118,48 @@ def Recheck(request, coursename, examname, student_id):
             return redirect("/home/"+ coursename + "/" + examname)
 
         else:
-            return render(request, 'src/Views/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details})
+            examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = False )
+            return render(request, 'src/Views/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details, 'total_examScripts' : examScripts})
+    
+    else:
+        return redirect("/login")
+
+def ExportExcel (request, coursename, examname):
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+        courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
+        exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
+
+        response = HttpResponse(content_type = 'application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename = ' + courses.name + '-' + exam.exam_name + '-' + \
+            str(datetime.datetime.now()) + '.xls'
+
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('Marksheet')
+
+        #Heading
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = [ 'Student ID', 'Marks' ]
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+    
+        #Data
+        font_style = xlwt.XFStyle()
+        rows = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = True ).\
+            values_list('student_id', 'Marks')
+    
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, str(row[col_num]), font_style)
+    
+        wb.save(response)
+    
+        return response
     
     else:
         return redirect("/login")

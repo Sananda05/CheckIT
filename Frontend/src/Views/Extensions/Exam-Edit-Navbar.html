@@ -35,10 +35,16 @@
           <p class="name">{{ user.username }}</p>
           <p class="email">{{ user.email }}</p><br>
           <p class="email">{{ exam.exam_name }}</p>
-          <p class="email">{{ examScripts | length }} Scripts are added</p>
+          <p class="email">{{ total_examScripts | length }} Unchecked Scripts</p>
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
+                Courses
+              </a>
+            </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home/{{ courses.name }}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
@@ -49,6 +55,20 @@
               <a class="mdc-drawer-link" href="/home/{{ courses.name }}/{{ exam.exam_name }}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 {{ exam.exam_name }}
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/{{ user.username }}">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">account_circle</i>
+                Profile
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  file_upload
+                  </span></i>
+               Materials
               </a>
             </div>
             <!--<div class="mdc-list-item mdc-drawer-item">
@@ -191,11 +211,11 @@
       {% block HomeContent %}{% endblock %}
 
       <!-- partial:partials/_footer.html -->
-        <footer>
+        <footer style=" padding-left: 0px;">
           <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright © <a href="/" target="_blank">Team CheckIt</a> 2021</span>
+                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a style="text-decoration: None;" href="/" target="_blank">Team CheckIt</a> 2021</span>
               </div>
             </div>
           </div>

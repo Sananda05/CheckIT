@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from HomePage.models import Courses, Exams
 from ExamScripts.models import ExamScripts
+from allauth.socialaccount.models import SocialAccount
+from .models import UserProfilePicture
 
 from .forms import CreateUserForms
 
@@ -48,6 +50,9 @@ def Register_view(request):
 
             user = RegisterForm.cleaned_data.get('username')
             messages.success(request, 'Account was created for ' + user)
+            
+            #users = User.objects.get( username = user )
+            #UserProfilePicture.objects.create( user_id = users.id )
 
             return redirect('/login')
         else: 
@@ -64,6 +69,20 @@ def Register_view(request):
 def UserProfile(request, username):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        #user_picture = UserProfilePicture.objects.get( user_id = users.id )
+        
+        picture = "not available"
+        no_picture = "not available"
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+        #elif user_picture:
+        #    picture = user_picture.picture
+        #else:
+        #    picture = "Not set"
+        
+        print(picture)
+
         courses = Courses.objects.filter( owner_id_id = users.id )
         exams = Exams.objects.filter( owner_id_id = users.id )
         examScripts = ExamScripts.objects.filter( owner_id_id = users.id )
@@ -88,7 +107,7 @@ def UserProfile(request, username):
         else:
             request.session['passwordChange'] = False
             print(request.session['passwordChange'])
-            return render(request, 'src/Views/Users/User.html', {'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
+            return render(request, 'src/Views/Users/User.html', {'no_picture' : no_picture, 'picture' : picture, 'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
     else:
         return redirect("/login")
 
@@ -98,14 +117,30 @@ def EditProfile(request):
         courses = Courses.objects.filter( owner_id_id = users.id )
         exams = Exams.objects.filter( owner_id_id = users.id )
         examScripts = ExamScripts.objects.filter( owner_id_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter(provider='google', user_id = users.id)
+        #user_picture = UserProfilePicture.objects.get(user_id = users.id)
+        
+        picture = "not available"
+        no_picture = "not available"
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+        #elif user_picture:
+        #    picture = user_picture.picture
+        #else:
+        #    picture = "Not set"
+        print(picture)
 
         if request.method == 'POST':
             name = request.POST['username']
             email = request.POST['email']
+            dp = request.FILES['picture']
+            
             print(name)
             print(email)
+            print(dp)
 
             User.objects.filter( id = users.id ).update( username = name, email = email )
+            #UserProfilePicture.objects.filter( user_id = users.id ).update( picture = dp )
             
             return redirect('/' + users.username)
         else:
@@ -115,7 +150,7 @@ def EditProfile(request):
             if passwordChecked == True:
                 request.session['passwordChecked'] = False
                 print (passwordChecked)
-                return render(request, 'src/Views/Users/Edit.html', {'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
+                return render(request, 'src/Views/Users/Edit.html', {'no_picture' : no_picture, 'picture' : picture, 'username' : request.user, 'email' : users.email, 'courses' : courses, 'exams' : exams, 'examScripts' : examScripts})
             else:
                 return redirect('/' + users.username)
     else:

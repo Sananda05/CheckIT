@@ -32,7 +32,7 @@
                     <div class="modal-body">
                       <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                          <input class="mdc-text-field__input" type="text" name="university">
+                          <input class="mdc-text-field__input" name="university">
                           <div class="mdc-notched-outline">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch">
@@ -46,7 +46,7 @@
                       </div><br>
                       <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                          <input class="mdc-text-field__input" type="text" name="coursename">
+                          <input class="mdc-text-field__input" name="coursename">
                           <div class="mdc-notched-outline">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch">
@@ -85,6 +85,7 @@
             </div>
          </form>
     </div>
+    {% if material %}
     {% for files in material %}
     <div class="container-xxl">
         <div class="shadow-sm p-3 mb-5 bg-body rounded">   
@@ -101,6 +102,15 @@
         </div>
       </div>  
     {% endfor %}
+    {% else %}
+        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card info-card info-card--success">
+            <div class="card-inner">
+              No Materials Uploaded. Add one Now!
+            </div>
+          </div>  
+        </div>
+    {% endif %}
 </main>
     </div>
 </body>

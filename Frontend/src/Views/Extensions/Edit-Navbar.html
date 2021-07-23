@@ -46,13 +46,21 @@
             </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/{{ user.username }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">account_circle</i>
                 Profile
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  file_upload
+                  </span></i>
+               Materials
               </a>
             </div>
             <!--<div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
                 UI Features
                 <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
@@ -188,11 +196,11 @@
       {% block HomeContent %}{% endblock %}
 
       <!-- partial:partials/_footer.html -->
-        <footer>
+        <footer style=" padding-left: 0px;">
           <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright © <a href="/" target="_blank">Team CheckIt</a> 2021</span>
+                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a style="text-decoration: None;" href="/" target="_blank">Team CheckIt</a> 2021</span>
               </div>
             </div>
           </div>

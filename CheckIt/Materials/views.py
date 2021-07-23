@@ -10,25 +10,23 @@ from django.contrib import messages
 from .models import User, materials
 
 def AddMaterials (request):
-    if request.user.is_authenticated :
+    if request.user.is_authenticated:
         users = User.objects.get( username = request.user )
 
         if request.method == "POST":
-
-            uni_name = request.POST["university"],
-            course_name = request.POST['coursename'],
-            description = request.POST['description'],
+            uni_name = request.POST['university']
+            course_name = request.POST['coursename']
+            description = request.POST['description']
             pdf = request.FILES['exam_file']
             video = request.POST['vid_file'] #getting the value from html file
 
             #print(video)
             #print(f"Debug URL :>>>{video}<<<")
 
-            materials.objects.create(uni_name=uni_name, course_name=course_name, username = users.username,description=description, pdf=pdf, owner_id_id = users.id, video=video) # storing in database
+            materials.objects.create( uni_name = uni_name, course_name = course_name, username = users.username, description = description, pdf = pdf, owner_id_id = users.id, video = video) # storing in database
             return redirect("/Materials")
 
         elif request.method == "GET":
-            
             material = materials.objects.filter(owner_id_id = users.id)
             return render(request, "src/Views/Materials/addMaterials.html", {'material': material, 'name' : users.username})   
     else:

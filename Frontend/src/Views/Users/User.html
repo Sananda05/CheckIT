@@ -56,9 +56,13 @@
             <div class="col-xl-12 col-md-12">
                 <div class="card user-card-full">
                     <div class="row m-l-0 m-r-0">
-                        <div class="col-sm-2 bg-c-lite-green user-profile">
-                            
+                    {% if picture != no_picture %}
+                        <div class="mdc-card info-card info-card--success">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25"> <img src="{{ picture }}" class="img-radius" style="border-radius: 50%;" alt="User-Profile-Image"> </div>
+                            </div>
                         </div>
+                    {% endif %}
                         <div class="col-sm-10">
                             <div class="card-block">
                                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
