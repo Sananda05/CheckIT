@@ -1,4 +1,4 @@
-
+{% load embed_video_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,8 +89,9 @@
           <h6>Topic : {{files.description}}</h6>
           <p>{{files.uni_name}}</p>
           <p>Uploaded by {{files.username}}</p>
-          <a href="/Course/{{coursename}}" class="btn btn-outline-dark">Open</a>
-          <a href="/Course/{{coursename}}" class="btn btn-primary">Download</a>
+          {% video files.video 'small' %} <br>
+          <a href="{{files.pdf.url}}"  target="_blank" class="btn btn-outline-dark">Open</a>
+          <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-primary">Download</a>
         </div>
       </div>
     

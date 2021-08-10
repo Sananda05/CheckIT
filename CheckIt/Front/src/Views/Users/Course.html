@@ -16,13 +16,13 @@
 
 </head>
 <body>
-  <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
+  <div class="page-wrapper mdc-toolbar-fixed-adjust">
      <main class="content-wrapper">
      <div class="mdc-layout-grid__inner">
       <form action="" method="POST">
         {% csrf_token %}
         
-        <button type="button" data-bs-toggle="modal" data-bs-target="#newFolder" class="btn btn-outline-info" style="margin: 30px; width:200px;">Create new folder</button><br>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#newFolder" class="btn btn-outline-info" style="margin: 30px; width:200px; background-color:#76649b; color:aliceblue; border-radius:30px; border-color:#76649b">Create new folder</button><br>
 
         <div class="modal" tabindex="-1" id="newFolder">
           <div class="modal-dialog">
@@ -45,24 +45,40 @@
         </form>
    </div>
 
-    {% for exam in exams %}
-    <div class="container-xxl">
-      <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+<div class="page-wrapper mdc-toolbar-fixed-adjust">
+  <main class="content-wrapper"> 
+    <div class="mdc-layout-grid__inner">
+      {% if exams %}
+    {% for exam,script_count in zipped_lists %}
+    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
       <div class="mdc-card info-card info-card--success">
-        <h4 class="card-header">{{exam.exam_name}}</h4>
+        <div class="card-inner">
+
+        <a href="/Course/{{coursename}}/{{exam.exam_name}}"><h5 class="card-header" style="color:rgb(14, 88, 173)">{{exam.exam_name}}</h5></a>
         <div class="card-body">
-          <h5>Semester</h5>
-          <h5 class="card-title">{{exam.semester}}</h5> 
-        <div style="margin-top: 10px;">
-          <a href="/Course/{{coursename}}/{{exam.exam_name}}" style=" margin-top: 10px; margin-right:10px; width:100px; background-color: rgb(42, 140, 231); color:aliceblue" class="btn btn-primary">Open</a>
-          <a  class="btn btn-outline-danger" style=" width:100px; margin-top: 10px;" href="/Course/{{coursename}}/{{exam.exam_name}}/{{exam.id}}"> Delete</a>
+          <h5 class="card-title">{{exam.semester}} Semester</h5> 
         </div>
+        <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{course.CourseCode}}</h5>
+        <p class="tx-12 text-muted">{{ script_count }} Scripts Added</p>
+        <div class="card-icon-wrapper">
+          <i class="material-icons">dvr</i>
         </div>
       </div>
       </div>
-    </div>
+      </div>
     {% endfor %}
+    {% else %}
+        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-card info-card info-card--success">
+            <div class="card-inner">
+              No Exams Added. Add one Now!
+            </div>
+          </div>  
+        </div>
+      {% endif %}
+    </div>
   </main>  
+</div>
 </body>
 </html>
 

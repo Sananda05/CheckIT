@@ -1,4 +1,4 @@
-
+{% load embed_video_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +8,7 @@
     <title>CheckIt?</title>
 
     {% load static %}
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -69,17 +70,18 @@
       </header>
 
     {% for files in material %}
-    <div class="container-xxl" style="margin-top: 10rem;">
+    <div class="container-xxl" style="margin-top: 5rem;">
      
       <div class="shadow-sm p-3 mb-5 bg-body rounded">
       
-        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);">Course name : {{files.course_name}}</h5>
+        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128); color:rgb(14, 88, 173)">Course name : {{files.course_name}}</h5>
         <div class="card-body">
           <h6>Topic : {{files.description}}</h6>
           <p>{{files.uni_name}}</p>
           <p>Uploaded by {{files.username}}</p>
-          <a href="/Course/{{coursename}}" class="btn btn-outline-dark">Open</a>
-          <a href="/Course/{{coursename}}" class="btn btn-primary">Download</a>
+          {% video files.video 'small' %} <br>
+          <a href="{{files.pdf.url}}" target="_blank" class="btn btn-outline-dark" style="width: 100px;">Open</a>
+          <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-primary" style="width: 100px;">Download</a>
         </div>
       </div>
     
