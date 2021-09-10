@@ -77,6 +77,38 @@
 
 <!---->
 
+<div class="modal" tabindex="-1" id="newFolder">
+          <div class="modal-dialog" style="padding-right:1000px;">
+            <div class="modal-content" style="width: 1000px;">
+              <div class="modal-header">
+                <h5 class="modal-title">Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                
+              <br>
+
+              <div style = "width: 100%; float: left; padding: 20px;">
+                <embed
+                  src="{{ exam.exam_question.url }}"
+                  type="application/pdf"
+                  frameBorder="0"
+                  scrolling="auto"
+                  height="650px"
+                  width="100%"
+                ></embed>
+              </div>
+
+              <br>
+              
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+</div>
+
 <div class="page-wrapper mdc-toolbar-fixed-adjust row">
   <main class="content-wrapper" style = "padding-top: 0px;"> 
     <div style = "width: 65%; float: left; padding: 20px;">
@@ -85,13 +117,29 @@
         type="application/pdf"
         frameBorder="0"
         scrolling="auto"
-        height="650px"
+        height="750px"
         width="100%"
       ></embed>
     </div>
     <div style = "width: 35%; float: right; padding: 20px;">
       <span>
         <h1>Marks</h1><br>
+      </span>
+      <br><br>
+      <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                  <div class="mdc-text-field mdc-text-field--outlined">
+                    <input required="required" class="mdc-text-field__input" id="text-field-hero-input" name ="studentId" value="{{ examScripts.student_id }}" style="padding-top: 6px;">
+                    <div class="mdc-notched-outline">
+                      <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                          <label for="studentId" class="mdc-floating-label">
+                            Student Id
+                          </label>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                      </div>
+                    </div>
+                  </div>
       </span>
       <br><br>
       <form action = "" id="whereEntry" method = "post">
@@ -107,7 +155,7 @@
               <th>Total</td>
                 <td><div class="form-group"><input type="text" class="form-control" id="income_sum" name="Marks" value = {{ examScripts.Marks }}></div></td>
                 <td>
-                  <input type='submit' class="btn btn-primary btn-edit" value = "Submit" />
+                  <input type='submit' class="btn btn-sm btn-outline-dark" value = "Submit" />
                 </td>
             </tr>
             {% for script_detail in script_details %}

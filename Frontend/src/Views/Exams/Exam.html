@@ -40,7 +40,7 @@
                   <br>
                 </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Close</button>
                 <input type="submit" value="Create" class="btn btn-primary">
               </div>
             </div>
@@ -81,12 +81,12 @@
     <br>
     <br>
     <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-      <h5 style = "padding-bottom: 10px; padding-top: 30px; floating: left;">Checked Scripts</h5>
-      <div style = "padding-bottom: 10px; padding-left: 1071px;">
-        <a href="/home/{{ courses.name }}/{{ exam.exam_name }}/export_excel" class="btn btn-outline-dark">
-          Export Excel
+      <h5 style = "padding-bottom: 10px; padding-top: 30px; floating: left;">
+        Checked Scripts
+        <a href="/home/{{ courses.name }}/{{ exam.exam_name }}/export_excel" class="mdc-drawer-link btn btn-sm btn-outline-dark">
+          <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">file_download</i>Excel
         </a>
-      </div>
+      </h5>
     </div>
     <div class="mdc-layout-grid__inner">
       {% if checkedExamScripts %}

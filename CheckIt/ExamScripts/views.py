@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth.models import User
+from allauth.socialaccount.models import SocialAccount
+from FrontEnd.models import UserPictures, UserDetails
+
 from .models import Courses, Exams, ExamScripts, ScriptDetails
 
 import datetime
@@ -10,12 +13,24 @@ import xlwt
 def ExamView(request, coursename, examname):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
+        
         print(exam.exam_name)
 
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True
+        
+
         if request.method == "POST":
-            #student_id = request.POST['student_id']
             pdf_name = request.FILES.getlist('exam_file')
             
             print(pdf_name)
@@ -43,7 +58,10 @@ def ExamView(request, coursename, examname):
             print(checked_file_names)
             zipped_lists_2 = zip(checkedExamScripts, checked_file_names)
 
-            return render(request, 'src/Views/Exams/Exam.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScripts, 'checkedExamScripts' : checkedExamScripts, "zipped_lists" : zipped_lists, "zipped_lists_2" : zipped_lists_2})
+            return render(request, 'src/Views/Exams/Exam.html', 
+            {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScripts, 'checkedExamScripts' : checkedExamScripts, 
+            "zipped_lists" : zipped_lists, "zipped_lists_2" : zipped_lists_2, 'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:
         return redirect("/login")
 

@@ -58,20 +58,19 @@
     
             </ul>
           </nav><!-- .nav-menu -->
+          
           <form class="d-flex" method="GET" action="{% url 'searchMaterials' %}">
             {% csrf_token %}
             <input class="form-control me-2" type="search" placeholder="Search Materials" aria-label="Search" name="query" id="query"><button class="btn btn-outline-secondary" type="submit">Search</button>
           </form>
     
         </div>
-      </header>
-    
+    </header>
+    <section id="search">
 
     {% for files in material %}
-    <div class="container-xxl" style="margin-top: 5rem;">
-     
+    <div class="container-xxl">
       <div class="shadow-sm p-3 mb-5 bg-body rounded">
-      
         <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128); color:rgb(14, 88, 173)">Course name : {{files.course_name}}</h5>
         <div class="card-body">
           <h6>Topic : {{files.description}}</h6>
@@ -85,12 +84,11 @@
           <h5>Source Materials</h5>
           <h6>{{ files.pdf }}</h6>
           <a href="{{files.pdf.url}}" target="_blank" class="btn btn-outline-dark" style="width: 100px;">Open</a>
-          <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-primary" style="width: 100px;">Download</a>
+          <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-outline-dark" style="width: 100px;">Download</a>
         </div>
-      </div>
-    
-  </div>
+      </div>  
+    </div>
     {% endfor %}
-    
+    </section>
 </body>
 </html>

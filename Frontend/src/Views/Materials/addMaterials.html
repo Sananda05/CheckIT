@@ -16,7 +16,7 @@
 </head>
 <body>
 
-    <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
+    <div class="page-wrapper mdc-toolbar-fixed-adjust" >
         <main class="content-wrapper">
         <div class="mdc-layout-grid__inner">
         <form action="" method="POST" enctype="multipart/form-data">
@@ -89,7 +89,7 @@
     {% for files in material %}
     <div class="container-xxl">
         <div class="shadow-sm p-3 mb-5 bg-body rounded">   
-          <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;">Course name : {{files.course_name}}</h5>
+          <h5 class="card-header" style="border-radius: 10px; color:#76649b;">Course name : {{files.course_name}}</h5>
           <div class="card-body">
             <h6>Topic : {{ files.description }}</h6>
             <p>{{ files.uni_name }}</p>

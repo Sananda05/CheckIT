@@ -9,7 +9,7 @@
 <div class="page-wrapper mdc-toolbar-fixed-adjust">
   <main class="content-wrapper">
     <div class="mdc-layout-grid__inner">
-      <form action="" method="POST">
+      <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal" tabindex="-1" id="newFolder">
           <div class="modal-dialog">
@@ -34,6 +34,20 @@
                     </div>
                   </div>
                 <br>
+                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                  <div class="mdc-text-field mdc-text-field--outlined">
+                    <input class="mdc-text-field__input" id="exam_question" type= "file" name="exam_question" style="padding-top: 6px;">
+                    <div class="mdc-notched-outline">
+                      <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                          <label for="CourseCode" class="mdc-floating-label">
+                            Exam Question
+                          </label>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                      </div>
+                    </div>
+                  </div>
                 
                 
                 </div>

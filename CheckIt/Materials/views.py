@@ -8,10 +8,16 @@ from django.conf import settings
 from django.contrib import messages
 
 from .models import User, materials
+from allauth.socialaccount.models import SocialAccount
+from FrontEnd.models import UserPictures
+from HomePage.models import Courses
 
 def AddMaterials (request):
     if request.user.is_authenticated:
         users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        courses = Courses.objects.filter( owner_id_id = users.id )
 
         if request.method == "POST":
             uni_name = request.POST['university']
@@ -27,36 +33,50 @@ def AddMaterials (request):
             return redirect("/Materials")
 
         elif request.method == "GET":
+            picture = "not available"
+            no_picture = "not available"
+            googleAcc = False
+
+            if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True
+
             material = materials.objects.filter(owner_id_id = users.id)
-            return render(request, "src/Views/Materials/addMaterials.html", {'material': material, 'name' : users.username})   
+
+            return render(request, "src/Views/Materials/addMaterials.html", 
+            {'material': material, 'name' : users.username, 'userPictures': userPictures,
+            'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc, 'courses': courses})   
     else:
         return render("/login")
 
 def AllMaterials (request):
     material = materials.objects.all()
-    return render(request, "src/Views/Materials/AllMaterials.html", {'material':material})
+    return render(request, "src/Views/Materials/AllMaterials.html", { 'material': material })
 
 def download(request, path):
     file_path = os.path.join(settings.MEDIA_ROOT, path)
+    
     if os.path.exists(file_path):
-        with open(file_path,'rb') as pdf:
-            response=HttpResponse(pdf.read(), content_type="application/pdf")
-            response['Content-Disposition']='inline;filename='+os.path.basename(file_path)
+        with open(file_path, 'rb') as pdf:
+            response = HttpResponse(pdf.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline;filename =' + os.path.basename(file_path)
             return response
 
     raise Http404 
 
 def searchMaterials(request):
-    query=request.GET['query']
-    if len(query)>78:
-        AllMaterials=materials.objects.none()
+    query = request.GET['query']
+    
+    if len(query) > 78:
+        AllMaterials = materials.objects.none()
     else:
         AllMaterialsCourse=materials.objects.filter(course_name__icontains=query)
         AllMaterialsUni_name=materials.objects.filter(uni_name__icontains=query)
         AllMaterials=AllMaterialsCourse.union(AllMaterialsUni_name)
 
-    if AllMaterials.count()==0:
+    if AllMaterials.count() == 0:
         messages.warning(request, "No search results found. Please refine your query.")
         
-    params={'AllMaterials':AllMaterials,'query':query}
-    return render(request, "src/Views/Materials/searchMaterials.html",params)
+    params = {'AllMaterials': AllMaterials, 'query': query}
+    
+    return render(request, "src/Views/Materials/searchMaterials.html", params)

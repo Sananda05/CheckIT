@@ -31,25 +31,37 @@
         </a>
       </div>
       <div class="mdc-drawer__content">
-        <div class="user-info">
-          <p class="name">{{ user.username }}</p>
-          <p class="email">{{ user.email }}</p>
-          <p class="email">{{ courses | length }} courses are added</p>
-        </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/{{ user.username }}">
+              {% if picture != no_picture %}
+                <img src="{{ picture }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+              {% else %}
+                {% if userPictures.picture == '' %}
+                  <img src="{% static "Assets/user.png" %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% else %}
+                  <img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% endif %}
+              {% endif %}
+                <span>
+                  &nbsp &nbsp{{user.username}}
+                </span>
+              </a>
+            </div>
+            
+            <br>
+            <div class="user-info">
+              <p class="email">{{ courses | length }} courses are added</p>
+            </div>
+
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 Courses
               </a>
             </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/{{ user.username }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">account_circle</i>
-                Profile
-              </a>
-            </div>
+            
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/Materials">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
@@ -62,6 +74,8 @@
         </div>
         
         <div class="profile-actions">
+          <a style = "text-decoration: None;" href="/home">Home</a>
+          <span class="divider"></span>
           <a style = "text-decoration: None;" href="/logout">Logout</a>
         </div>
       </div>
@@ -74,10 +88,26 @@
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
             <span class="mdc-top-app-bar__title">Greetings {{ user.username }}!</span>
-            
           </div>
-          <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
+          <div class="divider d-none d-md-block"></div>
+            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
             <div class="menu-button-container menu-profile d-none d-md-block">
+              <button class="mdc-button mdc-menu-button">
+                <span class="d-flex align-items-center">
+                  <span class="figure">
+                  {% if picture != no_picture %}
+                    <img src="{{ picture }}" alt="user" class="user">
+                  {% else %}
+                    {% if userPictures.picture == '' %}
+                      <img src="{% static 'Assets/user.png' %}" alt="user" class="user">
+                    {% else %}
+                      <img src="{{ userPictures.picture.url }}" alt="user" class="user">
+                    {% endif %}
+                  {% endif %}
+                  </span>
+                  <span class="user-name">{{user.username}}</span>
+                </span>
+              </button>
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
                   <li class="mdc-list-item" role="menuitem">
@@ -85,7 +115,7 @@
                       <i class="mdi mdi-account-edit-outline text-primary"></i>
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Edit profile</h6>
+                      <a href="/EditProfile" style="text-decoration: None; color: Black;"><h6 class="item-subject font-weight-normal">Edit profile</h6></a>
                     </div>
                   </li>
                   <li class="mdc-list-item" role="menuitem">
@@ -93,7 +123,7 @@
                       <i class="mdi mdi-settings-outline text-primary"></i>                      
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Logout</h6>
+                      <a style = "text-decoration: None; color: Black;" href="/logout"><h6 class="item-subject font-weight-normal">Logout</h6></a>
                     </div>
                   </li>
                 </ul>

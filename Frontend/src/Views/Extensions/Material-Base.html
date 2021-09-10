@@ -31,25 +31,36 @@
         </a>
       </div>
       <div class="mdc-drawer__content">
-        <div class="user-info">
-          <p class="name">{{ user.username }}</p>
-          <p class="email">{{ user.email }}</p>
-          <p class="email">{{ courses | length }} courses are added</p>
-        </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/{{ user.username }}">
+                {% if picture != no_picture %}
+                <img src="{{ picture }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+              {% else %}
+                {% if userPictures.picture == '' %}
+                  <img src="{% static 'Assets/user.png' %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% else %}
+                  <img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% endif %}
+              {% endif %}
+                <span>
+                  &nbsp &nbsp{{user.username}}
+                </span>
+              </a>
+            </div>
+            
+            <br>
+            <div class="user-info">
+              <p class="email">{{ courses | length }} courses are added</p>
+            </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 Courses
               </a>
             </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/{{ user.username }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">account_circle</i>
-                Profile
-              </a>
-            </div>
+            
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/Materials">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">file_upload</i>
@@ -67,11 +78,11 @@
     <!-- partial -->
     <div class="main-wrapper mdc-drawer-app-content">
       <!-- partial:partials/_navbar.html -->
-      <header class="mdc-top-app-bar">
+      <header class="mdc-top-app-bar" >
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">Greetings {{ user.username }}!</span>
+            <span class="mdc-top-app-bar__title">{{ user.username }}'s Materials</span>
             
           </div>
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
@@ -111,7 +122,7 @@
       {% block HomeContent %}{% endblock %}
 
       <!-- partial:partials/_footer.html -->
-        <footer style=" padding-left: 0px;">
+        <footer style="padding-left: 0px; background-color: #E9EAEF">
           <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">

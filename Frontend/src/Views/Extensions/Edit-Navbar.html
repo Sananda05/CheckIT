@@ -32,22 +32,31 @@
       </div>
       <div class="mdc-drawer__content">
         <div class="user-info">
-          <p class="name">{{ user.username }}</p>
-          <p class="email">{{ user.email }}</p>
           
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
             <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/{{ user.username }}">
+                {% if picture != no_picture %}
+                <img src="{{ picture }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+              {% else %}
+                {% if userPictures.picture == '' %}
+                  <img src="{% static 'Assets/user.png' %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% else %}
+                  <img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% endif %}
+              {% endif %}
+                <span>
+                  &nbsp &nbsp{{user.username}}
+                </span>
+              </a>
+            </div>
+            <br>
+            <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 Courses
-              </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/{{ user.username }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">account_circle</i>
-                Profile
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">

@@ -9,7 +9,52 @@
 <!---->
 {% load static %}
 <link href="{% static 'Static/Extra-Assets/users.css' %}" rel="stylesheet">
-<div class="page-content page-container" id="page-content" style=" padding-bottom: 145px;">
+
+<div class="page-wrapper mdc-toolbar-fixed-adjust">
+  <main class="content-wrapper">
+    <div class="mdc-layout-grid__inner">
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal" tabindex="-1" id="newPicture">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add/Edit Picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                
+                <br>
+                <input type="hidden" id="photo" name="purpose" value="Post-picture">
+                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                  <div class="mdc-text-field mdc-text-field--outlined">
+                    <input class="mdc-text-field__input" id="text-field-hero-input" type ="file" name ="profile_picture" style="padding-top: 6px;">
+                    <div class="mdc-notched-outline">
+                      <div class="mdc-notched-outline__leading"></div>
+                      <div class="mdc-notched-outline__notch">
+                        <label for="CourseCode" class="mdc-floating-label">
+                          Profile Picture
+                        </label>
+                      </div>
+                      <div class="mdc-notched-outline__trailing"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Close</button>
+                <input type="submit" value="Create" class="btn btn-primary">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+</div>
+
+<div class="page-content page-container" id="page-content" style=" padding-bottom: 0px;">
     <div class="padding">
         <div>
             <div class="col-xl-12 col-md-12">
@@ -20,6 +65,41 @@
                             <div class="card-block text-center text-white">
                                 <div class="m-b-25"> <img src="{{ picture }}" class="img-radius" style="border-radius: 50%;" alt="User-Profile-Image"> </div>
                             </div>
+                        {% else %}
+                            {% if userPictures.picture == '' %}
+                            <div class="card-block text-center text-white"><div class="m-b-25">
+                                <div><img src="{% static 'Assets/user.png' %}" alt="user" class="user" style="border-radius: 50%; width: 150px; height: 150px;"></div>
+                                <br>
+                                <button class="mdc-drawer-link btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#newPicture">
+                                  <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">edit</i> Add/Edit Picture
+                                </button>
+                                &nbsp
+                                <form style="display:inline; margin:0; padding:0;" action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" id="photo" name="purpose" value="Delete-picture">
+                                <button class="mdc-drawer-link btn btn-sm btn-outline-light" type="submit">
+                                  <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">delete</i> Delete Picture
+                                </button>
+                                </form>
+                            </div></div>
+                            {% else %}
+                            <div class="card-block text-center text-white"><div class="m-b-25">
+                                <div><img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 150px; height: 150px;"></div>
+                                <br>
+                                <button class="mdc-drawer-link btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#newPicture">
+                                  <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">edit</i> Add/Edit Picture
+                                </button>
+                                &nbsp
+                                <form style="display:inline; margin:0; padding:0;" action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" id="photo" name="purpose" value="Delete-picture">
+                                <button class="mdc-drawer-link btn btn-sm btn-outline-light" type="submit">
+                                  <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">delete</i> Delete Picture
+                                </button>
+                                </form>
+                            </div></div>
+                            {% endif %}
+                        </form>
                         {% endif %}
                         </div><br>
                         <div class="col-sm-12">
@@ -28,8 +108,9 @@
                             <div class="card-block">
                                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6><br>
                                 <div class="row">
+                                <div class="col-sm-4">
                                     <div class="mdc-text-field mdc-text-field--outlined">
-                                        <input class="mdc-text-field__input" id="username" name="username" value= {{ username }}>
+                                        <input class="mdc-text-field__input" id="username" name="username" value= {{ users.username }}>
                                         <div class="mdc-notched-outline">
                                             <div class="mdc-notched-outline__leading"></div>
                                             <div class="mdc-notched-outline__notch">
@@ -41,15 +122,60 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-4">
+                                    <div class="mdc-text-field mdc-text-field--outlined">
+                                        <input class="mdc-text-field__input" id="username" name="firstName" value= "{{ users.first_name }}">
+                                        <div class="mdc-notched-outline">
+                                            <div class="mdc-notched-outline__leading"></div>
+                                            <div class="mdc-notched-outline__notch">
+                                                <label for="name" class="mdc-floating-label">
+                                                    First Name 
+                                                </label>
+                                            </div>
+                                            <div class="mdc-notched-outline__trailing"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mdc-text-field mdc-text-field--outlined">
+                                        <input class="mdc-text-field__input" type= "text" id="username" name="lastName" value="{{ users.last_name }}">
+                                        <div class="mdc-notched-outline">
+                                            <div class="mdc-notched-outline__leading"></div>
+                                            <div class="mdc-notched-outline__notch">
+                                                <label for="name" class="mdc-floating-label">
+                                                    Last Name 
+                                                </label>
+                                            </div>
+                                            <div class="mdc-notched-outline__trailing"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <input type="hidden" id="photo" name="purpose" value="Edit-Info">
                                 <br>
                                 <div class="row">
                                     <div class="mdc-text-field mdc-text-field--outlined">
-                                        <input class="mdc-text-field__input" id="email" name="email" value= {{ email }}>
+                                        <input class="mdc-text-field__input" disabled="disabled" id="email" name="email" value= {{ users.email }} style="color: Black;">
                                         <div class="mdc-notched-outline">
                                             <div class="mdc-notched-outline__leading"></div>
                                             <div class="mdc-notched-outline__notch">
                                                 <label for="name" class="mdc-floating-label">
                                                     Email
+                                                </label>
+                                            </div>
+                                            <div class="mdc-notched-outline__trailing"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="mdc-text-field mdc-text-field--outlined">
+                                        <input class="mdc-text-field__input" id="university"  type = "text" name="university" value = "{{ userDetails.university }}">
+                                        <div class="mdc-notched-outline">
+                                            <div class="mdc-notched-outline__leading"></div>
+                                            <div class="mdc-notched-outline__notch">
+                                                <label for="name" class="mdc-floating-label">
+                                                    University
                                                 </label>
                                             </div>
                                             <div class="mdc-notched-outline__trailing"></div>
@@ -75,10 +201,12 @@
                                 <div class="mdc-text-field mdc-text-field--outlined">
                                     <input class="mdc-text-field__input" id="picture" name="picture" type="File">
                                 </div>-->
-                                <div class="row" style="padding-bottom: 20px; margin: 5px;">
+                                {% if picture == no_picture %}
+                                <div class="row" style="padding-bottom: 20px; padding-left: 500px; padding-right: 500px; margin: 5px;">
                                     <a href="/ChangePassword" class="mdc-button text-button--success">Change Password</a>
                                 </div>
-                                <div class="row" style="padding-bottom: 20px; margin: 5px;">
+                                {% endif %}
+                                <div class="row" style="padding-bottom: 20px; padding-left: 500px; padding-right: 500px; margin: 5px;">
                                     <a class="mdc-button text-button--success"><input type="submit" value="Save" class="mdc-button text-button--success"></a>
                                 </div>
                             </div>

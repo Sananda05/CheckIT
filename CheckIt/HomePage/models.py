@@ -15,8 +15,9 @@ class Courses (models.Model):
 
 class Exams (models.Model):
     exam_name = models.CharField(max_length = 255)
-    course_id = models.ForeignKey(Courses, on_delete = CASCADE)
+    exam_question = models.FileField(upload_to = 'ExamQuestions/')
 
+    course_id = models.ForeignKey(Courses, on_delete = CASCADE)
     owner_id = models.ForeignKey(User, on_delete = CASCADE)
 
     def __str__(self):
