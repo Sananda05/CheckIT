@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 
@@ -7,6 +9,13 @@ from FrontEnd.models import UserPictures, UserDetails
 
 from .models import Courses, Exams
 from ExamScripts.models import ExamScripts
+
+import os.path
+
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 
 def HomePage(request):
     print (request.user)
@@ -18,7 +27,7 @@ def HomePage(request):
         socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
         courses = Courses.objects.filter( owner_id_id = users.id )
         exams = Exams.objects.filter( owner_id_id = users.id )
-        
+
         picture = "not available"
         no_picture = "not available"
         googleAcc = False
@@ -53,6 +62,91 @@ def HomePage(request):
         else:
             zipped_lists = zip(courses, exam_count)
             return render(request, 'src/Views/Home/HomeContent.html', 
+            {'user' : users, 'userPictures' : userPictures, 'courses' : courses, "zipped_lists" : zipped_lists,
+            'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
+    else:
+       return redirect("/login")
+
+def GC_HomePage(request):
+    print (request.user)
+
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        courses = Courses.objects.filter( owner_id_id = users.id )
+        exams = Exams.objects.filter( owner_id_id = users.id )
+
+        #print(files)
+
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True
+        
+        exam_count = []
+        for course in courses:
+            count = 0
+            for exam in exams:
+                if exam.course_id_id == course.id:
+                    count = count + 1
+            exam_count.append(count)
+        
+        if request.method == "POST":
+            owner_id = users.id
+                
+            name = request.POST.get('name')
+            CourseCode = request.POST.get('CourseCode')
+
+            print(name)
+            print(CourseCode)
+                
+            Courses.objects.create(name = name, CourseCode = CourseCode, owner_id_id = owner_id)
+                
+            print(users.username + " added Course " + name)
+
+            return redirect('/home')
+        
+        else:
+            SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly']
+            creds = None
+            
+            if os.path.exists('token.json'):
+                creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+            
+            # If there are no (valid) credentials available, let the user log in.
+            if not creds or not creds.valid:
+                if creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                else:
+                    flow = InstalledAppFlow.from_client_secrets_file(
+                        'credentials.json', SCOPES)
+                    creds = flow.run_local_server(port = 0)
+                    
+                # Save the credentials for the next run
+                with open('token.json', 'w') as token:
+                    token.write(creds.to_json())
+
+            service = build('classroom', 'v1', credentials = creds)
+
+            # Call the Classroom API
+            results = service.courses().list(pageSize = 10).execute()
+            courses = results.get('courses', [])
+
+            if not courses:
+                print('No courses found.')
+            else:
+                print('Courses:')
+            
+            for course in courses:
+                print(course['name'])
+            
+            zipped_lists = zip(courses, exam_count)
+            return render(request, 'src/Views/Home/Classroom-Courses.html', 
             {'user' : users, 'userPictures' : userPictures, 'courses' : courses, "zipped_lists" : zipped_lists,
             'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:

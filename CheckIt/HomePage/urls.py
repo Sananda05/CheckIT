@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('home/', views.HomePage, name = 'Home'),
+    path('home-classroom/', views.GC_HomePage, name = 'GC-Home'),
     path('Set-Your-Profile/', views.SetProfile, name = 'Set-Your-Profile'),
     path('logout/', views.Logout),
     path('home/<str:coursename>/', views.CourseView),

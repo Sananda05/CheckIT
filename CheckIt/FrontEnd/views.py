@@ -133,7 +133,7 @@ def UserProfile(request, username):
                     'picture' : picture, 'username' : request.user, 'email' : users.email, 'courses' : courses, 
                     'exams' : exams, 'examScripts' : examScripts, 'userDetails' : userDetails, 'userPictures' : userPictures})
             else:
-                return render(request, 'src/Views/Users/User.html', {'no_picture' : no_picture,
+                return render(request, 'src/Views/Users/User.html', {'no_picture' : no_picture, 'users': users,
                     'picture' : picture, 'username' : request.user, 'email' : users.email, 'courses' : courses, 
                     'exams' : exams, 'examScripts' : examScripts, 'userDetails' : userDetails})
     else:

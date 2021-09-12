@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'ExamScripts',
     'Materials',
     'embed_video',
+    'gdstorage'
 ]
 
 SITE_ID = 1
@@ -146,19 +147,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#STATICFILES_DIRS = [
-#    BASE_DIR / "static",
-#    '/var/www/static/',
-#]
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '../Frontend/src'),
 ]
+
+GOOGLE_API_KEY = "AIzaSyBtx9p1MmsAZusxkWKTDdOG9DplnuM2A-I"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'google-oauth',)
 
 LOGIN_REDIRECT_URL = '/home'
 
@@ -174,3 +174,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'checkit859@gmail.com'
 EMAIL_HOST_PASSWORD = 'checkit123456'
+
+# Google Drive Storage Settings
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'D:\Projects\CheckIt\CheckIt\checkit-319309-c4768fd8da1f.json'
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
