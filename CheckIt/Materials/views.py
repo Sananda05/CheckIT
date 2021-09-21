@@ -1,4 +1,3 @@
-from .models import materials
 from django.shortcuts import redirect, render
 from HomePage.models import User
 from django.http import HttpResponse
@@ -6,6 +5,8 @@ import os
 from django.conf import settings
 from django.http.response import Http404
 from django.contrib import messages
+
+from .models import materials,course_list
 
 
 # Create your views here.
@@ -31,24 +32,28 @@ def AddMaterials (request):
         elif request.method == "GET":
             
             material = materials.objects.filter(owner_id_id = users.id)
-            return render(request, "src/Views/Materials/addMaterials.html", {'material':material, 'name' : users.username})   
+            courseList = course_list.objects.all()
+           
+            print(material)
+            return render(request, "src/Views/Materials/addMaterials.html", {'material':material, 'name' : users.username,'list':courseList})   
     else:
         return render("/login")
 
 
 def AllMaterials (request):
     material = materials.objects.all()
-    return render(request, "src/Views/Materials/AllMaterials.html", {'material':material})
+    courseList = course_list.objects.all()
+    return render(request, "src/Views/Materials/AllMaterials.html", {'material':material,'list':courseList})
 
-def download(request, path):
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    if os.path.exists(file_path):
-        with open(file_path,'rb') as pdf:
-            response=HttpResponse(pdf.read(), content_type="application/pdf")
-            response['Content-Disposition']='inline;filename='+os.path.basename(file_path)
-            return response
+# def download(request, path):
+#     file_path = os.path.join(settings.MEDIA_ROOT, path)
+#     if os.path.exists(file_path):
+#         with open(file_path,'rb') as pdf:
+#             response=HttpResponse(pdf.read(), content_type="application/pdf")
+#             response['Content-Disposition']='inline;filename='+os.path.basename(file_path)
+#             return response
 
-    raise Http404 
+#     raise Http404 
 
 def searchMaterials(request):
     query=request.GET['query']

@@ -21,8 +21,14 @@
         <div class="mdc-layout-grid__inner">
         <form action="" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
-              <button type="button" data-bs-toggle="modal" data-bs-target="#newFolder" class="btn btn-outline-info" style="margin: 30px; width:200px; background-color:#76649b; color:aliceblue; border-radius:30px; border-color:#76649b">Upload Files</button><br>
-              <div class="modal" tabindex="-1" id="newFolder" style="margin-top: 10rem;">
+              
+              <button data-bs-toggle="modal"  style="border-radius:60%;width: 70px;
+                height: 70px; position: absolute;
+                right:30px;
+                bottom: 100px;
+                background-color:rgb(15, 180, 64);border-color:rgb(218, 218, 218); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light pmd-btn-raised" data-bs-target="#newFolder"type="button"><i style="font-weight: bolder;color:aliceblue;" class="material-icons">add</i></button><br>
+
+              <div class="modal" tabindex="-1" id="newFolder" style="margin-top: 10rem; height: 800px;">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -30,9 +36,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="university" placeholder="University name" style="margin:1rem;"></span>
-                        <input type="text" name="coursename" placeholder="Course name" style="margin:1rem;"><br><span>
-                        <textarea name = "description" placeholder="Description" style="height: 100px; width: 400px; margin:1rem"></textarea>
+                        <input type="text" name="university" placeholder="University name" ><br>
+                          <select class="form-control" name="coursename">
+                            <option>Select Course</option>
+                            {% for l in list %}
+                            <option value="{{ l.course_name }}">{{ l.course_name }}</option>
+                            {% endfor %}
+                          </select><br>
+                      
+                        <textarea name = "description" placeholder="Description" style="height: 100px; width: 400px;"></textarea>
                         <div class="input-group">
                           <input type="file" multiple name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                         </div>
@@ -45,20 +57,35 @@
                </div>
             </div>
          </form>
+         
+       
     </div>
+    
     {% for files in material %}
     <div class="container-xxl">
         <div class="shadow-sm p-3 mb-5 bg-body rounded">   
-          <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;">Course name : {{files.course_name}}</h5>
+          <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"> {{files.course_name}}</h5>
           <div class="card-body">
-            <h6>Topic : {{files.description}}</h6>
+            <h6>{{files.description}}</h6>
             <p>{{files.uni_name}}</p>
-            <p>{{files.pdf}}</p>
-            {% video files.video 'small' %} <br>
-            <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-info" style="width: 100px;background-color: rgb(42, 140, 231); color:aliceblue; margin-right:20px;">Edit</a>
-            <a href="/Course/{{coursename}}" class="btn btn-outline-danger" style="width: 100px;">Delete</a>
+           
+            <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
+              <div class="mdc-card info-card info-card--success">
+                <div class="card-inner">
+                  <a><h5 class="card-title">{{files.pdf}}</h5></a>
+                  <h5 class="font-weight-light pb-2 mb-1 border-bottom"> 
+                  </h5>
+                  <p class="tx-12 text-muted"></p>  
+                  <div class="card-icon-wrapper">
+                    <i class="material-icons">dvr</i>
+                  </div>
+                </div>
+              </div>
             
+            </div>
           </div>
+            <div style="align-content: center;">{% video files.video 'small' %} <br></div> 
         </div>
       </div>  
     {% endfor %}

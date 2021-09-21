@@ -16,7 +16,7 @@ def AddExamfile (request, exam_name, coursename ):
 
       if request.method == "POST":
                 #student_id = request.POST['student_id']
-                pdf = request.POST.getlist('exam_file')
+                pdf = request.FILES.getlist('exam_file')
               
                 print(pdf)
                 for file in pdf:
@@ -25,6 +25,7 @@ def AddExamfile (request, exam_name, coursename ):
 
       elif request.method == "GET":
                 unchecked = UncheckedFile.objects.filter(owner_id_id = users.id, course_id= courses.id, exam_id_id= examFolders.id,is_checked=False)
+                print(unchecked)
 
                 checkedExamScripts = UncheckedFile.objects.filter( exam_id_id = examFolders.id, owner_id_id = users.id, course_id_id = courses.id, is_checked = True )
                 return render(request, 'src/Views/Exams/AddExamFile.html' , {'unchecked':unchecked, 'exam_name':exam_name, "checkedExamScripts":checkedExamScripts})  

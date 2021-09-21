@@ -1,0 +1,26 @@
+Assignment 0
+NAME: FATEMA-TUZ-ZOHORA SANANDA
+ID > 180042124
+
+DEPT :CSE
+
+PROGRAM: SWE
+
+COURSE : CSE 4553 — MACHINE LEARNING
+5 Applications of Machine Learning in Software Engineering:
+
+1. Wecan apply Machine Learning for Detecting the repeating line or unnecessary &
+unused variables and methods from a code snippet.
+
+2. In Facebook, there’s a feature “Automatic Face detection” while uploading photo which
+is based on Machine Learning’s algorithm.
+
+3. By Machine Learning’s algorithm, we can Convert a code snippet written in java into
+another language like C++ or python.
+
+4. It’s possible to ensure the Fraud detection (Fake id, Fake accounts) while developing a
+software by Machine Learning algorithm.
+
+5. Wecan also Write a code by converting voice into text. Which is basically Machine
+Learning’s Voice recognition algorithm.
+

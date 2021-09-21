@@ -1,0 +1,47 @@
+{% extends 'src\Views\Home\Homepage.html' %}
+{% block HomeContent%}
+{% load static %}
+
+<body>
+    <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
+        <main class="content-wrapper" style=" padding-top: 80px; padding-bottom: 0px;">
+            <h4 class="card-title card-padding pb-0" style="color: rgb(15, 180, 64);text-align:center">Comparison History</h4><br>
+            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                <div class="mdc-card p-0">
+               
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th class="text-left">File 1</th>
+                        <th class="text-left">File 2</th>
+                        <th class="text-left">Rate (%)</th>
+                        <th class="text-left">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for file in files%}
+                        <tr>
+                        <td class="text-left">{{file.pdf1}}</td>
+                        <td class="text-left">{{file.pdf2}}</td>
+                        <td class="text-left">{{file.rate}}</td>
+                        <td class="text-left">
+                            <a class="del-btn" style="margin-left:10px;color:brown"  href="history/del/{{file.id}}"><i class="material-icons">delete</i></a>
+                        </td>
+                        
+                        </tr>
+                        {%endfor%}  
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+</body>
+
+
+
+{% endblock %}

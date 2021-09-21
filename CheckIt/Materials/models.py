@@ -10,7 +10,15 @@ class materials(models.Model):
     course_name = models.CharField(max_length=50)
     description = models.TextField()
     username =models.TextField()
-    pdf= models.FileField(upload_to="File")
+    pdf= models.FileField(upload_to="materials_file")
     video=models.TextField()
 
     owner_id = models.ForeignKey(User, on_delete=CASCADE)
+
+
+class course_list(models.Model):
+    
+    course_name = models.CharField(max_length=50)
+    
+
+    

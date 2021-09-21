@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'Exams',
     'Materials',
     'embed_video',
+    'PdfConversion',
+    'HTRmodel',
+    'OCR_model',
+    'pdf2image',
+    'pytesseract',
+    'PdfComparison',
     
     
 ]

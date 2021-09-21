@@ -34,22 +34,24 @@
 
 </head>
 <body>
-    <header id="header" class="fixed-top" style="background-color: rgb(31, 29, 26);">
+    <header id="header" class="fixed-top" style="background-color: rgb(250, 250, 250); height: 80px;">
+      <div class="shadow-sm p-3 mb-5 bg-body rounded" style="border-color: rgb(131, 22, 22);">
+      
         <div class="container d-flex">
     
           <div class="logo mr-auto" >
-            <h1 class="text-light" ><a href="/"><span style="color: aliceblue;">CheckIt?</span></a></h1>
+            <h1 class="text-light" ><a href="/"><span style="color: rgb(69, 10, 109); font-weight:bolder;">CheckIt?</span></a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
           </div>
     
           <nav class="nav-menu d-none d-lg-block" style="color: rgb(24, 24, 24);">
             <ul>
-              <li class="active" ><a href="/" style="color: aliceblue;">Home</a></li>
-              <li><a href="#services" style="color: aliceblue;">Features</a></li>
-              <li><a href="/uploadMaterial" style="color: aliceblue;">Materials</a></li>
-              <li><a href="#team" style="color: aliceblue;">Team</a></li>
-              <li class="drop-down" style="color: aliceblue;"><a href="">Sign In</a>
+              <li class="active" ><a href="/" style="color: rgb(28, 29, 29);">Home</a></li>
+              <li><a href="#services" style="color: rgb(28, 29, 29);">Features</a></li>
+              <li><a href="/uploadMaterial" style="color: rgb(28, 29, 29);">Materials</a></li>
+              <li><a href="#team" style="color: rgb(28, 29, 29);">Team</a></li>
+              <li class="drop-down" style="color: rgb(28, 29, 29);"><a href="">Sign In</a>
                 <ul>
                   <li><a href="login">Log In</a></li>
                   <li><a href="register">Register</a></li>
@@ -64,17 +66,49 @@
           </form>
     
         </div>
+      </div>
       </header>
+    
+      <nav aria-label="Page navigation example" style="margin-top:130px;">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+        
+          {% for l in list %}
+          <li class="page-item" style="padding: 3px;">
+              <div class="card" style="background-color: #f6e4fa; border-color:rgb(69, 7, 94)">
+                <div class="card-body" style="background:#f6e4fa;">               
+                  <a class="page-link" href="#" style="background:#f6e4fa; border-color:#f6e4fa; color:rgb(95, 8, 117); font-weight:bold">{{l.course_name}}</a>
+                </div>
+              </div><br>  
+            </li>
+          {% endfor %}  
+        
+          <li class="page-item">
+            
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+        
 
     {% for files in material %}
-    <div class="container-xxl" style="margin-top: 5rem;">
+    <div class="container-xxl" style="margin-top: 1rem;">
      
       <div class="shadow-sm p-3 mb-5 bg-body rounded">
       
-        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128); color:rgb(14, 88, 173)">Course name : {{files.course_name}}</h5>
+        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128); background-color:rgb(123, 49, 172); color:rgb(255, 255, 255)">Course name : {{files.course_name}}</h5>
         <div class="card-body">
-          <h6>Topic : {{files.description}}</h6>
-          <p>{{files.uni_name}}</p>
+          <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
+          <p style="font-weight: 500;">{{files.uni_name}}</p>
+          <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
           <p>Uploaded by {{files.username}}</p>
           {% video files.video 'small' %} <br>
           <a href="{{files.pdf.url}}" target="_blank" class="btn btn-outline-dark" style="width: 100px;">Open</a>
@@ -84,6 +118,8 @@
     
   </div>
     {% endfor %}
+    
+      
     
 </body>
 </html>
