@@ -4,10 +4,10 @@ from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import User
 from HomePage.models import Courses, Exams
 
-from gdstorage.storage import GoogleDriveStorage
+#from gdstorage.storage import GoogleDriveStorage
 
 # Define Google Drive Storage
-gd_storage = GoogleDriveStorage()
+#gd_storage = GoogleDriveStorage()
 
 class ExamScripts (models.Model):
     student_id = models.CharField(max_length = 100)
@@ -32,10 +32,10 @@ class ScriptDetails (models.Model):
     def __str__(self):
         return self.name
 
-class ExamScripts_Drive(models.Model):
-    studentID = models.CharField(max_length = 200)
-    script = models.FileField(upload_to = 'Drive-Scripts/', storage = gd_storage)
+#class ExamScripts_Drive(models.Model):
+#    studentID = models.CharField(max_length = 200)
+#    script = models.FileField(upload_to = 'Drive-Scripts/', storage = gd_storage)
 
-    course_id = models.ForeignKey(Courses, on_delete = CASCADE)
-    exam_id = models.ForeignKey(Exams, on_delete = CASCADE)
-    owner_id = models.ForeignKey(User, on_delete = CASCADE)
+#    course_id = models.ForeignKey(Courses, on_delete = CASCADE)
+#    exam_id = models.ForeignKey(Exams, on_delete = CASCADE)
+#    owner_id = models.ForeignKey(User, on_delete = CASCADE)

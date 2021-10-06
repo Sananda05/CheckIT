@@ -1,4 +1,5 @@
 from django.contrib.messages.api import success
+from django.forms import forms
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 
@@ -252,3 +253,19 @@ def EditProfile(request):
 class ChangePasswordView (PasswordChangeView):
     template_name = 'src/Views/Users/ChangePW.html'
     success_url = reverse_lazy('Home')
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial = self.initial, user = request.user)
+        users = User.objects.get( username = request.user )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter(provider='google', user_id = users.id)
+        userPictures = UserPictures.objects.get(user_id = users.id)
+        
+        picture = "not available"
+        no_picture = "not available"
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+        
+        return render(request, self.template_name, {'form': form, 'no_picture' : no_picture, 'picture' : picture, 'users': users, 
+            'userDetails': userDetails, 'userPictures': userPictures})

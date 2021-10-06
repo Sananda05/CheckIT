@@ -67,11 +67,17 @@
       {% if exams %}
         {% for exam, script_count in zipped_lists %}
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-            <div class="mdc-card info-card info-card--success">
+            <div class="mdc-card info-card info-card--warning">
               <div class="card-inner">
                 <a href = "{{ exam.exam_name }}/" style = "text-decoration: None;" ><h5 class="card-title">{{ exam.exam_name }}</h5></a>
                 <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{course.CourseCode}}</h5>
                 <p class="tx-12 text-muted">{{ script_count }} Scripts Added</p>
+                <button class="mdc-button mdc-button--raised icon-button filled-button--warning">
+                  <i class="material-icons mdc-button__icon">delete</i>
+                </button>
+                <button class="mdc-button mdc-button--raised icon-button">
+                  <i class="material-icons mdc-button__icon">edit</i>
+                </button>
                 <div class="card-icon-wrapper">
                   <i class="material-icons">dvr</i>
                 </div>

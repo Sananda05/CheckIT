@@ -1,14 +1,35 @@
+from os import read
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth.models import User
 from allauth.socialaccount.models import SocialAccount
+from easyocr.easyocr import Reader
 from FrontEnd.models import UserPictures, UserDetails
 
 from .models import Courses, Exams, ExamScripts, ScriptDetails
 
+from io import StringIO
+from pdfminer.pdfinterp import PDFPageInterpreter, PDFResourceManager
+from pdfminer.pdfpage import PDFPage
+from pdfminer.converter import TextConverter
+from pdfminer.layout import LAParams
+from pdf2image import convert_from_path
+
+from IPython.display import display, Image
+
+from easyocr import Reader
+
+import numpy as np
+import spacy
+import PIL
+
+from PIL import ImageDraw
+
 import datetime
 import xlwt
+
+import pyparsing as pp
 
 def ExamView(request, coursename, examname):
     if request.user.is_authenticated :
@@ -91,7 +112,36 @@ def ScriptView(request, coursename, examname, student_id):
         else:
             print(examScript.id)
             examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = False )
-            return render(request, 'src/Views/Exams/ExamScript.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details, 'total_examScripts' : examScripts})
+
+            rsrcmgr = PDFResourceManager()
+            sio = StringIO()
+            codec = "utf-8"
+            laparams = LAParams()
+            device = TextConverter(rsrcmgr, sio, codec=codec, laparams=laparams)
+            interpreter = PDFPageInterpreter(rsrcmgr, device)   
+            
+            pdf_file  =  "D:\Projects\CheckIt\CheckIt" + exam.exam_question.url 
+
+            # Extract text
+            pdfFile = open(pdf_file, "rb")
+            for page in PDFPage.get_pages(pdfFile):
+                interpreter.process_page(page)
+            
+            pdfFile.close()
+ 
+            # Return text from StringIO
+            text = sio.getvalue()
+ 
+            print(text)
+ 
+            # Freeing Up
+            device.close()
+            sio.close()
+        
+
+            return render(request, 'src/Views/Exams/ExamScript.html', 
+                {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 
+                'script_details' : script_details, 'total_examScripts' : examScripts})
     else:
         return redirect("/login")
 

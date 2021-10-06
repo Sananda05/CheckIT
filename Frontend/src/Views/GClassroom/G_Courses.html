@@ -66,13 +66,13 @@
 <div class="page-wrapper mdc-toolbar-fixed-adjust">
   <main class="content-wrapper"> 
     <div class="mdc-layout-grid__inner">
-      {% if courses %}
-        {% for course, exam_counts in zipped_lists %}             
+      {% if courseWorks %}
+        {% for courseWork in courseWorks %}             
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
             <div class="mdc-card info-card info-card--warning">
               <div class="card-inner">
-                <a href = "{{ course.name }}/" style = "text-decoration: None;"><h5 class="card-title" >{{ course.name }}</h5></a>
-                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ course.CourseCode }}</h5>
+                <a href = "{{ courseWork.name }}/" style = "text-decoration: None;"><h5 class="card-title" >{{ courseWork.title }}</h5></a>
+                <h6 class="font-weight-light pb-2 mb-1 border-bottom">{{ courseWork.workType }}</h6>
                     
                 <p class="tx-12 text-muted">{{ exam_counts }} Exams Added</p>
                 <div class="card-icon-wrapper">
@@ -86,7 +86,7 @@
         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
           <div class="mdc-card info-card info-card--warning">
             <div class="card-inner">
-              No Courses Added. Add one Now!
+              No Course Works Added. Add one Now!
             </div>
           </div>  
         </div>

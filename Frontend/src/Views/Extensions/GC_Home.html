@@ -39,7 +39,7 @@
                 <img src="{{ picture }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
               {% else %}
                 {% if userPictures.picture == '' %}
-                  <img src="{% static 'Assets/user.png' %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                  <img src="{% static "Assets/user.png" %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
                 {% else %}
                   <img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
                 {% endif %}
@@ -52,21 +52,16 @@
             
             <br>
             <div class="user-info">
-              <p class="email">{{ exams | length }} exams added</p>
+              <p class="email">{{ courses | length }} courses from Google Classroom are found</p>
             </div>
 
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 Courses
               </a>
             </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/home/{{ coursename }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                {{ coursename }}
-              </a>
-            </div>
+            
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/Materials">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
@@ -114,6 +109,7 @@
             </div>
           </nav>
         </div>
+        
         <div class="profile-actions">
           <a style = "text-decoration: None;" href="/home">Home</a>
           <span class="divider"></span>
@@ -128,10 +124,10 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">{{ coursename }}</span>
+            <span class="mdc-top-app-bar__title">Greetings {{ user.username }}!</span>
           </div>
           <div class="divider d-none d-md-block"></div>
-          <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
+            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
             <div class="menu-button-container menu-profile d-none d-md-block">
               <button class="mdc-button mdc-menu-button">
                 <span class="d-flex align-items-center">
@@ -172,28 +168,34 @@
             </div>
             <div class="divider d-none d-md-block"></div>
             <div class="menu-button-container d-none d-md-block">
+              <a class="mdc-button mdc-menu-button" href="/home">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
+              </a>
+            </div>
+            <div class="divider d-none d-md-block"></div>
+            <div class="menu-button-container d-none d-md-block">
               <button class="mdc-button mdc-menu-button" data-bs-toggle="modal" data-bs-target="#newFolder">
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
+            
           </div>
         </div>
       </header>
-        {% block HomeContent %}
-        {% endblock %}
-      
       <!-- partial -->
+      {% block HomeContent %}{% endblock %}
+
       <!-- partial:partials/_footer.html -->
-        <footer style="padding-left: 0px; background-color: #E9EAEF">
+        <footer style=" padding-left: 0px;">
           <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a style="text-decoration: None;" href="/" target="_blank">Team CheckIt?</a> 2021</span>
+                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a href="/" style="text-decoration: None;" target="_blank">Team CheckIt</a> 2021</span>
               </div>
             </div>
           </div>
         </footer>
-      <!-- partial -->
+        <!-- partial -->
     </div>
   </div>
   <!-- plugins:js -->

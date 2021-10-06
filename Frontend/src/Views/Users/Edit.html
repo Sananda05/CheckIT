@@ -73,14 +73,7 @@
                                 <button class="mdc-drawer-link btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#newPicture">
                                   <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">edit</i> Add/Edit Picture
                                 </button>
-                                &nbsp
-                                <form style="display:inline; margin:0; padding:0;" action="" method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <input type="hidden" id="photo" name="purpose" value="Delete-picture">
-                                <button class="mdc-drawer-link btn btn-sm btn-outline-light" type="submit">
-                                  <i style="vertical-align: bottom; font-size: 18px !important;" class="material-icons mdc-drawer-item-icon">delete</i> Delete Picture
-                                </button>
-                                </form>
+                               
                             </div></div>
                             {% else %}
                             <div class="card-block text-center text-white"><div class="m-b-25">

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CheckIt | {{ courses.name }} | {{ exam.exam_name }}</title>
+  <title>CheckIt? | {{ courses.name }} | {{ exam.exam_name }}</title>
   {% load static %}
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/mdi/css/materialdesignicons.min.css' %}">
@@ -27,7 +27,7 @@
     <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
       <div class="mdc-drawer__header">
         <a href="/" class="brand-logo" style = "text-decoration: None;">
-          <h1 style = "color: white;" >CheckIt</h1>
+          <h1 style = "color: white;" >CheckIt?</h1>
         </a>
       </div>
       <div class="mdc-drawer__content">
@@ -70,6 +70,43 @@
                   </span></i>
                Materials
               </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  description
+                  </span></i>
+               Compare PDF
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/comparison/history">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">description</i>
+                Comparison history
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  loop
+                  </span></i>
+                Convert PDF
+                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
+              </a>
+              <div class="mdc-expansion-panel" id="ui-sub-menu">
+                <nav class="mdc-list mdc-drawer-submenu">
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/conversion/handwrittenfiles">
+                      Handwritten PDF
+                    </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/conversion/pdffiles">
+                      Typed PDF
+                    </a>
+                  </div>
+                </nav>
+              </div>
             </div>
             <!--<div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
