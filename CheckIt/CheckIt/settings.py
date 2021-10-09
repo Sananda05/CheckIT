@@ -38,13 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    
+    'embed_video',
     
     'FrontEnd',
     'HomePage',
     'Exams',
-    'Materials',
-    'embed_video',
-    
+    'Materials'
     
 ]
 
@@ -78,7 +84,7 @@ TEMPLATES = [
         },
     },
 ]
-
+SITE_ID = 1
 #WSGI_APPLICATION = 'CheckIt.wsgi.application'
 
 
@@ -88,7 +94,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'CheckIt',
+        'NAME': 'DP1',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',
