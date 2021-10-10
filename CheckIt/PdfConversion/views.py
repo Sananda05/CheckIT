@@ -25,9 +25,15 @@ from pdf2image.exceptions import (
 )
 
 from HTRmodel.views import getPdf
-import os
+import os,io
+import pandas as pd
+from google.cloud import vision
 from os import path 
 import shutil
+
+#Google Vision API
+os.environ['GOOGLE_APPLICATION_CREDENTIALS']=r'VisionAPI_TOKEN.json'
+client = vision.ImageAnnotatorClient()
 
 # Create your views here.
 
@@ -65,29 +71,50 @@ def ConvertHandwrittenPdf(request,pdf):
        pdffile = "media/handwrittenfiles/"+pdf
        print(pdffile)
 
+       file_name, extension = os.path.splitext(pdf)
+       print(file_name)
     
        pages = convert_from_path(pdffile, 500)
        image_counter = 1
 
        for page in pages:
-           filename = "page_"+str(image_counter)+".png"
-           page.save(filename, 'PNG')
+           page_name = "page_"+str(file_name)+str(image_counter)+".png"
+           page.save(page_name, 'PNG')
            image_counter = image_counter + 1
 
        filelimit = image_counter-1
-       file_name, extension = os.path.splitext(pdf)
+      
        outfile = file_name+".txt"
        f = open(outfile, "a")
 
        for i in range(1, filelimit + 1):
-           filename = "page_"+str(i)+".png"
+            
+            filename = "page_"+str(file_name)+str(i)+".png"
 
-           recog = getPdf(filename,users)
-           print(recog)
+            with io.open(filename, 'rb') as image_file:
+                content = image_file.read()
+            image = vision.Image(content=content)
+
+            response = client.document_text_detection(image=image)
+            docText = response.full_text_annotation.text
+            print(docText)
+
+            f.write(docText) 
+
+
+        #    recog = getPdf(filename,users)
+        #    print(recog)
         
-           f.write(recog)
+        #    f.write(recog)
+           
 
        f.close()
+
+       for i in range(1, filelimit + 1):
+                filename = "page_"+str(file_name)+str(i)+".png"
+                original = 'C:/Users/ASUS/Desktop/DP/CheckIT/CheckIt/'+ filename
+                target = r'C:\Users\ASUS\Desktop\DP\CheckIT\CheckIt\media\convertedImg'
+                shutil.move(original,target)
 
        original = 'C:/Users/ASUS/Desktop/DP/CheckIT/CheckIt/'+ outfile
        target = r'C:\Users\ASUS\Desktop\DP\CheckIT\CheckIt\media\convertedfile'
