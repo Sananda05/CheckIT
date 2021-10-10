@@ -7,10 +7,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
-path('Materials', views.AddMaterials),
+path('Materials/<str:course_name>/', views.AddMaterials),
 path('uploadMaterial', views.AllMaterials),
+path('Materials/', views.Course, name = 'Course'),
+path('uploadMaterial/<str:course_name>/', views.courseMaterial),
+path('Materials/<str:course_name>/deleteMaterial/<int:id>/',views.deleteMaterial),
+
 url(r'^download/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT}),
 path('searchMaterials', views.searchMaterials,name='searchMaterials'),
+
 
 ]
 if settings.DEBUG:
