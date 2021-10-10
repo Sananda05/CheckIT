@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CheckIt?</title>
+    <title>CheckIt? | Materials</title>
 
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -28,42 +28,49 @@
   
     <!-- Template Main CSS File -->
     <link href="{% static 'Static/assets/css/style.css' %}" rel="stylesheet">
+    
+    <!--material icon-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+  
+
   
 
 
 </head>
-<body>
-    <header id="header" class="fixed-top" style="background-color: rgb(31, 29, 26);">
-        <div class="container d-flex">
-    
-          <div class="logo mr-auto" >
-            <h1 class="text-light" ><a href="/"><span style="color: aliceblue;">CheckIt?</span></a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-          </div>
-          
-    
-          <nav class="nav-menu d-none d-lg-block" style="color: rgb(24, 24, 24);">
-            
-            <ul>
-              <li class="active" ><a href="/" style="color: aliceblue;">Home</a></li>
-              <li><a href="#services" style="color: aliceblue;">Features</a></li>
-              <li><a href="/uploadMaterial" style="color: aliceblue;">Materials</a></li>
-              <li><a href="#team" style="color: aliceblue;">Team</a></li>
-              <li class="drop-down" style="color: aliceblue;"><a href="">Sign In</a>
-                <ul>
-                  <li><a href="login">Log In</a></li>
-                  <li><a href="register">Register</a></li>
-                </ul>
-              </li>
-    
-            </ul>
-            
-          </nav><!-- .nav-menu -->
-          
-    
+<body style="background-color:rgb(245, 245, 245);">
+  <header id="header" class="fixed-top" style="background-color: rgb(250, 250, 250);">
+      <div class="container d-flex">
+  
+        <div class="logo mr-auto" >
+          <h1 class="text-light" ><a href="/"><span style="color: rgb(69, 10, 109); font-weight:bolder;">CheckIt?</span></a></h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
         </div>
-      </header>
+  
+        <nav class="nav-menu d-none d-lg-block" style="color: rgb(24, 24, 24);">
+          <ul>
+            <li class="active" ><a href="/" style="color: rgb(28, 29, 29);">Home</a></li>
+            <li><a href="#services" style="color: rgb(28, 29, 29);">Features</a></li>
+            <li><a href="/uploadMaterial" style="color: rgb(28, 29, 29);">Materials</a></li>
+            <li><a href="#team" style="color: rgb(28, 29, 29);">Team</a></li>
+            <li class="drop-down" style="color: rgb(28, 29, 29);"><a href="">Sign In</a>
+              <ul>
+                <li><a href="login">Log In</a></li>
+                <li><a href="register">Register</a></li>
+              </ul>
+            </li>
+  
+          </ul>
+        </nav><!-- .nav-menu -->
+        
+        <form class="d-flex" method="GET" action="{% url 'searchMaterials' %}">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="Search Materials" aria-label="Search" name="query" id="query"><button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+  
+      </div>
+  </header>
       <div class="container-xxl" style="margin-top: 10rem;">
         {% if AllMaterials|length < 1 %}
        <h1>Search Results:</h1>
@@ -80,24 +87,62 @@
     {% endif %}
     
     {% for files in AllMaterials %}
-    <div class="container-xxl" style="margin-top: 10rem;">
-     
+    <div class="container-xxl" style="margin-top: 1rem;">
+   
       <div class="shadow-sm p-3 mb-5 bg-body rounded">
       
-        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);">Course name : {{files.course_name}}</h5>
+        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"> {{files.course_name}}</h5>
+  
         <div class="card-body">
-          <h6>Topic : {{files.description}}</h6>
-          <p>{{files.uni_name}}</p>
+          <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
+          <p style="font-weight: 500;">{{files.uni_name}}</p>
+          <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
           <p>Uploaded by {{files.username}}</p>
           {% video files.video 'small' %} <br>
-          <a href="{{files.pdf.url}}"  target="_blank" class="btn btn-outline-dark">Open</a>
-          <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-primary">Download</a>
+  
+          <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
+            <i class="material-icons">
+              file_open
+            </i>
+          </a>
+          <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-success">
+            
+            <i class="material-icons">
+              file_download
+            </i>
+            
+          </a>
+  
+         
         </div>
       </div>
     
   </div>
-    {% endfor %}
-    </div>
+   
+   {% endfor %}
+   
+    <!-- Pagination -->
+    <nav class="my-3 container">
+      <ul class="pagination justify-content-center">
+          {% if AllMaterials.has_previous %}
+        <li class="page-item"><a class="page-link" href="?query={{query}}&page={{AllMaterials.previous_page_number}}">Previous</a></li>
+        {% endif %}
+        {% for i in AllMaterials.paginator.page_range %}
+        {% if AllMaterials.number == i %}
+        <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?query={{query}}&page={{i}}">{{i}}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if AllMaterials.has_next %}
+        <li class="page-item"><a class="page-link" href="?query={{query}}&page={{AllMaterials.next_page_number}}">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
     
+    </div>
+  
+
 </body>
 </html>

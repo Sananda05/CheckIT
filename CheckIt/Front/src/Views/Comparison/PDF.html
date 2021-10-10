@@ -14,7 +14,6 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
 
   <body>
       
@@ -33,11 +32,12 @@
         <div class="mdc-layout-grid">
           <div class="mdc-layout-grid__inner">
             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-7-desktop">
-              <div class="mdc-card">
-                    <h3 style = "padding-bottom: 10px; color:rgba(35, 207, 87, 0.712); text-align:center"> Upload any two files to find<b> Similarities!</b></h3>
+              <div class="mdc-card" style="box-shadow: rgb(4, 163, 102);">
+                    <h2 style = "padding-bottom: 10px; color:rgba(35, 207, 87, 0.712); text-align:center">Find<b> Similarities!</b></h2>
                   <div class="card-body" style="align-content: center; height: 300px; width: 100rem;">
                     
                     <div class="mdc-layout-grid__inner">
+                      
                         {% if files%} {% for file in files%}
                         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-3-tablet">
                          <div class="mdc-card info-card info-card--success">
@@ -55,21 +55,26 @@
                          </div>
                        </div>
                        {% endfor %}
+                       {%else%}
+                       <div class="text-center" style="margin-left:200px; margin-top:80px; height: 200px; width: 400px;">
+                        <i class=" material-icons" style="color: rgb(14, 138, 90);">cloud_upload</i>
+                        <h3 style="color: rgb(89, 15, 112);text-align:center">Upload any two file</h3>
+                        </div>
                        {% endif %}   
                       </div>
                   </div>
                   {%if state == "disable"%}
                   <a href="files/result" style="visibility:hidden">
-                    <button type="button"  id="btn-convert" style="width: 150px; margin-left:300px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
+                    <button type="button"  id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
                   <a href="reset/files/" style="visibility:visible">
-                    <button  type="button" id="btn-convert" style="width: 150px; margin-left:300px; background-color:rgb(176, 192, 186)" class="btn btn-success">Reset</button></a>
+                    <button  type="button" id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(176, 192, 186)" class="btn btn-success">Reset</button></a>
                    
                   {%else%}
                   <a href="reset/files/" style="visibility:hidden">
-                    <button type="button" id="btn-convert" style="width: 150px; margin-left:300px; background-color:rgb(4, 163, 102)" class="btn btn-success">Reset</button></a>
+                    <button type="button" id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102)" class="btn btn-success">Reset</button></a>
                  
                   <a href="files/result" style="visibility:visible">
-                    <button type="button"  id="btn-convert" style="width: 150px; margin-left:300px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
+                    <button type="button"  id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102);" class="btn btn-success">Compare</button></a>
                   {%endif%}  
                   
                 </div>
