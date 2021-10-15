@@ -13,6 +13,21 @@ class uploaded_pdfFile(models.Model):
     def __str__(self):
         return self.student_id
 
+class uploaded_multipleFile1(models.Model):
+    pdf= models.FileField(upload_to="compare_multiplefile")
+    is_compared = models.BooleanField(default=False)
+    owner_id = models.ForeignKey(User, on_delete=CASCADE)
+
+       
+
+class uploaded_multipleFile(models.Model):
+    pdf= models.FileField(upload_to="compare_multiple")
+    is_compared = models.BooleanField(default=False)
+    owner_id = models.ForeignKey(User, on_delete=CASCADE)
+
+    
+
+
 class history(models.Model):
     pdf1= models.FileField(upload_to="compare_history")
     pdf2= models.FileField(upload_to="compare_history")
@@ -20,7 +35,17 @@ class history(models.Model):
     owner_id = models.ForeignKey(User, on_delete=CASCADE)
 
 
-    def __str__(self):
-        return self.student_id
+
+
+class multiple_history(models.Model):
+    pdf1= models.FileField(upload_to="compare_multiplehistory")
+    pdf2= models.FileField(upload_to="compare_multiplehistory")
+    rate= models.CharField(max_length=200)
+    pdf2_id = models.ForeignKey(uploaded_multipleFile, on_delete=CASCADE)
+    owner_id = models.ForeignKey(User, on_delete=CASCADE)
+
+
+  
+
 
 

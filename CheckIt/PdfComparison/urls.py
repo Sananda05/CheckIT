@@ -7,10 +7,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
-path('compare/handwrittenfiles', views.Handwrittenfiles),
-path('compare/pdffiles',views.Pdffiles),
+path('compare/multiplefiles', views.Multiplefiles),
+path('compare/twofiles',views.Twofiles),
 path('comparison/history',views.historyView),
 path('compare/files/result', views.ComparePdf),
+path('compare/multiple/result', views.CompareMultiple),
 path('compare/files/del/<int:id>', views.deletePdf),
 path('compare/files/reset/files/', views.reset),
 path('comparison/history/del/<int:id>', views.deleteHistory),
