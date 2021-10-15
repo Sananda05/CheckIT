@@ -6,7 +6,7 @@ from django.conf import settings
 from django.http.response import Http404
 from django.contrib import messages
 
-from .models import materials,course_list
+from .models import materials,course_list,course_folder
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 
@@ -16,7 +16,8 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 def Course(request):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
-        courses = course_list.objects.all()
+        courseslist = course_list.objects.all()
+        courses = course_folder.objects.all()
         material = materials.objects.filter( owner_id_id = users.id )
         
         material_count = []
@@ -31,9 +32,12 @@ def Course(request):
             owner_id = users.id
                 
             course_name = request.POST.get('course_name')
+            coursefolder = request.POST.get('coursename')
+            print(coursefolder)
             print(course_name)
             
-                
+            if coursefolder!= "Select Course":
+             course_folder.objects.create(course_name= coursefolder, owner_id_id = owner_id)   
             course_list.objects.create(course_name = course_name, owner_id_id = owner_id)
             print(users.username + " added Course " + course_name)
                 
@@ -42,7 +46,7 @@ def Course(request):
         else:
             zipped_lists = zip(courses, material_count)
             return render(request, 'src/Views/Materials/Courses.html', 
-            {'user' : users,'courses' : courses, "zipped_lists" : zipped_lists})
+            {'user' : users,'courselist' : courseslist, "coursefolder":courses, "zipped_lists" : zipped_lists})
     else:
        return redirect("/login")
 

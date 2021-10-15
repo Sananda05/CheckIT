@@ -13,7 +13,14 @@ class course_list(models.Model):
 
 
     def __str__(self):
-        return self.student_id
+        return self.course_name
+
+class course_folder(models.Model):
+
+    course_name = models.CharField(max_length=50)
+    owner_id = models.ForeignKey(User, on_delete=CASCADE)
+
+
     
 
 class materials(models.Model):
