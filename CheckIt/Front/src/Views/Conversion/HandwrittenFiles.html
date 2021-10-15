@@ -24,7 +24,9 @@
   <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
     <main class="content-wrapper" style=" padding-top: 80px; padding-bottom: 0px;">
       <div class="mdc-layout-grid">  
-        
+        <div class="spinner spinner-border text-success hide" style=" margin:auto; margin-left: 750px;" id="spinner" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
         <h3 style = "padding-bottom: 10px;  color:rgb(32, 94, 32);"> Unconverted PDF Scripts</h3>
         <div class="mdc-layout-grid__inner">
           {% if files%} {% for file in files%}
@@ -41,7 +43,7 @@
                </h5>
                <p class="tx-12 text-muted"></p>
                <a style="margin-left:10px;color:brown" href="handwrittenfiles/del/{{ file.id}}"><i class="material-icons">delete</i></a>
-               <a style="margin-left: 20px;" href="{{file.pdf}}"><i class="material-icons" id="btn" >loop</i></a>    
+               <a style="margin-left: 20px;" href="{{file.pdf}}"><i class="loop material-icons" id="loop" >loop</i></a>    
                <div class="card-icon-wrapper">
                  <i class="material-icons">dvr</i>
                </div>
@@ -136,8 +138,8 @@
   <script>
     $(document).ready(function(){
    
-    $("#btn").on("click", function(){
-      $("#spinner").removeClass("hide");
+    $(".loop").on("click", function(){
+      $(".spinner").removeClass("hide");
     });
     });
   </script>

@@ -85,7 +85,7 @@ def ConvertHandwrittenPdf(request,pdf):
        filelimit = image_counter-1
       
        outfile = file_name+".txt"
-       f = open(outfile, "a")
+       f = open(outfile, "a", encoding="utf-8")
 
        for i in range(1, filelimit + 1):
             
@@ -97,6 +97,7 @@ def ConvertHandwrittenPdf(request,pdf):
 
             response = client.document_text_detection(image=image)
             docText = response.full_text_annotation.text
+           
             print(docText)
 
             f.write(docText) 
