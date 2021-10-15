@@ -273,7 +273,7 @@ def CompareMultiple(request):
             
         result = multiple_history.objects.filter(owner_id_id = users.id)        
 
-        return render(request,'src/Views/Comparison/Multiplefile.html',{'file':file1, 'files':files,'total':totalfile,'result':result,'status':state})     
+        return render(request,'src/Views/Comparison/Multiplefile.html',{'file':file1, 'files':files,'total':totalfile,'result':result,'state':state})     
 
 
 def reset(request):
@@ -282,6 +282,17 @@ def reset(request):
 
         files = uploaded_pdfFile.objects.filter(owner_id_id = users.id).update(is_compared=True)
         return redirect('/compare/twofiles')
+
+def multiple_reset(request):
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+
+        file1 = uploaded_multipleFile1.objects.all()
+        file1.delete()
+        files = uploaded_multipleFile.objects.all()
+        files.delete()
+        
+        return redirect('/compare/multiplefiles')        
 
 
 def historyView(request):

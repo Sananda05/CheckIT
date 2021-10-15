@@ -68,11 +68,15 @@
           {%endfor%}
 
           <h3 style = " color:rgb(32, 94, 32);"> Other Files</h3>
-          <h5>{{total}} files uploaded</h5>
-
+          <h4>{{total}} files uploaded</h4>
+          {%if state == "disable"%}
+          <a href="result/reset" style="visibility:visible">
+            <button  type="button" id="btn-convert" style="width: 150px; background-color:rgb(191, 194, 193)" class="btn btn-success">Reset</button></a>
+         
+          {%else%}
           <a href="multiple/result" style="visibility:visible">
-            <button type="button"  id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
-
+            <button type="button"  id="btn-convert" style="width: 150px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
+          {%endif%}
           {%else%}
           <h5>Nothing</h5>
 
@@ -86,22 +90,15 @@
                     <table class="table table-striped">
                     <thead>
                         <tr>
-                        <th class="text-left" style="color: rgb(24, 122, 54);"><h5>File 1</h5></th>
-                        <th class="text-left" style="color: rgb(24, 122, 54);"><h5>File 2</h5></th>
-                        <th class="text-left" style="color: rgb(170, 58, 50);"><h5>Rate (%)</h5></th>
-                        <th class="text-left">Remove</th>
+                        <th class="text-left" style="color: rgb(24, 122, 54);"><h5>Other Files</h5></th>
+                        <th class="text-left" style="color: rgb(170, 58, 50);"><h5>Matching(%)</h5></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                         {%for res in result%}   
-                        <td class="text-left">{{res.pdf1}}</td>
                         <td class="text-left">{{res.pdf2}}</td>
                         <td class="text-left">{{res.rate}}</td>
-                        <td class="text-left">
-                            <a class="del-btn" style="margin-left:10px;color:brown"  href="history/del/{{file.id}}"><i class="material-icons">delete</i></a>
-                        </td>
-                        
                         </tr>
                         {%endfor%}  
                     </tbody>
