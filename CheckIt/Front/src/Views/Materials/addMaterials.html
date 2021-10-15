@@ -63,7 +63,7 @@
                       <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
                           <label for="coursename" class="mdc-floating-label">
-                            <option class="mdc-text-field__input">Select Course</option></br>
+                            <option class="mdc-text-field__input">Select Course</option><br>
                           </label>    
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
@@ -74,13 +74,9 @@
                           </select> 
                         </div>
                         </div>
-                      <br>
-    
-                          
-
-                      
+                      <br>    
                       <textarea name = "description" type="text" placeholder="Description" style="height: 100px; width: 400px;"></textarea>
-                      </br>
+                      <br>
                         <div class="input-group">
                           <input type="file" multiple name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                         </div>
@@ -108,10 +104,18 @@
         <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"> {{files.course_name}}</h5>
 
         <div class="card-body">
-          <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
+          <h6 style="font-weight: bold; color:rgb(19, 72, 153)">Topic : {{files.description}}</h6>
           <p style="font-weight: 500;">{{files.uni_name}}</p>
-          <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
-          <p>Uploaded by {{files.username}}</p>
+          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-4-tablet" style="width:max-content">
+            <div class="mdc-card info-card info-card--info">
+              <div class="card-inner">
+                <a><h5 class="card-title" style="color:rgb(27, 156, 85) ;">{{ files.pdf }}</h5></a>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom" style="color: rgb(100, 49, 158);"> 
+                </h5>
+                <p class="tx-12 text-muted"></p>    
+              </div>
+            </div>
+          </div><br>
           {% video files.video 'small' %} <br>
 
           <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">

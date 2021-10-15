@@ -108,8 +108,16 @@
        <div class="card-body">
          <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
          <p style="font-weight: 500;">{{files.uni_name}}</p>
-         <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
-         <p>Uploaded by {{files.username}}</p>
+         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-4-tablet" style="width:max-content">
+          <div class="mdc-card info-card info-card--info">
+            <div class="card-inner">
+              <a><h5 class="card-title" style="color:rgb(27, 156, 85) ;">{{ files.pdf }}</h5></a>
+              <h5 class="font-weight-light pb-2 mb-1 border-bottom" style="color: rgb(100, 49, 158);"> 
+              </h5>
+              <p class="tx-12 text-muted"></p>    
+            </div>
+          </div>
+        </div><br>
          {% video files.video 'small' %} <br>
 
          <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">

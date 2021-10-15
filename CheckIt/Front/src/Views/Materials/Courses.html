@@ -8,16 +8,16 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <!---->
 
-<div class="page-wrapper mdc-toolbar-fixed-adjust">
-    <main class="content-wrapper">
-      <div class="mdc-layout-grid__inner">
+<div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
+  <main class="content-wrapper" style="padding-bottom: 0px;">
+    <div class="mdc-layout-grid">
         <form action="" method="POST">
           {% csrf_token %}
           <button data-bs-toggle="modal"  style="border-radius:60%;width: 70px;
                 height: 70px; position: absolute;
                 right:30px;
                 bottom: 100px;
-                background-color:rgb(15, 180, 64);border-color:rgb(218, 218, 218); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light pmd-btn-raised" data-bs-target="#newFolder"type="button"><i style="font-weight: bolder;color:aliceblue;" class="material-icons">add</i></button><br>
+                background-color:rgb(15, 180, 64);border-color:rgb(255, 255, 255); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light pmd-btn-raised" data-bs-target="#newFolder"type="button"><i style="font-weight: bolder;color:rgb(255, 255, 255);" class="material-icons">add</i></button><br>
 
           <div class="modal" tabindex="-1" id="newFolder">
             <div class="modal-dialog">
@@ -56,19 +56,19 @@
   </div>
 
 
-<div class="page-wrapper mdc-toolbar-fixed-adjust">
+<div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
     <main class="content-wrapper">
     <div class="mdc-layout-grid__inner">
 
         {% if courses %}
           {% for course, material_count in zipped_lists %}             
-          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet">
               <div class="mdc-card info-card info-card--success">
                <!-- <div class="card-inner">-->
-                  <div class="card-header " style="background-color:#5C246E;">
+                <div class="card-header " style="background-color:#296e4c; height: 120px;">
                 <div class="row align-items-center "style="height: 50px;">
                   <div class="col">
-                  <h6  style="color: white;" >{{ course.course_name }}</h6> 
+                  <h5  style="color: white;" >{{ course.course_name }}</h5> 
                 </div>
                 <div class="col"style="text-align:right;">
                   <a href="{{ course.course_name }}/">
