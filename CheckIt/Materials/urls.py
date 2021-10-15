@@ -10,6 +10,7 @@ urlpatterns = [
 path('Materials/<str:course_name>/', views.AddMaterials),
 path('uploadMaterial', views.AllMaterials),
 path('Materials/', views.Course, name = 'Course'),
+path('Materials/course/del/<int:id>/', views.del_course),
 path('uploadMaterial/<str:course_name>/', views.courseMaterial),
 path('Materials/<str:course_name>/deleteMaterial/<int:id>/',views.deleteMaterial),
 

@@ -37,8 +37,9 @@ def Course(request):
             print(course_name)
             
             if coursefolder!= "Select Course":
-             course_folder.objects.create(course_name= coursefolder, owner_id_id = owner_id)   
-            course_list.objects.create(course_name = course_name, owner_id_id = owner_id)
+              course_folder.objects.create(course_name= coursefolder, owner_id_id = owner_id)
+            elif course_name!= None:   
+              course_list.objects.create(course_name = course_name, owner_id_id = owner_id)
             print(users.username + " added Course " + course_name)
                 
             return redirect('/Materials')
@@ -172,6 +173,13 @@ def deleteMaterial(request,course_name, id):
 
     else:
         return redirect("/login")
+
+def del_course(request, id):
+    if request.user.is_authenticated :
+       users = User.objects.get( username = request.user )
+       folder = course_folder.objects.get(id=id,owner_id_id = users.id)
+       folder.delete()
+       return redirect('/Materials') 
 
 
 def courseMaterial (request, course_name):
