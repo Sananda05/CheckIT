@@ -112,7 +112,49 @@
             </i>
             
           </a>
-  
+   <!--comment-->
+   <div>
+    <form action="searchMaterials/{{files.id}}/" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label> Your Comment</label>
+        <input type="text" name="comment" placeholder="Enter Your Comment" class="form-control">
+        
+       <input type="hidden" name="postid" value="{{object.id}}">
+       <input type="hidden" name="parentid" value="">
+       </div>
+       <button type="submit">
+         <i class="material-icons">
+         add_comment
+       </i></button>
+    </form>
+  </div>
+
+  <div>
+    {% for comment in comments %}
+      <div class="row">
+        <div class="col-md-11">
+          <b>{{comment.username}}</b><span class="bedge bedge-secondary">{{comment.created_at}}</span>
+        <div>{{comment.text}}</div>
+        <div class="row">
+         <form action="searchMaterials/{{files.id}}/" method="post">
+           {% csrf_token %}
+           <div class="form-group">
+             <label> Your Comment</label>
+             <input type="text" name="comment" placeholder="Enter Your Comment" class="form-control">
+            <input type="hidden" name="postid" value="{{object.id}}">
+            <input type="hidden" name="parentid" value="{{comment.id}}">
+            </div>
+            <button type="submit">
+             <i class="material-icons">
+             add_comment
+           </i></button>
+         </form>
+        </div>
+         </div>
+      </div>
+    {% endfor %}
+  </div>
          
         </div>
       </div>

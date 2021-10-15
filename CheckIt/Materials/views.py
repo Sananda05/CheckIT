@@ -1,7 +1,7 @@
 from django.db.models import fields
 from django.db.models.fields import PositiveBigIntegerField
 from .models import materials,Comment,course_list
-from .forms import CommentForm
+
 from django.shortcuts import redirect, render
 from HomePage.models import User
 from django.http import HttpResponse
@@ -90,13 +90,45 @@ def AddMaterials(request, course_name):
     else:
         return redirect("/login")
 
+
+def addComment(request,id):
+    material=materials.objects.get(id=id)
+    if request.method=='POST':
+        comment=request.POST['comment']
+        material_id=material.id
+        
+        if request.user.is_authenticated :
+            username=request.user
+        else:
+            username='Viewer'
+        parentid=request.POST['parentid']
+        if parentid:
+            parent=Comment.objects.get(id=parentid)
+            newcom=Comment(text=comment,username=username, material_id_id = material_id,parent=parent)
+            newcom.save()
+        else:
+            newcom=Comment(text=comment,username=username,material_id_id = material_id)
+            newcom.save()
+
+    return redirect('/uploadMaterial')
+
+
+
 def AllMaterials (request):
+    
     material = materials.objects.all()
     courseList = course_list.objects.all()
-    return render(request, "src/Views/Materials/AllMaterials.html", {'material':material,'list':courseList})
+   # commentList=[]
+   # for files in material:
+        #comments=Comment.objects.filter(material_id_id=files.id,parent=None)
+       # commentList.append(comments)
+    #zipped_list=zip(commentList)
+    comments=Comment.objects.filter(parent=None)
+   
+    return render(request, "src/Views/Materials/AllMaterials.html", {'material':material,'list':courseList,'comments':comments})
  #   comments=Comment.objects.filter(active=True)
   #  new_comment=None
-   # if request.method=='POST':
+   # if
        # comment_form=CommentForm(data=request.POST)
        # if comment_form.is_valid():
           # new_comment=comment_form.save(commit=False)
@@ -134,12 +166,13 @@ def searchMaterials(request):
     query=request.GET['query']
     if len(query)>78:
         AllMaterials=materials.objects.none()
+        comments=Comment.objects.none()
     else:
         AllMaterialsCourse=materials.objects.filter(course_name__icontains=query)
         AllMaterialsUni_name=materials.objects.filter(uni_name__icontains=query)
         AllMaterialsDescription=materials.objects.filter(description__icontains=query)
         AllMaterials=AllMaterialsCourse.union(AllMaterialsUni_name,AllMaterialsDescription)
-        
+        comments=Comment.objects.filter(parent=None)
     if AllMaterials.count()==0:
         messages.warning(request, "No search results found. Please refine your query.")
      
@@ -153,7 +186,7 @@ def searchMaterials(request):
         AllMaterials=paginator.page(1)
     except EmptyPage:
         AllMaterials=paginator.page(paginator.num_pages)
-    return render(request, "src/Views/Materials/searchMaterials.html",{'AllMaterials':AllMaterials,'query':query,'page':page}) 
+    return render(request, "src/Views/Materials/searchMaterials.html",{'AllMaterials':AllMaterials,'query':query,'page':page,'comments':comments}) 
 
 
 
@@ -174,7 +207,7 @@ def deleteMaterial(request,course_name, id):
 def courseMaterial (request, course_name):
     courses = course_list.objects.get(course_name=course_name)
     material = materials.objects.filter(course_name = courses.course_name)
-
+    comments=Comment.objects.filter(parent=None)
     #pagination
     page=request.GET.get('page')
     paginator=Paginator(material,2)
@@ -186,5 +219,51 @@ def courseMaterial (request, course_name):
     except EmptyPage:
         material=paginator.page(paginator.num_pages)
     
-    return render(request, "src/Views/Materials/courseMaterials.html", {'material':material,'couses':courses,'page':page})
+    return render(request, "src/Views/Materials/courseMaterials.html", {'material':material,'couses':courses,'page':page,'comments':comments})
 
+
+def courseMaterialComment(request,course_name,id):
+
+    courses = course_list.objects.get(course_name=course_name)
+    material=materials.objects.get(id=id)
+    if request.method=='POST':
+        comment=request.POST['comment']
+        material_id=material.id
+        
+        if request.user.is_authenticated :
+            username=request.user
+        else:
+            username='Viewer'
+        parentid=request.POST['parentid']
+        if parentid:
+            parent=Comment.objects.get(id=parentid)
+            newcom=Comment(text=comment,username=username, material_id_id = material_id,parent=parent)
+            newcom.save()
+        else:
+            newcom=Comment(text=comment,username=username,material_id_id = material_id)
+            newcom.save()
+
+    return redirect('/uploadMaterial/'+courses.course_name)
+
+
+def searchMaterialComment(request,id):
+    material=materials.objects.get(id=id)
+    if request.method=='POST':
+        comment=request.POST['comment']
+        material_id=material.id
+        
+        if request.user.is_authenticated :
+            username=request.user
+        else:
+            username='Viewer'
+        parentid=request.POST['parentid']
+        if parentid:
+            parent=Comment.objects.get(id=parentid)
+            newcom=Comment(text=comment,username=username, material_id_id = material_id,parent=parent)
+            newcom.save()
+        else:
+            newcom=Comment(text=comment,username=username,material_id_id = material_id)
+            newcom.save()
+
+    return redirect('/searchMaterials')
+   

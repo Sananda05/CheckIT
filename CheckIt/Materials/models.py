@@ -29,17 +29,18 @@ class materials(models.Model):
 
 
 class Comment(models.Model):
-    material = models.ForeignKey(materials,on_delete=models.CASCADE,related_name='comments')
-    email = models.EmailField()
-    body = models.TextField()
-    date_added = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField(default=False)
+    material_id = models.ForeignKey(materials,on_delete=CASCADE)
+    username=models.CharField(max_length=50)
+    text = models.TextField()
+    parent=models.ForeignKey('self',on_delete=models.CASCADE,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+   
 
     class Meta:
-        ordering = ['date_added']
+        ordering = ['created_at']
 
     def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.email)
+        return self.owner_id + ":"+ self.text[0:15]
 
 
 

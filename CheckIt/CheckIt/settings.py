@@ -94,7 +94,7 @@ SITE_ID = 1
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DP1',
+        'NAME': 'Checkit',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',
