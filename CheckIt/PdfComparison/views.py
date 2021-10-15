@@ -267,13 +267,13 @@ def CompareMultiple(request):
 
             rate = format(seq.ratio()*100, '.2f')
             print(rate)
+            state = "disable"
 
-            for file in files:
-              multiple_history.objects.filter(pdf2=file,owner_id_id = users.id, rate=" ").update(rate=rate)
+            multiple_history.objects.filter(pdf2_id_id = i.id,owner_id_id = users.id, rate=" ").update(rate=rate)
             
         result = multiple_history.objects.filter(owner_id_id = users.id)        
 
-        return render(request,'src/Views/Comparison/Multiplefile.html',{'file':file1, 'files':files,'total':totalfile,'result':result})     
+        return render(request,'src/Views/Comparison/Multiplefile.html',{'file':file1, 'files':files,'total':totalfile,'result':result,'status':state})     
 
 
 def reset(request):
