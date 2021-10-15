@@ -76,8 +76,8 @@
 
 
   
-  {% if material %}
-  {% for files in material %}
+  {% if Material %}
+  {% for files in Material %}
   
   <div class="container-xxl" style="margin-top: 1rem;">
    
@@ -90,7 +90,7 @@
         <p style="font-weight: 500;">{{files.uni_name}}</p>
         <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
         
-        {% video files.video 'small' %} <br>
+        {% video files.video 'small' %} 
 
         <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
           <i class="material-icons">
@@ -104,23 +104,44 @@
           </i>
           
         </a>
-        <a href="/addComment/{{files.id}}/" class=" btn btn-primary">
-          <i class="material-icons">
-          add_comment
-        </i></a>
-                 <!--comment-->
-      </br>
-    </br>
+
+      
+              <!--comment-->
+          <div>
+        </br>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              
+              <div class="row">
+                <div class="col-md-11">
+              <input type="text" name="comment" placeholder="Enter Your Comment" class="form-control">
+              </div>
+              <div class="col-md-1">
+              <button type="submit" class="btn-primary">
+                <i class="material-icons">
+                add_comment
+              </i></button>
+              </div>
+            </div>
+
+             <input type="hidden" name="postid" value="{{object.id}}">
+             <input type="hidden" name="parentid" value="">
+             </div>
+             
+          </form>
+        </div>
 
         <div>
           {% for comment in comments %}
           {% if comment.material_id_id == files.id %}
             <div class="row">
-              <div class="col-md-11">
-                <b>{{comment.username}}</b><span class="bedge bedge-secondary">{{comment.created_at}}</span>
-              <div>{{comment.text}}</div>
               
-               </div>
+                <b>{{comment.username}}</b>
+                <p class="small">{{comment.created_at}}</p>
+              <p>{{comment.text}}</p>
+              
+              
             </div>
             {% endif %}
           {% endfor %}
@@ -134,29 +155,3 @@
 </div>
   {% endfor %}
   {% endif %}
-
-   <!-- Pagination -->
-   
- 
-
-  <nav class="my-3 container">
-    <ul class="pagination justify-content-center">
-        {% if material.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{material.previous_page_number}}">Previous</a></li>
-      {% endif %}
-      {% for i in material.paginator.page_range %}
-      {% if material.number == i %}
-      <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
-      {% else %}
-      <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-      {% endif %}
-      {% endfor %}
-      {% if material.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{material.next_page_number}}">Next</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-  
-    </section>
-</body>
-</html
