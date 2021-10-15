@@ -90,8 +90,8 @@
         <p style="font-weight: 500;">{{files.uni_name}}</p>
         <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
         
-        {% video files.video 'small' %} 
-
+        {% video files.video 'small' %} </br>
+        
         <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
           <i class="material-icons">
             file_open
@@ -132,20 +132,25 @@
           </form>
         </div>
 
-        <div>
-          {% for comment in comments %}
-          {% if comment.material_id_id == files.id %}
-            <div class="row">
-              
-                <b>{{comment.username}}</b>
-                <p class="small">{{comment.created_at}}</p>
-              <p>{{comment.text}}</p>
-              
-              
-            </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+        
+          <!--comment-->
+          
+      </br>
+      <div>
+        <label>Comments</label>
+        {% for comment in comments %}
+        {% if comment.material_id_id == files.id %}
+          <div class="row">
+            
+              <b>{{comment.username}}</b>
+              <p class="small">{{comment.created_at}}</p>
+            <p>{{comment.text}}</p>
+            
+            
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
 
 
        

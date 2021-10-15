@@ -53,6 +53,7 @@ def Course(request):
 def AddMaterials(request, course_name):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
+        comments=Comment.objects.filter(parent=None)
 
         courses = course_list.objects.get( course_name = course_name )
         material = materials.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
@@ -87,7 +88,7 @@ def AddMaterials(request, course_name):
             material=paginator.page(1)
          except EmptyPage:
            material=paginator.page(paginator.num_pages)
-        return render(request, "src/Views/Materials/addMaterials.html", {'material':material, 'name' : users.username,'courses':courses,'page':page})
+        return render(request, "src/Views/Materials/addMaterials.html", {'material':material, 'name' : users.username,'courses':courses,'page':page,'comments':comments})
     else:
         return redirect("/login")
 

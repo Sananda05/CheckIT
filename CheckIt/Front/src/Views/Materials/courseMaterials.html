@@ -108,23 +108,25 @@
           <i class="material-icons">
           add_comment
         </i></a>
-                 <!--comment-->
+                 
+          <!--comment-->
+          
       </br>
-    </br>
-
-        <div>
-          {% for comment in comments %}
-          {% if comment.material_id_id == files.id %}
-            <div class="row">
-              <div class="col-md-11">
-                <b>{{comment.username}}</b><span class="bedge bedge-secondary">{{comment.created_at}}</span>
-              <div>{{comment.text}}</div>
-              
-               </div>
-            </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+      <div>
+        <label>Comments</label>
+        {% for comment in comments %}
+        {% if comment.material_id_id == files.id %}
+          <div class="row">
+            
+              <b>{{comment.username}}</b>
+              <p class="small">{{comment.created_at}}</p>
+            <p>{{comment.text}}</p>
+            
+            
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
 
 
        
