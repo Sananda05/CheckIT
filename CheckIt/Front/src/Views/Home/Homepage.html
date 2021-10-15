@@ -60,11 +60,27 @@
             </div>
 
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/compare/pdffiles">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">description</i>
-                Compare PDF
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pie_chart_outlined</i>
+               Compare PDF
+                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
+              <div class="mdc-expansion-panel" id="ui-sub-menu">
+                <nav class="mdc-list mdc-drawer-submenu">
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/compare/twofiles">
+                      Two Files
+                     </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/compare/multiplefiles">
+                      Multiple Files
+                     </a>
+                  </div>
+                </nav>
+              </div>
             </div>
+
 
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/comparison/history">
@@ -74,14 +90,13 @@
             </div>
 
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
-                  loop
-                  </span></i>
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sample-page-submenu">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">
+                  loop</i>
                 Convert PDF
                 <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
-              <div class="mdc-expansion-panel" id="ui-sub-menu">
+              <div class="mdc-expansion-panel" id="sample-page-submenu">
                 <nav class="mdc-list mdc-drawer-submenu">
                   <div class="mdc-list-item mdc-drawer-item">
                     <a class="mdc-drawer-link" href="/conversion/handwrittenfiles">
@@ -92,10 +107,12 @@
                     <a class="mdc-drawer-link" href="/conversion/pdffiles">
                       Typed PDF
                     </a>
-                  </div>
+                  </div>      
                 </nav>
               </div>
             </div>
+
+            
 
            
 

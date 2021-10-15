@@ -59,25 +59,73 @@
                        <div class="text-center" style="margin-left:200px; margin-top:80px; height: 200px; width: 400px;">
                         <i class=" material-icons" style="color: rgb(14, 138, 90);">cloud_upload</i>
                         <h3 style="color: rgb(89, 15, 112);text-align:center">Upload any two file</h3>
-                        </div>
-                       {% endif %}   
+                        </div> 
+                        {%endif%}                     
                       </div>
                   </div>
-                  {%if state == "disable"%}
-                  <a href="files/result" style="visibility:hidden">
+                </div><br><br>
+
+                <form action="" method="POST">
+                  {% csrf_token %}
+
+                  <div class="mdc-form-field">
+                    <div class="mdc-checkbox mdc-checkbox--success">
+                      <input type="checkbox"
+                              id="basic-disabled-checkbox"
+                              class="mdc-checkbox__native-control"
+                              name="checkbox_val"
+                              value="Typed"
+                             />
+                      <div class="mdc-checkbox__background">
+                        <svg class="mdc-checkbox__checkmark"
+                              viewBox="0 0 24 24">
+                          <path class="mdc-checkbox__checkmark-path"
+                                fill="none"
+                                d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                        </svg>
+                        <div class="mdc-checkbox__mixedmark"></div>
+                      </div>
+                    </div>
+                    <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Typed File</label>
+                  </div>
+                  <div class="mdc-form-field">
+                    <div class="mdc-checkbox mdc-checkbox--success">
+                      <input type="checkbox"
+                              id="basic-disabled-checkbox"
+                              class="mdc-checkbox__native-control"
+                              name="checkbox_val"
+                              value="Handwritten"
+                               />
+                      <div class="mdc-checkbox__background">
+                        <svg class="mdc-checkbox__checkmark"
+                              viewBox="0 0 24 24">
+                          <path class="mdc-checkbox__checkmark-path"
+                                fill="none"
+                                d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                        </svg>
+                        <div class="mdc-checkbox__mixedmark"></div>
+                      </div>
+                    </div>
+                    <label for="basic-disabled-checkbox" id="basic-disabled-checkbox-label">Handwritten File</label>
+                  </div>
+                  <br>
+                  {% if files%}
+                    {%if state == "disable"%}
+                    <a href="reset/files/" style="visibility:visible">
+                      <button  type="button" id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(176, 192, 186)" class="btn btn-success">Reset</button></a>
+                    {%else%}
+                      <a href="files/result" style="visibility:visible">
                     <button type="button"  id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
-                  <a href="reset/files/" style="visibility:visible">
-                    <button  type="button" id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(176, 192, 186)" class="btn btn-success">Reset</button></a>
-                   
-                  {%else%}
-                  <a href="reset/files/" style="visibility:hidden">
-                    <button type="button" id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102)" class="btn btn-success">Reset</button></a>
-                 
-                  <a href="files/result" style="visibility:visible">
-                    <button type="button"  id="btn-convert" style="width: 150px; margin-left:343px; background-color:rgb(4, 163, 102);" class="btn btn-success">Compare</button></a>
-                  {%endif%}  
+                  {%endif%}
+                {%else%}
+                <a  aria-disabled="true" style="visibility:visible">
+                  <button type="button" disabled aria-disabled="true"  id="btn-convert" style="width: 150px; margin-left:345px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
+                {%endif%}
+                        
+
+                </form>
+                
                   
-                </div>
                 </div>
             
               <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-5-desktop">

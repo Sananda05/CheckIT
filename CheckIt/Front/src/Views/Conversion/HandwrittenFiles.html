@@ -25,7 +25,7 @@
     <main class="content-wrapper" style=" padding-top: 80px; padding-bottom: 0px;">
       <div class="mdc-layout-grid">  
         
-        <h3 style = "padding-bottom: 10px;  color:rgb(46, 139, 46); text-align:center"> Unconverted PDF Scripts</h3>
+        <h3 style = "padding-bottom: 10px;  color:rgb(32, 94, 32);"> Unconverted PDF Scripts</h3>
         <div class="mdc-layout-grid__inner">
           {% if files%} {% for file in files%}
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
@@ -53,7 +53,7 @@
          {% endfor %}
          {% else %}
          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">       
-          <div class="alert alert-success" role="alert">
+          <div style="width: 600px; color:rgb(20, 20, 94);font-weight:bold" class="alert alert-success" role="alert">
            <div class="text-center">
             <i class=" material-icons" style="color: rgb(158, 112, 196);">cloud_upload</i>
             <h5>Upload some file</h5>
@@ -65,7 +65,7 @@
         
         
         
-        <h3 style = "padding-bottom: 10px; padding-top: 30px; margin-top:30px; color:rgb(46, 139, 46); text-align:center"> Converted Text Scripts</h3>
+        <h3 style = "padding-bottom: 10px; padding-top: 30px; margin-top:30px; color:rgb(32, 94, 32);"> Converted Text Scripts</h3>
      
       <div class="mdc-layout-grid__inner">
          {% if converted%} {% for file in converted%}
@@ -92,7 +92,7 @@
         {% endfor %}
         {% else %}
         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
-         <div style="width: 600px; color:rgb(20, 20, 94);font-weight:bold" class="alert alert-info" role="alert">
+         <div style="width: 600px; color:rgb(20, 20, 94);font-weight:bold" class="alert alert-success" role="alert">
            No Converted Scripts!
          </div> 
         </div>
