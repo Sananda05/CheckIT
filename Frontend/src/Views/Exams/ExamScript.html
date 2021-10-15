@@ -112,6 +112,7 @@
 <div class="page-wrapper mdc-toolbar-fixed-adjust row">
   <main class="content-wrapper" style = "padding-top: 0px;"> 
     <div style = "width: 65%; float: left; padding: 20px;">
+      {% if examScripts.title == '' %}
       <embed
         src="{{ examScripts.pdf.url }}"
         type="application/pdf"
@@ -120,6 +121,12 @@
         height="750px"
         width="100%"
       ></embed>
+      {% else %}
+      <iframe 
+        src= "{{ examScripts.pdf_from_drive }}"
+        style="height: 750px; width: 100%"
+      ></iframe >
+      {% endif %}
     </div>
     <div style = "width: 35%; float: right; padding: 20px;">
       <span>

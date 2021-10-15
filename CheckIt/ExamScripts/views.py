@@ -53,10 +53,21 @@ def ExamView(request, coursename, examname):
 
         if request.method == "POST":
             pdf_name = request.FILES.getlist('exam_file')
+            drive_pdf = request.POST['drive_pdf']
+            drive_pdf_title = request.POST['drive_pdf_title']
+            print(drive_pdf)
+            print(drive_pdf_title)
+
+            url = drive_pdf.rsplit("/", 1)[0]
+            url = url + '/preview?usp=embed_googleplus'
+            print(url)
             
             print(pdf_name)
             for file in pdf_name:
                 ExamScripts.objects.create(pdf = file, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
+            
+            if drive_pdf != "":
+                ExamScripts.objects.create(pdf_from_drive = url, title = drive_pdf_title, owner_id_id = users.id, course_id_id = courses.id, exam_id_id = exam.id)
                 
             return redirect("/home/"+ coursename + "/" + examname)
         
@@ -86,13 +97,13 @@ def ExamView(request, coursename, examname):
     else:
         return redirect("/login")
 
-def ScriptView(request, coursename, examname, student_id):
+def ScriptView(request, coursename, examname, id):
     if request.user.is_authenticated :
-        pdf_name = 'Scripts/'+ student_id
+        #pdf_name = 'Scripts/'+ student_id
         users = User.objects.get( username = request.user )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
-        examScript = ExamScripts.objects.get( pdf = pdf_name, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
+        examScript = ExamScripts.objects.get( id = id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
         script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
 
         if request.method == "POST":
@@ -159,12 +170,12 @@ def ScriptView(request, coursename, examname, student_id):
     else:
         return redirect("/login")
 
-def Recheck(request, coursename, examname, student_id):
+def Recheck(request, coursename, examname, id):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
-        examScript = ExamScripts.objects.get( student_id = student_id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
+        examScript = ExamScripts.objects.get( id = id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
         script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
 
         if request.method == 'POST':
@@ -226,7 +237,7 @@ def ExportExcel (request, coursename, examname):
                 ws.write(row_num, col_num, str(row[col_num]), font_style)
     
         wb.save(response)
-    
+        print(response)
         return response
     
     else:

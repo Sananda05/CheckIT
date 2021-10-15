@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'HomePage',
     'ExamScripts',
     'Materials',
+    'GoogleClassroom',
     'embed_video'
     #'gdstorage'
 ]

@@ -1,4 +1,4 @@
-{% extends 'src\Views\Home\Homepage.html' %}
+{% extends 'src\Views\GClassroom\Extensions\ForCourses.html' %}
 {% block HomeContent %}
 
 <!--static-->
@@ -8,27 +8,110 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <!---->
 
+<script type="text/javascript">
+
+  // The Browser API key obtained from the Google API Console.
+  // Replace with your own Browser API key, or your own key.
+  var developerKey = 'AIzaSyDnsJcFdqMPV2knwlj-oPlxJa1KPyQ18kU';
+
+  // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+  var clientId = "637334363994-g3qp5e1p801mr5ujgj3igqk2grd9dqkk.apps.googleusercontent.com"
+
+  // Replace with your own project number from console.developers.google.com.
+  // See "Project number" under "IAM & Admin" > "Settings"
+  var appId = "637334363994";
+
+  // Scope to use to access user's Drive items.
+  var scope = ['https://www.googleapis.com/auth/drive.file'];
+
+  var pickerApiLoaded = false;
+  var oauthToken;
+
+  // Use the Google API Loader script to load the google.picker script.
+  function loadPicker() {
+    gapi.load('auth', {'callback': onAuthApiLoad});
+    gapi.load('picker', {'callback': onPickerApiLoad});
+  }
+
+  function onAuthApiLoad() {
+    window.gapi.auth.authorize({
+      'client_id': clientId,
+      'scope': scope,
+      'immediate': false
+    },
+    handleAuthResult);
+  }
+
+  function onPickerApiLoad() {
+    pickerApiLoaded = true;
+    createPicker();
+  }
+
+  function handleAuthResult(authResult) {
+    if (authResult && !authResult.error) {
+      oauthToken = authResult.access_token;
+      createPicker();
+    }
+  }
+
+  // Create and render a Picker object for searching images.
+  function createPicker() {
+    if (pickerApiLoaded && oauthToken) {
+      var view = new google.picker.View(google.picker.ViewId.DOCS);
+      view.setMimeTypes("image/png,image/jpeg,image/jpg");
+      var picker = new google.picker.PickerBuilder()
+        .enableFeature(google.picker.Feature.NAV_HIDDEN)
+        .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+        .setAppId(appId)
+        .setOAuthToken(oauthToken)
+        .addView(view)
+        .addView(new google.picker.DocsUploadView())
+        .setDeveloperKey(developerKey)
+        .setCallback(pickerCallback)
+        .build();
+      picker.setVisible(true);
+
+      var elements= document.getElementsByClassName('picker-dialog');
+      for(var i=0; i<elements.length; i++){
+        elements[i].style.zIndex = "2000";
+      }
+    }
+  }
+
+  // A simple callback implementation.
+  function pickerCallback(data) {
+    if (data.action == google.picker.Action.PICKED) {
+      var fileId = data.docs[0].url;
+      var element = document.getElementById('gc_question');
+      element.disabled = false;
+      element.value = fileId;
+      //alert('The user selected: ' + fileId);
+    }
+  }
+</script>
+{% load static %}
+
 <div class="page-wrapper mdc-toolbar-fixed-adjust">
   <main class="content-wrapper">
     <div class="mdc-layout-grid__inner">
       <form action="" method="POST">
         {% csrf_token %}
         <div class="modal" tabindex="-1" id="newFolder">
-          <div class="modal-dialog">
-            <div class="modal-content">
+          <div class="modal-dialog" style="padding-right:1000px;">
+            <div class="modal-content" style="width: 1000px;">
               <div class="modal-header">
-                <h5 class="modal-title">Create New Course</h5>
+                <h5 class="modal-title">Create New Assignment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                   <div class="mdc-text-field mdc-text-field--outlined">
-                    <input class="mdc-text-field__input" id="name" name="name">
+                    <input class="mdc-text-field__input" id="title" name="title">
                     <div class="mdc-notched-outline">
                       <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
                           <label for="name" class="mdc-floating-label">
-                            Course Name 
+                            Title 
                           </label>    
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
@@ -36,15 +119,17 @@
                     </div>
                   </div>
                 <br>
-               
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                   <div class="mdc-text-field mdc-text-field--outlined">
-                    <input class="mdc-text-field__input" id="text-field-hero-input" id="CourseCode" name="CourseCode">
+                    <input class="mdc-text-field__input" id="text-field-hero-input" list="points" name="points" />
+                    <datalist id= "points">
+                      <option value="Ungraded">Ungraded</option>
+                    </datalist >
                     <div class="mdc-notched-outline">
                       <div class="mdc-notched-outline__leading"></div>
                         <div class="mdc-notched-outline__notch">
                           <label for="CourseCode" class="mdc-floating-label">
-                            Course Code
+                            Points
                           </label>
                         </div>
                         <div class="mdc-notched-outline__trailing"></div>
@@ -52,11 +137,62 @@
                     </div>
                   </div>
                   <br>
+                  <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                    <div class="mdc-text-field mdc-text-field--outlined" style="height: 100px;">
+                      <textarea class="mdc-text-field__input" name="description" style="margin: 1rem; padding-top: 22px; padding-bottom: 0px;"></textarea>
+                      <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                          <label for="exam_name" class="mdc-floating-label">
+                            Description 
+                          </label>    
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                <div class="row">
+                  <div class="col-md-1">
+                    <label for="exam_name" style="padding-left: 8px; padding-top: 10px;">
+                      Question 
+                    </label>
+                  </div>
+                  <div class="col-md-8">
+                  <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop">
+                    <div class="mdc-text-field mdc-text-field--outlined">
+                      <input class="mdc-text-field__input" id="gc_question" name="gc_question" disabled>
+                      <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                          <label for="exam_name" class="mdc-floating-label">
+                            
+                          </label>    
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="col-md-3" style="padding-top:3px;">
+                    <button type="button" onclick="showPickerDialog()" class="mdc-button mdc-button--raised icon-button">
+                      <img src="{% static "Assets/attachments.png" %}" style="length: 20px; height: 20px;" data-toggle="tooltip" title="Add Attachments" alt="user" class="user">
+                    </button>
+                  </div>
+                </div>
+                  <!-- The Google API Loader script. -->
+                  <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+                  <script>
+                    function showPickerDialog(){
+                      loadPicker()
+                    }
+                  </script>   
                 </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <input type="submit" value="Create" class="btn btn-primary">
               </div>
+
             </div>
           </div>
         </div>
@@ -71,7 +207,7 @@
           <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
             <div class="mdc-card info-card info-card--warning">
               <div class="card-inner">
-                <a href = "{{ courseWork.name }}/" style = "text-decoration: None;"><h5 class="card-title" >{{ courseWork.title }}</h5></a>
+                <a href = "{{ courseWork.id }}/" style = "text-decoration: None;"><h5 class="card-title" >{{ courseWork.title }}</h5></a>
                 <h6 class="font-weight-light pb-2 mb-1 border-bottom">{{ courseWork.workType }}</h6>
                     
                 <p class="tx-12 text-muted">{{ exam_counts }} Exams Added</p>
@@ -91,7 +227,7 @@
           </div>  
         </div>
       {% endif %}  
-    </div>  
+    </div>
   </main>
 </div>
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CheckIt? | Home</title>
+  <title>CheckIt? | Classroom</title>
   {% load static %}
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/mdi/css/materialdesignicons.min.css' %}">
@@ -57,7 +57,7 @@
 
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
                 Courses
               </a>
             </div>
@@ -73,7 +73,7 @@
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/Materials">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
-                  description
+                  track_changes
                   </span></i>
                Compare PDF
               </a>
@@ -124,7 +124,7 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">Greetings {{ user.username }}!</span>
+            <span class="mdc-top-app-bar__title">{{ user.username }}'s Google Classroom</span>
           </div>
           <div class="divider d-none d-md-block"></div>
             <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
