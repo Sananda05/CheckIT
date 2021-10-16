@@ -1,0 +1,167 @@
+{% extends 'src\Views\Home\Homepage.html' %} 
+{% block HomeContent%} 
+{% load static %}
+
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous"
+/>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+  integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+  crossorigin="anonymous"
+></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css"
+/>
+
+<body>
+  <div
+    class="page-wrapper mdc-toolbar-fixed-adjust"
+    style="background-color: white"
+  >
+    <main
+      class="content-wrapper"
+      style=" padding-top: 80px; padding-bottom: 0px;"
+    >
+      <div class="mdc-layout-grid">
+        <div class="mdc-layout-grid__inner">
+        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-5-desktop">
+
+        {%if file%}
+        <h3 style = " color:rgb(32, 94, 32);"> File you want to compare</h3>
+
+        {%for f in file %}
+        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet" style="width: max-content;">
+            <div class="mdc-card info-card info-card--success">
+              <div class="card-inner">
+               <a href="{{file.pdf.url}}" target="_blank">
+                 <i style="color: cornflowerblue; margin-left:300px;" class="material-icons">
+                   open_in_new
+                 </i>
+               </a>
+                <a><h5 class="card-title">{{ f.pdf }}</h5></a>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom"> 
+                </h5>
+                <p class="tx-12 text-muted"></p>
+                <a style="margin-left:10px;color:brown" href="pdffiles/del/{{ file.id}}"><i class="material-icons">delete</i></a>
+                <div class="card-icon-wrapper">
+                  <i class="material-icons">dvr</i>
+                </div>
+              </div>
+            </div>
+          </div><br>
+          {%endfor%}
+
+          <h3 style = " color:rgb(32, 94, 32);"> Other Files</h3>
+          <h4>{{total}} files uploaded</h4>
+          {%if state == "disable"%}
+          <a href="result/reset" style="visibility:visible">
+            <button  type="button" id="btn-convert" style="width: 150px; background-color:rgb(191, 194, 193)" class="btn btn-success">Reset</button></a>
+         
+          {%else%}
+          <a href="multiple/result" style="visibility:visible">
+            <button type="button"  id="btn-convert" style="width: 150px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
+          {%endif%}
+          {%else%}
+          <div class="mdc-card" style="position:absolute; border-color:blue; margin:auto; left: 500px; top: 250px;" >
+          <div class="text-center" style=" height: 200px; width: 400px;">
+            <i class=" material-icons" style="color: rgb(14, 138, 90);">cloud_upload</i>
+            <h3 style="color: rgb(89, 15, 112);text-align:center">Upload Some File</h3>
+            </div> 
+          </div>
+          {%endif%}
+        </div>
+        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-7-desktop">
+            {%if file%}
+            <div class="mdc-card p-0">
+               
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th class="text-left" style="color: rgb(24, 122, 54);"><h5>Other Files</h5></th>
+                        <th class="text-left" style="color: rgb(170, 58, 50);"><h5>Matching(%)</h5></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        {%for res in result%}   
+                        <td class="text-left">{{res.pdf2}}</td>
+                        <td class="text-left">{{res.rate}}</td>
+                        </tr>
+                        {%endfor%}  
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+                {%endif%}
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <button data-bs-toggle="modal"  style="border-radius:60%;width: 70px;
+          height: 70px; position: absolute;
+          right:30px;
+          bottom: 100px;
+          background-color:rgb(15, 180, 64);border-color:rgb(255, 255, 255); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light pmd-btn-raised" data-bs-target="#newFolder"type="button"><i style="font-weight: bolder;color:rgb(255, 255, 255);" class="material-icons">add</i></button><br>
+
+    <div class="modal" tabindex="-1" id="newFolder">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Upload Files</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h6 style="color: rgb(40, 77, 199);">First file</h6>
+            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+              <div class="mdc-text-field mdc-text-field--outlined">
+                <div class="input-group">
+                <input type="file" class="form-control" id="file1" name="file1">
+                </div>
+              </div>
+            </div>
+            <br>
+            <h6 style="color: rgb(40, 77, 199);">Other files</h6>
+            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                <div class="mdc-text-field mdc-text-field--outlined">
+                
+                <div class="input-group">
+                <input type="file" multiple name ="other_file"  class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                </div>
+                </div>
+              </div>
+              
+            </div>
+            <br>
+          <div class="modal-footer">
+           
+            <input type="submit" value="Upload" class="btn btn-primary">
+          </div>
+        </div>
+      </div>
+    </div>
+        </form>
+      </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+{% endblock %}
