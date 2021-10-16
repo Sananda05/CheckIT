@@ -134,17 +134,27 @@
           
       </br>
           <div>
-            <label>Comments</label>
+          </br>
+          <h5>Comments:</h5>
+              
             {% for comment in comments %}
             {% if comment.material_id_id == files.id %}
-              <div class="row">
+           
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="user d-flex flex-row align-items-center">
+                  <span><small class="font-weight-bold text-primary" style="font-size: small;">{{comment.username}}</small>
+                  
+                    
+                </div>
+                  <small style="font-size: x-small;">{{comment.created_at}}</small>
+                  
                 
-                  <b>{{comment.username}}</b>
-                  <p class="small">{{comment.created_at}}</p>
-                <p>{{comment.text}}</p>
                 
-                
-              </div>
+            </div>
+            <div class="card p-2 ">
+            <small>{{comment.text}}</small>
+          </div>
+        </br>
               {% endif %}
             {% endfor %}
           </div>

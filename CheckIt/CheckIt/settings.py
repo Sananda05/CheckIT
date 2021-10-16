@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     
     'embed_video',
+
+    'notifications',
     
     'FrontEnd',
     'HomePage',

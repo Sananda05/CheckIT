@@ -142,30 +142,38 @@
           </a></div>
         </div>
         </div>
-                   <!--comment-->
-        </br>
-      </br>
-  
-        
-          <!--comment-->
-          
       </br>
       <div>
-        <label>Comments</label>
-        {% for comment in comments %}
-        {% if comment.material_id_id == files.id %}
-          <div class="row">
+          <!--comment-->
+          
+        </br>
+        <div>
+        </br>
+        <h5>Comments:</h5>
             
-              <b>{{comment.username}}</b>
-              <p class="small">{{comment.created_at}}</p>
-            <p>{{comment.text}}</p>
-            
-            
+          {% for comment in comments %}
+          {% if comment.material_id_id == files.id %}
+         
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="user d-flex flex-row align-items-center">
+                <span><small class="font-weight-bold text-primary" style="font-size: small;">{{comment.username}}</small>
+                
+                  
+              </div>
+                <small style="font-size: x-small;">{{comment.created_at}}</small>
+                
+              
+              
           </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    
+          <div class="card p-2 ">
+          <small>{{comment.text}}</small>
+        </div>
+      </br>
+            {% endif %}
+          {% endfor %}
+        </div>
+       
+    </div>
   </div>
     {% endfor %}
     {% endif %}
