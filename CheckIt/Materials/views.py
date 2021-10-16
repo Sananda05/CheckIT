@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.db.models.fields import PositiveBigIntegerField
-from .models import materials,Comment,course_list
+from .models import materials,Comment,course_list,course_folder
 
 from django.shortcuts import redirect, render
 from HomePage.models import User
@@ -18,7 +18,8 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 def Course(request):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
-        courses = course_list.objects.all()
+        courseslist = course_list.objects.all()
+        courses = course_folder.objects.all()
         material = materials.objects.filter( owner_id_id = users.id )
         
         material_count = []
@@ -33,10 +34,14 @@ def Course(request):
             owner_id = users.id
                 
             course_name = request.POST.get('course_name')
+            coursefolder = request.POST.get('coursename')
+            print(coursefolder)
             print(course_name)
             
-                
-            course_list.objects.create(course_name = course_name, owner_id_id = owner_id)
+            if coursefolder!= "Select Course":
+              course_folder.objects.create(course_name= coursefolder, owner_id_id = owner_id)
+            elif course_name!= None:   
+              course_list.objects.create(course_name = course_name, owner_id_id = owner_id)
             print(users.username + " added Course " + course_name)
                 
             return redirect('/Materials')
@@ -44,7 +49,7 @@ def Course(request):
         else:
             zipped_lists = zip(courses, material_count)
             return render(request, 'src/Views/Materials/Courses.html', 
-            {'user' : users,'courses' : courses, "zipped_lists" : zipped_lists})
+            {'user' : users,'courselist' : courseslist, "coursefolder":courses, "zipped_lists" : zipped_lists})
     else:
        return redirect("/login")
 
@@ -102,7 +107,7 @@ def addComment(request,id):
         material_id=material.id
         
         if request.user.is_authenticated :
-            username=request.user
+            username='Author'
         else:
             username='Viewer'
         parentid=request.POST['parentid']
@@ -119,7 +124,12 @@ def addComment(request,id):
         return render(request, "src/Views/Materials/Comment.html", {'Material':Material,'comments':comments})
 
 
-
+def del_course(request, id):
+    if request.user.is_authenticated :
+       users = User.objects.get( username = request.user )
+       folder = course_folder.objects.get(id=id,owner_id_id = users.id)
+       folder.delete()
+       return redirect('/Materials') 
 
 def AllMaterials (request):
     

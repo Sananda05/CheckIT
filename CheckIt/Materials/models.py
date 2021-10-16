@@ -12,6 +12,10 @@ class course_list(models.Model):
     course_name = models.CharField(max_length=50)
     owner_id = models.ForeignKey(User, on_delete=CASCADE)
     
+class course_folder(models.Model):
+
+    course_name = models.CharField(max_length=50)
+    owner_id = models.ForeignKey(User, on_delete=CASCADE)
 
 class materials(models.Model):
     uni_name = models.CharField(max_length=300)

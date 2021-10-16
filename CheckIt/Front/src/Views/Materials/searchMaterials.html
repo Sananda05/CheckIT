@@ -121,42 +121,70 @@
               file_download
             </i>
             
-          </a>
-          <a href="/addComment/{{files.id}}/" class=" btn btn-primary">
-            <i class="material-icons">
-            add_comment
-          </i></a>
-
+          </a>       
+        </a>
         </br>
         <div>
              <!--comment-->
-          
-      </br>
-      <div>
-      </br>
-      <h5>Comments:</h5>
-          
-        {% for comment in comments %}
-        {% if comment.material_id_id == files.id %}
-       
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="user d-flex flex-row align-items-center">
-              <span><small class="font-weight-bold text-primary" style="font-size: small;">{{comment.username}}</small>
-              
-                
-            </div>
-              <small style="font-size: x-small;">{{comment.created_at}}</small>
-              
-            
-            
-        </div>
-        <div class="card p-2 ">
-        <small>{{comment.text}}</small>
-      </div>
     </br>
-          {% endif %}
-        {% endfor %}
-      </div>
+    <div class="container mt-14">
+     <div class="row d-flex">
+       <div class="col-md-12">
+         <div class="headings d-flex justify-content-between align-items-center mb-3">
+           <h5>Comments</h5>
+         </div>
+         
+           {% for comment in comments %}
+             {% if comment.material_id_id == files.id %}
+         <div class="card p-3">
+           <div class="d-flex justify-content-between align-items-center">
+             <div class="user d-flex flex-row align-items-center">
+             {% if comment.user_picture == "" %}
+               <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
+             {% else %}
+             {% if comment.googleAcc == 'False' %}
+               <img src="{{comment.user_picture.url}}" width="30" class="user-img rounded-circle mr-2">
+             {% else %}
+               <img src="{{comment.user_picture}}" width="30" class="user-img rounded-circle mr-2">
+             {% endif %}
+             {% endif %}  
+               <span>
+                 <small class="font-weight-bold text-warning" >{{comment.username}}</small> 
+                 
+               </span>
+             </div>
+             <small style="font-size: x-small;">{{comment.created_at}}</small>
+           </div>
+           <small class="font-weight" style="padding-left: 3.5%;">{{comment.text}}</small>
+         </div>
+         {% endif %}
+         {% endfor %}
+         
+         <div class="card p-3">
+           <div class="d-flex justify-content-between align-items-center">
+             <div class="user d-flex flex-row align-items-center">
+             {% if picture != no_picture %}
+               <img src="{{ picture }}" width="30" class="user-img rounded-circle mr-2">
+             {% else %}
+               {% if userPictures.picture == '' %}
+                 <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
+               {% else %}
+                 <img src="{{ userPictures.picture.url }}" width="30" class="user-img rounded-circle mr-2">
+               {% endif %}
+             {% endif %}
+               <span>
+                 <small class="font-weight text-secondary">Write your Comment.</small> 
+               </span>
+             </div>
+             <a href="/addComment/{{files.id}}/" class="mdc-button mdc-button--raised icon-button">
+               <i class="material-icons mdc-button__icon">add</i>
+             </a>
+           </div>
+         </div>
+         
+       </div>
+     </div>
+</div>
     
         </div>
       </div>
