@@ -22,13 +22,16 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('FrontEnd.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('Materials.urls')),
+   
     path('', include('HomePage.urls')),
     path('', include('Exams.urls')),
-    path('', include('Materials.urls')),
     path('', include('PdfConversion.urls')),
     path('', include('PdfComparison.urls')),
-    path('admin/', admin.site.urls),
+    path('', include('GoogleClassroom.urls')),
+    path('', include('FrontEnd.urls')),
+
    
 ]
 

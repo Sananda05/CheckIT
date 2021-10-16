@@ -8,6 +8,7 @@
     <title>CheckIt?</title>
 
     {% load static %}
+
     <link rel="stylesheet" href="css/bootstrap.css">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -42,6 +43,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="/Front/src/Static/slick/style.css"> 
+   
   
 
 
@@ -73,6 +75,8 @@
   
           </ul>
         </nav><!-- .nav-menu -->
+      
+
         <form class="d-flex" method="GET" action="{% url 'searchMaterials' %}">
           {% csrf_token %}
           <input class="form-control me-2" type="search" placeholder="Search Materials" aria-label="Search" name="query" id="query"><button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -86,9 +90,9 @@
     <div class="row slider">
       {% for l in list %}
        
-            <div class="card" style="background-color: #f6e4fa; margin-left:10px;">
-              <div class="card-body" style="background:#f6e4fa;border-radius: 10px;">               
-                <a class="page-link" href="uploadMaterial/{{l.course_name}}"  style="background:#f6e4fa; border-color:#f6e4fa; color:rgb(95, 8, 117); font-weight:bold">{{l.course_name}}</a>
+            <div class="card" style="background-color: #147735; margin-left:10px;">
+              <div class="card-body" style="background:#147735;border-radius: 10px;">               
+                <a class="page-link" href="uploadMaterial/{{l.course_name}}/"  style="background:#147735; border-color:#147735; color:rgb(255, 255, 255); font-weight:bold">{{l.course_name}}</a>
               </div>
             </div>
         {% endfor %} 
@@ -98,49 +102,102 @@
        
 
    {% if material %}
-   {% for files in material %}
-   <div class="container-xxl" style="margin-top: 1rem;">
-    
-     <div class="shadow-sm p-3 mb-5 bg-body rounded">
+    {% for files in material %}
+    <div class="container-xxl" style="margin-top: 1rem;">
      
-       <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"> {{files.course_name}}</h5>
+      <div class="shadow-sm p-3 mb-5 bg-body rounded">
+      
+        <div class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"><div class="row">
+          <div class="col-md-8">
+            <a  href="/addComment/{{files.id}}/" style="text-decoration: none; color:rgb(69, 27, 146)">
 
-       <div class="card-body">
-         <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
-         <p style="font-weight: 500;">{{files.uni_name}}</p>
-         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-2-desktop mdc-layout-grid__cell--span-4-tablet" style="width:max-content">
-          <div class="mdc-card info-card info-card--info">
-            <div class="card-inner">
-              <a><h5 class="card-title" style="color:rgb(27, 156, 85) ;">{{ files.pdf }}</h5></a>
-              <h5 class="font-weight-light pb-2 mb-1 border-bottom" style="color: rgb(100, 49, 158);"> 
-              </h5>
-              <p class="tx-12 text-muted"></p>    
+             <h5> {{files.course_name}}</h5>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="deleteMaterial/{{files.id}}/" style="float: right; margin:5px; color:darkred">
+              <i class="material-icons">
+                delete
+              </i>
+            </a>
+            <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" style="float: right;margin:5px;color:rgb(19, 136, 72)">
+          
+              <i class="material-icons">
+                file_download
+              </i>
+              
+            </a>&nbsp &nbsp
+            
+   </div></div></div>
+
+        <div class="card-body">
+          <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
+          <p style="font-weight: 500;">{{files.uni_name}}</p>
+
+          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet" style="width:300px;">
+            <div class="mdc-card info-card info-card--success">
+              <div class="card-inner">
+               <a href="{{files.pdf.url}}" target="_blank" style="text-decoration: none;">
+                <h6 style="color: rgb(11, 59, 161);">{{files.pdf}}</h6>      
+               </a>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom"> 
+                </h5>
+                <p class="tx-12 text-muted"></p>
+               
+                <div class="card-icon-wrapper">
+                  <i class="material-icons">dvr</i>
+                </div>
+              </div>
+            </div>
+          </div><br>
+          
+          {% video files.video 'small' %}
+      
+        </div>
+    
+      <div>
+           <!--comment-->
+    <br>
+           <div class="container mt-14">
+            <div class="row d-flex">
+              <div class="col-md-12">
+                
+                {%if comments%}
+                <div class="headings d-flex justify-content-between align-items-center mb-3">
+                  <h6>Comments</h6>
+                </div>
+                {%endif%}
+                
+                  {% for comment in comments %}
+                    {% if comment.material_id_id == files.id %}
+                  
+                <div class="card p-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+
+                      <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2"> 
+                      <span>
+                        <small class="font-weight-bold text-success" >{{comment.username}}</small> 
+                        
+                      </span>
+                    </div>
+                    <small style="font-size: x-small;">{{comment.created_at}}</small>
+                  </div>
+                  <small class="font-weight" style="padding-left: 3.5%;">{{comment.text}}</small>
+                </div>
+                {% endif %}
+                {% endfor %}
+              
             </div>
           </div>
-        </div><br>
-         {% video files.video 'small' %} <br>
-
-         <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
-           <i class="material-icons">
-             file_open
-           </i>
-         </a>
-         <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-success">
-           
-           <i class="material-icons">
-             file_download
-           </i>
-           
-         </a>
-
-        
-       </div>
+    </div>
+    </div>
+      </div>
      </div>
-   
- </div>
-   {% endfor %}
-   {% endif %}
-
+     </div>
+     
+    {% endfor %}
+    {% endif %}
     
   <script type="text/javascript">
     $('.slider').slick({
@@ -181,6 +238,7 @@
     });
 
   </script>
+
   
 </body>
 

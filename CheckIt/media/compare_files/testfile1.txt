@@ -1,1 +1,0 @@
-Before diving into the example, let’s understand a bit more about the above two important functions which will surely help us in understanding the concepts flawlessly. I have tried to explain only the important part in a trouble-free way. For the complete python code, the reader is advised to visit the official site.

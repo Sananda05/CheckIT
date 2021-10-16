@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>CheckIt | Home</title>
+  <title>CheckIt? | Home</title>
   {% load static %}
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/mdi/css/materialdesignicons.min.css' %}">
@@ -25,34 +25,115 @@
   <div class="body-wrapper">
     <!-- partial:partials/_sidebar.html -->    
     <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open" style="background-color: #3e276d;">
-      <div class="mdc-drawer__header" >
-        <a href="/" style="text-decoration:None;" class="brand-logo">
+      <div class="mdc-drawer__header">
+        <a href="/" class="brand-logo" style = "text-decoration: None;">
           <h1 style = "color: white;" >CheckIt?</h1>
         </a>
       </div>
       <div class="mdc-drawer__content">
-        <div class="user-info">
-          <p class="name">{{ username }}</p>
-          <p class="email">{{ email }}</p>
-        </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/Course/{{ coursename }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                {{ coursename }}
+              <a class="mdc-drawer-link" href="/{{ user.username }}">
+              {% if picture != no_picture %}
+                <img src="{{ picture }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+              {% else %}
+                {% if userPictures.picture == '' %}
+                  <img src="{% static 'Assets/user.png' %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% else %}
+                  <img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% endif %}
+              {% endif %}
+                <span>
+                  &nbsp &nbsp{{user.username}}
+                </span>
+              </a>
+            </div>
+            
+            <br>
+            <div class="user-info">
+              <p class="email">{{ exams | length }} exams added</p>
+            </div>
+
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu-1">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
+                Courses
+                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
+              </a>
+            
+            <div class="mdc-expansion-panel" id="ui-sub-menu-1">
+                <nav class="mdc-list mdc-drawer-submenu">
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/home">
+                      Back to Courses
+                    </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/home/{{ coursename }}">
+                      {{ coursename }}
+                    </a>
+                  </div>
+                </nav>
+              </div>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home-classroom">
+                <img src="{% static "Assets/gc-2.png" %}" style="border-radius: 50%; length: 25px; height: 25px;" data-toggle="tooltip" title="Classroom Courses" alt="user" class="user">
+                &nbsp Classroom Courses
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/home">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-                Go Back
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  file_upload
+                  </span></i>
+               Materials
               </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  track_changes
+                  </span></i>
+               Compare PDF
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/comparison/history">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">description</i>
+                Comparison history
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  loop
+                  </span></i>
+                Convert PDF
+                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
+              </a>
+              <div class="mdc-expansion-panel" id="ui-sub-menu">
+                <nav class="mdc-list mdc-drawer-submenu">
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/conversion/handwrittenfiles">
+                      Handwritten PDF
+                    </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/conversion/pdffiles">
+                      Typed PDF
+                    </a>
+                  </div>
+                </nav>
+              </div>
             </div>
           </nav>
         </div>
         <div class="profile-actions">
-          <a href="/logout">Logout</a>
+          <a style = "text-decoration: None;" href="/home">Home</a>
+          <span class="divider"></span>
+          <a style = "text-decoration: None;" href="/logout">Logout</a>
         </div>
       </div>
     </aside>
@@ -64,10 +145,26 @@
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
             <span class="mdc-top-app-bar__title">{{ coursename }}</span>
-            
           </div>
+          <div class="divider d-none d-md-block"></div>
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
             <div class="menu-button-container menu-profile d-none d-md-block">
+              <button class="mdc-button mdc-menu-button">
+                <span class="d-flex align-items-center">
+                  <span class="figure">
+                  {% if picture != no_picture %}
+                    <img src="{{ picture }}" alt="user" class="user">
+                  {% else %}
+                    {% if userPictures.picture == '' %}
+                      <img src="{% static 'Assets/user.png' %}" alt="user" class="user">
+                    {% else %}
+                      <img src="{{ userPictures.picture.url }}" alt="user" class="user">
+                    {% endif %}
+                  {% endif %}
+                  </span>
+                  <span class="user-name">{{user.username}}</span>
+                </span>
+              </button>
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
                   <li class="mdc-list-item" role="menuitem">
@@ -75,7 +172,7 @@
                       <i class="mdi mdi-account-edit-outline text-primary"></i>
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Edit profile</h6>
+                      <a href="/EditProfile" style="text-decoration: None; color: Black;"><h6 class="item-subject font-weight-normal">Edit profile</h6></a>
                     </div>
                   </li>
                   <li class="mdc-list-item" role="menuitem">
@@ -83,7 +180,7 @@
                       <i class="mdi mdi-settings-outline text-primary"></i>                      
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Logout</h6>
+                      <a style = "text-decoration: None; color: Black;" href="/logout"><h6 class="item-subject font-weight-normal">Logout</h6></a>
                     </div>
                   </li>
                 </ul>
@@ -91,28 +188,28 @@
             </div>
             <div class="divider d-none d-md-block"></div>
             <div class="menu-button-container d-none d-md-block">
-              <a class="mdc-button mdc-menu-button" href = "/addCourse">
+              <button class="mdc-button mdc-menu-button" data-bs-toggle="modal" data-bs-target="#newFolder">
                 <i class="mdi mdi-plus"></i>
-              </a>
+              </button>
             </div>
-            
           </div>
         </div>
       </header>
+        {% block HomeContent %}
+        {% endblock %}
+      
       <!-- partial -->
-      {% block HomeContent %}{% endblock %}
-
       <!-- partial:partials/_footer.html -->
-        <footer>
+        <footer style="padding-left: 0px; background-color: #E9EAEF">
           <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright © <a href="/" target="_blank">Team CheckIt</a> 2021</span>
+                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a style="text-decoration: None;" href="/" target="_blank">Team CheckIt?</a> 2021</span>
               </div>
             </div>
           </div>
         </footer>
-        <!-- partial -->
+      <!-- partial -->
     </div>
   </div>
   <!-- plugins:js -->

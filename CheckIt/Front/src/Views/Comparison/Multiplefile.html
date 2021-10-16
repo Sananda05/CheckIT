@@ -68,17 +68,33 @@
           {%endfor%}
 
           <h3 style = " color:rgb(32, 94, 32);"> Other Files</h3>
-          <h4>{{total}} files uploaded</h4>
+
+          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet" style="width: 250px;">
+            <div class="mdc-card info-card info-card--success">
+              <div class="card-inner">
+              
+                <h4>{{total}} files uploaded</h4>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom"> 
+                </h5>
+                <p class="tx-12 text-muted"></p>
+               
+                <div class="card-icon-wrapper">
+                  <i class="material-icons">dvr</i>
+                </div>
+              </div>
+            </div>
+          </div><br>
+
           {%if state == "disable"%}
           <a href="result/reset" style="visibility:visible">
-            <button  type="button" id="btn-convert" style="width: 150px; background-color:rgb(191, 194, 193)" class="btn btn-success">Reset</button></a>
+            <button  type="button" id="btn-convert" style="width: 150px; margin-top: 10px; background-color:rgb(191, 194, 193); border-color:rgb(191, 194, 193); color:rgb(7, 126, 57)" class="btn btn-success"><b>Reset</b></button></a>
          
           {%else%}
           <a href="multiple/result" style="visibility:visible">
             <button type="button"  id="btn-convert" style="width: 150px; background-color:rgb(4, 163, 102)" class="btn btn-success">Compare</button></a>
           {%endif%}
           {%else%}
-          <div class="mdc-card" style="position:absolute; border-color:blue; margin:auto; left: 500px; top: 250px;" >
+          <div class="mdc-card" style="position:absolute; border-color:blue; margin:auto; left: 550px; top: 250px;" >
           <div class="text-center" style=" height: 200px; width: 400px;">
             <i class=" material-icons" style="color: rgb(14, 138, 90);">cloud_upload</i>
             <h3 style="color: rgb(89, 15, 112);text-align:center">Upload Some File</h3>
@@ -88,21 +104,21 @@
         </div>
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-7-desktop">
             {%if file%}
-            <div class="mdc-card p-0">
+            <div class="mdc-card p-0 ">
                
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-success table-striped table-hover">
                     <thead>
                         <tr>
-                        <th class="text-left" style="color: rgb(24, 122, 54);"><h5>Other Files</h5></th>
-                        <th class="text-left" style="color: rgb(170, 58, 50);"><h5>Matching(%)</h5></th>
+                        <th class="text-left" style="color: rgb(24, 122, 54);"><h4>Other Files</h4></th>
+                        <th class="text-left" style="color: rgb(170, 58, 50);"><h4>Matching(%)</h4></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                         {%for res in result%}   
                         <td class="text-left">{{res.pdf2}}</td>
-                        <td class="text-left">{{res.rate}}</td>
+                        <td class="text-left" style="color: brown;">{{res.rate}}%</td>
                         </tr>
                         {%endfor%}  
                     </tbody>
@@ -129,24 +145,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <h4 class="modal-title" style="color: rgb(4, 120, 165);">*supported file type : txt</h4><br>
             <h6 style="color: rgb(40, 77, 199);">First file</h6>
-            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-              <div class="mdc-text-field mdc-text-field--outlined">
+            
                 <div class="input-group">
                 <input type="file" class="form-control" id="file1" name="file1">
                 </div>
-              </div>
-            </div>
+      
             <br>
             <h6 style="color: rgb(40, 77, 199);">Other files</h6>
-            <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
-                <div class="mdc-text-field mdc-text-field--outlined">
+           
                 
                 <div class="input-group">
                 <input type="file" multiple name ="other_file"  class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                 </div>
-                </div>
-              </div>
+                
               
             </div>
             <br>

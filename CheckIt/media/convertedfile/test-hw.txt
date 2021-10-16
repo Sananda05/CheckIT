@@ -1,14 +1,66 @@
-ocR- optical chanocten recognition, 44 the |
-eleenonia of mechanical convension of imagen
-of Typed , handwnilten on printed +ext into
-machine encoded-+text, whether from a scanned
-doaument, a photo of o doaument, a Sseenephoto on trom subtitle text super imposed on.
-| on Wma fe
-We ane unig +s I1 oun pnoyeh +o QGonvent
-the handwoniften Sidon into text fider. 30, thak
-the teathens Car easily chee the plagiarism
-We implemented Hus using Tesseract » on Open
-4ounag OCR engine -to extract the text from.
-| the onswere senipta,
-We hope. 4p) work properly, Ameen.
-
+OCR - optical chanacter recognition
+. It's the
+electronic on mechanical
+mechanical conversion of images
+of typed, handwritten on prointed text into
+machine encoded. text, whether from a scanned
+document, a photo of a document, a scene-
+photo on from subtitie text supera imposed on
+image.
+this in ouro
+using
+project to convert
+the handwritten files into text files. So, that
+the teachers can easily check the plagianis
+an
+We are usin
+Tesseract, an open
+we implemented this us
+using
+Source OCR engine to extract the text from
+the answera scripts,
+We hope still work properly. Ameen.
+OCR - optical chanacter recognition
+. It's the
+electronic on mechanical
+mechanical conversion of images
+of typed, handwritten on prointed text into
+machine encoded. text, whether from a scanned
+document, a photo of a document, a scene-
+photo on from subtitie text supera imposed on
+image.
+this in ouro
+using
+project to convert
+the handwritten files into text files. So, that
+the teachers can easily check the plagianis
+an
+We are usin
+Tesseract, an open
+we implemented this us
+using
+Source OCR engine to extract the text from
+the answera scripts,
+We hope still work properly. Ameen.
+OCR - optical chanacter recognition
+. It's the
+electronic on mechanical
+mechanical conversion of images
+of typed, handwritten on prointed text into
+machine encoded. text, whether from a scanned
+document, a photo of a document, a scene-
+photo on from subtitie text supera imposed on
+image.
+this in ouro
+using
+project to convert
+the handwritten files into text files. So, that
+the teachers can easily check the plagianis
+an
+We are usin
+Tesseract, an open
+we implemented this us
+using
+Source OCR engine to extract the text from
+the answera scripts,
+We hope still work properly. Ameen.

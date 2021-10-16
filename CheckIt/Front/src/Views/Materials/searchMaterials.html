@@ -5,21 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CheckIt? | Materials</title>
+    <title>CheckIt?</title>
 
     {% load static %}
+    <link rel="stylesheet" href="css/bootstrap.css">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <link href="{% static 'Static/assets/img/title-logo.png' %}" rel="icon">
     <link href="{% static 'Static/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+
+    
   
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  
+     <!--material icon-->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
     <!-- Vendor CSS Files -->
-    <link href="{% static 'Static/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+   <link href="{% static 'Static/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'Static/assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
     <link href="{% static 'Static/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
     <link href="{% static 'Static/assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
@@ -28,18 +35,21 @@
   
     <!-- Template Main CSS File -->
     <link href="{% static 'Static/assets/css/style.css' %}" rel="stylesheet">
-    
-    <!--material icon-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
-  
 
+    <!-- slick caraousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="/Front/src/Static/slick/style.css"> 
   
 
 
 </head>
 <body style="background-color:rgb(245, 245, 245);">
-  <header id="header" class="fixed-top" style="background-color: rgb(250, 250, 250);">
+  <header id="header" class="fixed-top" style="background-color: rgb(250, 250, 250); height: 80px;">
+    <div class="shadow-sm p-3 mb-5 bg-body rounded" style="border-color: rgb(243, 173, 173);">
+    
       <div class="container d-flex">
   
         <div class="logo mr-auto" >
@@ -63,14 +73,14 @@
   
           </ul>
         </nav><!-- .nav-menu -->
-        
         <form class="d-flex" method="GET" action="{% url 'searchMaterials' %}">
           {% csrf_token %}
           <input class="form-control me-2" type="search" placeholder="Search Materials" aria-label="Search" name="query" id="query"><button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>
   
       </div>
-  </header>
+    </div>
+    </header>
       <div class="container-xxl" style="margin-top: 10rem;">
         {% if AllMaterials|length < 1 %}
        <h1>Search Results:</h1>
@@ -97,7 +107,7 @@
           <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
           <p style="font-weight: 500;">{{files.uni_name}}</p>
           <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
-          <p>Uploaded by {{files.username}}</p>
+          
           {% video files.video 'small' %} <br>
   
           <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
@@ -111,15 +121,79 @@
               file_download
             </i>
             
-          </a>
-  
+          </a>       
+        </a>
+        </br>
+        <div>
+             <!--comment-->
+    </br>
+    <div class="container mt-14">
+     <div class="row d-flex">
+       <div class="col-md-12">
+         <div class="headings d-flex justify-content-between align-items-center mb-3">
+           <h5>Comments</h5>
+         </div>
          
+           {% for comment in comments %}
+             {% if comment.material_id_id == files.id %}
+         <div class="card p-3">
+           <div class="d-flex justify-content-between align-items-center">
+             <div class="user d-flex flex-row align-items-center">
+             {% if comment.user_picture == "" %}
+               <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
+             {% else %}
+             {% if comment.googleAcc == 'False' %}
+               <img src="{{comment.user_picture.url}}" width="30" class="user-img rounded-circle mr-2">
+             {% else %}
+               <img src="{{comment.user_picture}}" width="30" class="user-img rounded-circle mr-2">
+             {% endif %}
+             {% endif %}  
+               <span>
+                 <small class="font-weight-bold text-warning" >{{comment.username}}</small> 
+                 
+               </span>
+             </div>
+             <small style="font-size: x-small;">{{comment.created_at}}</small>
+           </div>
+           <small class="font-weight" style="padding-left: 3.5%;">{{comment.text}}</small>
+         </div>
+         {% endif %}
+         {% endfor %}
+         
+         <div class="card p-3">
+           <div class="d-flex justify-content-between align-items-center">
+             <div class="user d-flex flex-row align-items-center">
+             {% if picture != no_picture %}
+               <img src="{{ picture }}" width="30" class="user-img rounded-circle mr-2">
+             {% else %}
+               {% if userPictures.picture == '' %}
+                 <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
+               {% else %}
+                 <img src="{{ userPictures.picture.url }}" width="30" class="user-img rounded-circle mr-2">
+               {% endif %}
+             {% endif %}
+               <span>
+                 <small class="font-weight text-secondary">Write your Comment.</small> 
+               </span>
+             </div>
+             <a href="/addComment/{{files.id}}/" class="mdc-button mdc-button--raised icon-button">
+               <i class="material-icons mdc-button__icon">add</i>
+             </a>
+           </div>
+         </div>
+         
+       </div>
+     </div>
+</div>
+    
         </div>
       </div>
     
   </div>
+</div>
    
    {% endfor %}
+    
    
     <!-- Pagination -->
     <nav class="my-3 container">
@@ -141,7 +215,7 @@
     </nav>
 
     
-    </div>
+  
   
 
 </body>

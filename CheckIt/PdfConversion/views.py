@@ -1,12 +1,16 @@
+from django.conf import settings
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from tensorflow.python.ops.gen_logging_ops import Print
 from django.http import HttpResponse, response
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.mail import EmailMessage
+import CheckIt.settings as set
 
 import mimetypes
 
+from Exams.models import ExamScripts
 from .models import pdfFiles,ConvertedPdfFile,HandWrittenFiles,ConvertedHandwrittenFile
 
 from pdf2image import convert_from_path
@@ -14,6 +18,10 @@ from PIL import Image
 import pytesseract
 import cv2
 import sys
+
+from FrontEnd.models import UserPictures, UserDetails
+from django.contrib.auth.models import User
+from allauth.socialaccount.models import SocialAccount
 
 # define path of tesseract
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -55,8 +63,21 @@ def Handwrittenfiles(request):
                 print(files)
 
                 converted_files = ConvertedHandwrittenFile.objects.filter(owner_id_id = users.id)
+
+                userPictures = UserPictures.objects.get( user = users.id )
+                userDetails = UserDetails.objects.get( user_id = users.id )
+                socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+                picture = "not available"
+                no_picture = "not available"
+                googleAcc = False
+
+                if len(socialaccount_obj):
+                        picture = socialaccount_obj[0].extra_data['picture']
+                        googleAcc = True
+
                 
-                return render(request, 'src/Views/Conversion/HandwrittenFiles.html' , {'files':files, 'converted': converted_files})
+                return render(request, 'src/Views/Conversion/HandwrittenFiles.html' , {'files':files, 'converted': converted_files,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
  else:
      return redirect("/login")
 
@@ -134,6 +155,73 @@ def ConvertHandwrittenPdf(request,pdf):
           
        return redirect('/conversion/handwrittenfiles')
 
+def ConvertFiles(request, pdf):
+    users = User.objects.get(username = request.user)
+    
+    print("........")
+    print(pdf)
+    
+    pdffile = "media/"+str(pdf)
+    print(pdffile)
+
+    file_name, extension = os.path.splitext(str(pdf))
+    print(file_name)
+
+    folder, filename = os.path.split(file_name)
+    print(filename)
+
+    pages = convert_from_path(pdffile, 500)
+    image_counter = 1
+
+    for page in pages:
+        page_name = "page_"+str(filename)+str(image_counter)+".png"
+        page.save(page_name, 'PNG')
+        image_counter = image_counter + 1
+
+    filelimit = image_counter-1
+    
+    outfile = filename+".txt"
+    f = open(outfile, "a", encoding="utf-8")
+
+    for i in range(1, filelimit + 1):
+        
+        file = "page_"+str(filename)+str(i)+".png"
+
+        with io.open(file, 'rb') as image_file:
+            content = image_file.read()
+        image = vision.Image(content=content)
+
+        response = client.document_text_detection(image=image)
+        docText = response.full_text_annotation.text
+        
+        print(docText)
+
+        f.write(docText) 
+
+
+        #    recog = getPdf(filename,users)
+        #    print(recog)
+        
+        #    f.write(recog)
+           
+
+    f.close()
+
+    for i in range(1, filelimit + 1):
+            fileName = "page_"+str(filename)+str(i)+".png"
+            original = 'C:/Users/ASUS/Desktop/DP/CheckIT/CheckIt/'+ fileName
+            target = r'C:\Users\ASUS\Desktop\DP\CheckIT\CheckIt\media\convertedImg'
+            shutil.move(original,target)
+
+    original = 'C:/Users/ASUS/Desktop/DP/CheckIT/CheckIt/'+ outfile
+    target = r'C:\Users\ASUS\Desktop\DP\CheckIT\CheckIt\media\convertedfile'
+    shutil.move(original,target)
+
+    ConvertedHandwrittenFile.objects.create(textfile=outfile,owner_id_id=users.id)
+
+    return redirect('/conversion/handwrittenfiles')
+
+
 
 
 def DeleteWrittenConvertedFile(request,id):
@@ -161,6 +249,22 @@ def Pdffiles(request):
                 print(pdf)
                 for file in pdf:
                     pdfFiles.objects.create( pdf=file,owner_id_id = users.id)
+
+                    # #send mail
+
+                    # subject = "CheckIt? Comment Notification"
+
+                    # message= "Someone commented on your uploaded material."
+                    # to = users.email
+                    # email = EmailMessage(
+                    #     subject,
+                    #     message,
+                    #     set.EMAIL_HOST_USER,
+                    #     [to],
+                    # )
+                    # email.send()
+
+
                 return redirect('/conversion/pdffiles')       
                 
                 
@@ -169,8 +273,21 @@ def Pdffiles(request):
                     print(files)
 
                     converted_files = ConvertedPdfFile.objects.filter(owner_id_id = users.id)
+
+                    userPictures = UserPictures.objects.get( user = users.id )
+                    userDetails = UserDetails.objects.get( user_id = users.id )
+                    socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+                    picture = "not available"
+                    no_picture = "not available"
+                    googleAcc = False
+
+                    if len(socialaccount_obj):
+                            picture = socialaccount_obj[0].extra_data['picture']
+                            googleAcc = True
+
                     
-                    return render(request, 'src/Views/Conversion/PdfFiles.html' , {'files':files, 'converted': converted_files})
+                    return render(request, 'src/Views/Conversion/PdfFiles.html' , {'files':files, 'converted': converted_files,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:
         return redirect("/login")
 
@@ -184,7 +301,19 @@ def ConvertPdf(request,pdf):
        if extension == ".txt":
             print("it's already a Text File!")
             mssg = "It's already a Text File!"
-            return render(request, 'src/Views/Conversion/PdfFiles.html' , {'mssg':mssg})
+
+            userPictures = UserPictures.objects.get( user = users.id )
+            userDetails = UserDetails.objects.get( user_id = users.id )
+            socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+            picture = "not available"
+            no_picture = "not available"
+            googleAcc = False
+
+            if len(socialaccount_obj):
+                    picture = socialaccount_obj[0].extra_data['picture']
+                    googleAcc = True
+            return render(request, 'src/Views/Conversion/PdfFiles.html' , {'mssg':mssg,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
             
        else :
             print("------pdf------")

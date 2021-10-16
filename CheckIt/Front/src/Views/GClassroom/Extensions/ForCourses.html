@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CheckIt? | Classroom</title>
+  {% load static %}
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/css/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/vendors/jvectormap/jquery-jvectormap.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="{% static 'Static/Dashboard-Assets/css/demo/style.css' %}">
+  <!-- End layout styles -->
+  <link href="{% static 'Static/assets/img/title-logo.png' %}" rel="icon">
+  <link href="{% static 'Static/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+</head>
+<body>
+<script src="{% static 'Static/Dashboard-Assets/js/preloader.js' %}"></script>
+  <div class="body-wrapper">
+    <!-- partial:partials/_sidebar.html -->    
+    <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open"style="background-color: #3e276d;" >
+      <div class="mdc-drawer__header">
+        <a href="/" class="brand-logo" style = "text-decoration: None;">
+          <h1 style = "color: white;" >CheckIt?</h1>
+        </a>
+      </div>
+      <div class="mdc-drawer__content">
+        <div class="mdc-list-group">
+          <nav class="mdc-list mdc-drawer-menu">
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/{{ user.username }}">
+              {% if picture != no_picture %}
+                <img src="{{ picture }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+              {% else %}
+                {% if userPictures.picture == '' %}
+                  <img src="{% static "Assets/user.png" %}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% else %}
+                  <img src="{{ userPictures.picture.url }}" alt="user" class="user" style="border-radius: 50%; width: 35px; height: 35px;">
+                {% endif %}
+              {% endif %}
+                <span>
+                  &nbsp &nbsp{{user.username}}
+                </span>
+              </a>
+            </div>
+            
+            <br>
+            
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home-classroom">
+                <img src="{% static "Assets/gc-2.png" %}" style="border-radius: 50%; length: 25px; height: 25px;" data-toggle="tooltip" title="Classroom Courses" alt="user" class="user">
+                &nbsp Classroom Courses
+              </a>
+            </div>
+
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
+                Courses
+              </a>
+            </div>
+            
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  file_upload
+                  </span></i>
+               Materials
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/Materials">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  track_changes
+                  </span></i>
+               Compare PDF
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/comparison/history">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">description</i>
+                Comparison history
+              </a>
+            </div>
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
+                  loop
+                  </span></i>
+                Convert PDF
+                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
+              </a>
+              <div class="mdc-expansion-panel" id="ui-sub-menu">
+                <nav class="mdc-list mdc-drawer-submenu">
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/conversion/handwrittenfiles">
+                      Handwritten PDF
+                    </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/conversion/pdffiles">
+                      Typed PDF
+                    </a>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </nav>
+        </div>
+        
+        <div class="profile-actions">
+          <a style = "text-decoration: None;" href="/home">Home</a>
+          <span class="divider"></span>
+          <a style = "text-decoration: None;" href="/logout">Logout</a>
+        </div>
+      </div>
+    </aside>
+    <!-- partial -->
+    <div class="main-wrapper mdc-drawer-app-content">
+      <!-- partial:partials/_navbar.html -->
+      <header class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+          <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+            <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
+            <span class="mdc-top-app-bar__title">{{ user.username }}'s Google Classroom</span>
+          </div>
+          <div class="divider d-none d-md-block"></div>
+            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
+            <div class="menu-button-container menu-profile d-none d-md-block">
+              <button class="mdc-button mdc-menu-button">
+                <span class="d-flex align-items-center">
+                  <span class="figure">
+                  {% if picture != no_picture %}
+                    <img src="{{ picture }}" alt="user" class="user">
+                  {% else %}
+                    {% if userPictures.picture == '' %}
+                      <img src="{% static 'Assets/user.png' %}" alt="user" class="user">
+                    {% else %}
+                      <img src="{{ userPictures.picture.url }}" alt="user" class="user">
+                    {% endif %}
+                  {% endif %}
+                  </span>
+                  <span class="user-name">{{user.username}}</span>
+                </span>
+              </button>
+              <div class="mdc-menu mdc-menu-surface" tabindex="-1">
+                <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
+                  <li class="mdc-list-item" role="menuitem">
+                    <div class="item-thumbnail item-thumbnail-icon-only">
+                      <i class="mdi mdi-account-edit-outline text-primary"></i>
+                    </div>
+                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
+                      <a href="/EditProfile" style="text-decoration: None; color: Black;"><h6 class="item-subject font-weight-normal">Edit profile</h6></a>
+                    </div>
+                  </li>
+                  <li class="mdc-list-item" role="menuitem">
+                    <div class="item-thumbnail item-thumbnail-icon-only">
+                      <i class="mdi mdi-settings-outline text-primary"></i>                      
+                    </div>
+                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
+                      <a style = "text-decoration: None; color: Black;" href="/logout"><h6 class="item-subject font-weight-normal">Logout</h6></a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="divider d-none d-md-block"></div>
+            <div class="menu-button-container d-none d-md-block">
+              <a class="mdc-button mdc-menu-button" href="/home-classroom">
+                <img src="{% static "Assets/gc.png" %}" style="border-radius: 50%; length: 50px; height: 50px;" data-toggle="tooltip" title="Classroom Courses" alt="user" class="user">
+              </a>
+            </div>
+            <div class="divider d-none d-md-block"></div>
+            <div class="menu-button-container d-none d-md-block">
+              <button class="mdc-button mdc-menu-button" data-bs-toggle="modal" data-bs-target="#newFolder">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+            
+          </div>
+        </div>
+      </header>
+      <!-- partial -->
+      {% block HomeContent %}{% endblock %}
+
+      <!-- partial:partials/_footer.html -->
+        <footer style=" padding-left: 0px;">
+          <div class="mdc-layout-grid">
+            <div class="mdc-layout-grid__inner">
+              <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a href="/" style="text-decoration: None;" target="_blank">Team CheckIt</a> 2021</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+        <!-- partial -->
+    </div>
+  </div>
+  <!-- plugins:js -->
+  <script src="{% static 'Static/Dashboard-Assets/vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="{% static 'Static/Dashboard-Assets/vendors/chartjs/Chart.min.js' %}"></script>
+  <script src="{% static 'Static/Dashboard-Assets/vendors/jvectormap/jquery-jvectormap.min.js' %}"></script>
+  <script src="{% static 'Static/Dashboard-Assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+  <!-- End plugin js for tStatic/his page-->
+  <!-- inject:js -->
+  <script src="{% static 'Static/Dashboard-Assets/js/material.js' %}"></script>
+  <script src="{% static 'Static/Dashboard-Assets/js/misc.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this Static/page-->
+  <script src="{% static 'Static/Dashboard-Assets/js/dashboard.js' %}"></script>
+  <!-- End custom js for this page-->
+</body>
+</html> 

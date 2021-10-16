@@ -6,6 +6,10 @@ from difflib import SequenceMatcher
 from .models import uploaded_pdfFile,history, uploaded_multipleFile,uploaded_multipleFile1,multiple_history
 from OCR_model.views import getText
 
+from FrontEnd.models import UserPictures, UserDetails
+from django.contrib.auth.models import User
+from allauth.socialaccount.models import SocialAccount 
+
 
 from pdf2image import convert_from_path
 from PIL import Image
@@ -60,12 +64,23 @@ def Multiplefiles(request):
             return redirect("/compare/multiplefiles")
 
         elif request.method == "GET":
+            userPictures = UserPictures.objects.get( user = users.id )
+            userDetails = UserDetails.objects.get( user_id = users.id )
+            socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+            picture = "not available"
+            no_picture = "not available"
+            googleAcc = False
+
+            if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True
             file = uploaded_multipleFile1.objects.filter(owner_id_id = users.id,is_compared=False)
             files = uploaded_multipleFile.objects.filter(owner_id_id = users.id,is_compared=False)
             totalfile = len(files)
             print(totalfile)
                     
-            return render(request, 'src/Views/Comparison/Multiplefile.html' , {'file':file, 'files':files,'total':totalfile})
+            return render(request, 'src/Views/Comparison/Multiplefile.html' , {'file':file, 'files':files,'total':totalfile,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
 
 
     else:
@@ -92,9 +107,20 @@ def Twofiles(request):
                 
                 
         elif request.method == "GET":
+                    userPictures = UserPictures.objects.get( user = users.id )
+                    userDetails = UserDetails.objects.get( user_id = users.id )
+                    socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+                    picture = "not available"
+                    no_picture = "not available"
+                    googleAcc = False
+
+                    if len(socialaccount_obj):
+                        picture = socialaccount_obj[0].extra_data['picture']
+                        googleAcc = True
                     files = uploaded_pdfFile.objects.filter(owner_id_id = users.id,is_compared=False)
                     
-                    return render(request, 'src/Views/Comparison/PDF.html' , {'files':files})
+                    return render(request, 'src/Views/Comparison/PDF.html' , {'files':files,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:
         return redirect("/login")
 
@@ -194,7 +220,18 @@ def ComparePdf(request):
     
 
         print(rate)
-        return render(request,'src/Views/Comparison/PDF.html',{'files':files, 'rate':rate, 'state':state}) 
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True
+        return render(request,'src/Views/Comparison/PDF.html',{'files':files, 'rate':rate, 'state':state,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails}) 
 
     else:
         return redirect("/login")
@@ -271,9 +308,21 @@ def CompareMultiple(request):
 
             multiple_history.objects.filter(pdf2_id_id = i.id,owner_id_id = users.id, rate=" ").update(rate=rate)
             
-        result = multiple_history.objects.filter(owner_id_id = users.id)        
+        result = multiple_history.objects.filter(owner_id_id = users.id) 
 
-        return render(request,'src/Views/Comparison/Multiplefile.html',{'file':file1, 'files':files,'total':totalfile,'result':result,'state':state})     
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True       
+
+        return render(request,'src/Views/Comparison/Multiplefile.html',{'file':file1, 'files':files,'total':totalfile,'result':result,'state':state,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})     
 
 
 def reset(request):
@@ -300,7 +349,19 @@ def historyView(request):
         users = User.objects.get( username = request.user )
         files = history.objects.filter(owner_id_id = users.id)
 
-        return render(request,'src/Views/Comparison/History.html',{'files':files})
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True
+
+        return render(request,'src/Views/Comparison/History.html',{'files':files,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
 
 
 def deleteHistory(request,id):

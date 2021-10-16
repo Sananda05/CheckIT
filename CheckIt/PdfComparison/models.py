@@ -38,8 +38,8 @@ class history(models.Model):
 
 
 class multiple_history(models.Model):
-    pdf1= models.FileField(upload_to="compare_multiplehistory")
-    pdf2= models.FileField(upload_to="compare_multiplehistory")
+    pdf1= models.FileField(upload_to="files")
+    pdf2= models.FileField(upload_to="files")
     rate= models.CharField(max_length=200)
     pdf2_id = models.ForeignKey(uploaded_multipleFile, on_delete=CASCADE)
     owner_id = models.ForeignKey(User, on_delete=CASCADE)
