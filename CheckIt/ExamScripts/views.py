@@ -97,6 +97,21 @@ def ExamView(request, coursename, examname):
     else:
         return redirect("/login")
 
+def deleteExam(request, coursename, exam_id):
+    if request.user.is_authenticated :
+        exams = Exams.objects.get(id = exam_id)
+        examScripts = ExamScripts.objects.filter(exam_id_id = exam_id)
+        scriptDetails = ScriptDetails.objects.filter(exam_id_id = exam_id)
+
+        scriptDetails.delete()
+        examScripts.delete()
+        exams.delete()
+
+        return redirect('/home/' + coursename)
+
+    else:
+        return redirect("/login")
+
 def ScriptView(request, coursename, examname, id):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
