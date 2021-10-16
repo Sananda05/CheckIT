@@ -6,9 +6,10 @@ from django.conf import settings
 
 urlpatterns = [
     path('home/', views.HomePage, name = 'Home'),
-    path('Set-Your-Profile/', views.SetProfile, name = 'Set-Your-Profile'),
+    #path('Set-Your-Profile/', views.SetProfile, name = 'Set-Your-Profile'),
     path('logout/', views.Logout),
     path('home/<str:coursename>/', views.CourseView),
+    path('home/delete/course/<str:course_id>/', views.deleteCourse),
 ]
 
 if settings.DEBUG:

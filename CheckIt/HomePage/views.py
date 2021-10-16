@@ -5,10 +5,10 @@ from django.contrib.auth import logout
 
 from django.contrib.auth.models import User
 from allauth.socialaccount.models import SocialAccount
-from FrontEnd.models import UserPictures, UserDetails
 
 from .models import Courses, Exams
-from ExamScripts.models import ExamScripts
+from FrontEnd.models import UserPictures, UserDetails
+from ExamScripts.models import ExamScripts, ScriptDetails
 
 def HomePage(request):
     print (request.user)
@@ -108,6 +108,25 @@ def CourseView(request, coursename):
             return render(request, 'src/Views/Home/Course.html', 
             {'user' : users, 'userPictures': userPictures,  'coursename' : courses.name, 'exams' : exams, "zipped_lists" : zipped_lists,
             'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc})
+    else:
+        return redirect("/login")
+
+def deleteCourse(request, course_id):
+    if request.user.is_authenticated :
+        courses = Courses.objects.get(id = course_id)
+        exams = Exams.objects.filter(course_id_id = course_id)
+        examScripts = ExamScripts.objects.filter(course_id_id = course_id)
+
+        for examScript in examScripts:
+            scriptDetails = ScriptDetails.objects.filter(Script_id_id = examScript.id)
+            scriptDetails.delete()
+        
+        examScripts.delete()
+        exams.delete()
+        courses.delete()
+
+        return redirect('/home')
+
     else:
         return redirect("/login")
 

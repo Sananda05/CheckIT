@@ -13,6 +13,15 @@
     <div class="mdc-layout-grid__inner">
       <form action="" method="POST">
         {% csrf_token %}
+        <button data-bs-toggle="modal" style="border-radius: 50%;width: 70px;
+                height: 70px; position: absolute;
+                right:30px;
+                bottom: 100px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color:rgb(15, 180, 64);border-color:rgb(218, 218, 218); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light-warning pmd-btn-raised" data-bs-target="#newFolder"type="button">
+                <i style="font-weight: bolder; color: aliceblue; height: 24px;padding-top: 5px;" class="material-icons">add</i>
+        </button>
         <div class="modal" tabindex="-1" id="newFolder">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -75,6 +84,12 @@
                 <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ course.CourseCode }}</h5>
                     
                 <p class="tx-12 text-muted">{{ exam_counts }} Exams Added</p>
+                <a href="delete/course/{{course.id}}" class="mdc-button mdc-button--raised icon-button filled-button--warning">
+                  <i class="material-icons mdc-button__icon">delete</i>
+                </a>
+                <a class="mdc-button mdc-button--raised icon-button">
+                  <i class="material-icons mdc-button__icon">edit</i>
+                </a>
                 <div class="card-icon-wrapper">
                   <i class="material-icons">dvr</i>
                 </div>

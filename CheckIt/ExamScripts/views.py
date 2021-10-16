@@ -99,13 +99,24 @@ def ExamView(request, coursename, examname):
 
 def ScriptView(request, coursename, examname, id):
     if request.user.is_authenticated :
-        #pdf_name = 'Scripts/'+ student_id
         users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
         examScript = ExamScripts.objects.get( id = id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
         script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
 
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True
+        
         if request.method == "POST":
             Marks = request.POST['Marks']
             studentId = request.POST['studentId']
@@ -151,7 +162,8 @@ def ScriptView(request, coursename, examname, id):
         
 
             return render(request, 'src/Views/Exams/ExamScript.html', 
-                {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 
+                {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'userPictures' : userPictures,
+                'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails,
                 'script_details' : script_details, 'total_examScripts' : examScripts})
     else:
         return redirect("/login")
@@ -173,10 +185,22 @@ def ScriptView(request, coursename, examname, id):
 def Recheck(request, coursename, examname, id):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+
         courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
         exam = Exams.objects.get( exam_name = examname, owner_id_id = users.id, course_id_id = courses.id )
         examScript = ExamScripts.objects.get( id = id, exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id )
         script_details = ScriptDetails.objects.filter(Script_id_id = examScript.id)
+
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True
 
         if request.method == 'POST':
             Marks = request.POST['Marks']
@@ -198,7 +222,10 @@ def Recheck(request, coursename, examname, id):
 
         else:
             examScripts = ExamScripts.objects.filter( exam_id_id = exam.id, owner_id_id = users.id, course_id_id = courses.id, is_Checked = False )
-            return render(request, 'src/Views/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam, 'examScripts' : examScript, 'script_details' : script_details, 'total_examScripts' : examScripts})
+            
+            return render(request, 'src/Views/Exams/EditMarks.html', {'user' : users, 'courses' : courses, 'exam' : exam,
+            'userPictures' : userPictures, 'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails,
+            'examScripts' : examScript, 'script_details' : script_details, 'total_examScripts' : examScripts})
     
     else:
         return redirect("/login")

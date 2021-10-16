@@ -52,29 +52,49 @@
 
             <br>
             <div class="user-info">
-              <p class="email">{{ exam.exam_name }}</p>
-              <p class="email">{{ examScripts | length }} unchecked Scripts remaining</p>
+              <!--<p class="email">{{ exam.exam_name }}</p>-->
+              <p class="email">{{ examScripts | length }} unchecked Scripts</p>
             </div>
 
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/home">
+              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu-1">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
                 Courses
+                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
+            
+            <div class="mdc-expansion-panel" id="ui-sub-menu-1">
+                <nav class="mdc-list mdc-drawer-submenu">
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/home">
+                      Back to Courses
+                    </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/home/{{ courses.name }}">
+                      {{ courses.name }}
+                    </a>
+                  </div>
+                  <div class="mdc-list-item mdc-drawer-item">
+                    <a class="mdc-drawer-link" href="/home/{{ courses.name }}/{{ exam.exam_name }}">
+                      {{ exam.exam_name }}
+                    </a>
+                  </div>
+                </nav>
+              </div>
             </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/home/{{ courses.name }}">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                {{ courses.name }}
-              </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
+            <!--<div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home/{{ courses.name }}/{{ exam.exam_name }}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
                 {{ exam.exam_name }}
               </a>
+            </div>-->
+            <div class="mdc-list-item mdc-drawer-item">
+              <a class="mdc-drawer-link" href="/home-classroom">
+                <img src="{% static "Assets/gc-2.png" %}" style="border-radius: 50%; length: 25px; height: 25px;" data-toggle="tooltip" title="Classroom Courses" alt="user" class="user">
+                &nbsp Classroom Courses
+              </a>
             </div>
-            
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/Materials">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
@@ -137,7 +157,7 @@
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">{{ exam.exam_name }}</span>
+            <span class="mdc-top-app-bar__title">{{ courses.name }} | {{ exam.exam_name }}</span>
           </div>
           <div class="divider d-none d-md-block"></div>
             <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">

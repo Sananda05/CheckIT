@@ -8,11 +8,19 @@ from django.conf.urls.static import static
 from django.views.static import serve
 
 urlpatterns = [
-    path('Materials', views.AddMaterials),
+    path('Materials', views.Course, name = 'Course'),
+    path('Materials/<str:course_name>/<str:course_id>', views.AddMaterials),
+    path('Materials/<str:course_name>/<str:course_id>/deleteMaterial/<int:id>/',views.deleteMaterial),
+    
     path('uploadMaterial', views.AllMaterials),
-    url(r'^download/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT}),
-    path('searchMaterials', views.searchMaterials,name='searchMaterials'),
+    path('uploadMaterial/<str:course_name>/', views.courseMaterial, name='courseMaterial'),
+    path('uploadMaterial/<str:course_name>/uploadMaterial/addComment/<int:id>/', views.courseMaterialComment),
 
+    path('addComment/<int:id>/', views.addComment, name='addComment'),
+    url(r'^download/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT}),
+    
+    path('searchMaterials', views.searchMaterials,name='searchMaterials'),
+    path('searchMaterials/<int:id>/', views.searchMaterialComment),
 ]
 
 if settings.DEBUG:

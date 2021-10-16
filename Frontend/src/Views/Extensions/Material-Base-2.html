@@ -31,9 +31,6 @@
         </a>
       </div>
       <div class="mdc-drawer__content">
-        <div class="user-info">
-          
-        </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
             <div class="mdc-list-item mdc-drawer-item">
@@ -52,7 +49,11 @@
                 </span>
               </a>
             </div>
+            
             <br>
+            <div class="user-info">
+              <p class="email">{{ courses | length }} course materials are added</p>
+            </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/home">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
@@ -67,14 +68,12 @@
             </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" href="/Materials">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
-                  file_upload
-                  </span></i>
+                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">file_upload</i>
                Materials
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="/Materials">
+              <a class="mdc-drawer-link" href="#">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"><span>
                   track_changes
                   </span></i>
@@ -110,91 +109,6 @@
                 </nav>
               </div>
             </div>
-            <!--<div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-                UI Features
-                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
-              </a>
-              <div class="mdc-expansion-panel" id="ui-sub-menu">
-                <nav class="mdc-list mdc-drawer-submenu">
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/ui-features/buttons.html">
-                      Buttons
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/ui-features/typography.html">
-                      Typography
-                    </a>
-                  </div>
-                </nav>
-              </div>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="pages/tables/basic-tables.html">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">grid_on</i>
-                Tables
-              </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="pages/charts/chartjs.html">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pie_chart_outlined</i>
-                Charts
-              </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="sample-page-submenu">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
-                Sample Pages
-                <i class="mdc-drawer-arrow material-icons">chevron_right</i>
-              </a>
-              <div class="mdc-expansion-panel" id="sample-page-submenu">
-                <nav class="mdc-list mdc-drawer-submenu">
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/blank-page.html">
-                      Blank Page
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/403.html">
-                      403
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/404.html">
-                      404
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/500.html">
-                      500
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/505.html">
-                      505
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/login.html">
-                      Login
-                    </a>
-                  </div>
-                  <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/register.html">
-                      Register
-                    </a>
-                  </div>
-                </nav>
-              </div>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link" href="https://www.bootstrapdash.com/demo/material-admin-free/jquery/documentation/documentation.html" target="_blank">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">description</i>
-                Documentation
-              </a>
-            </div>-->
           </nav>
         </div>
         
@@ -206,15 +120,31 @@
     <!-- partial -->
     <div class="main-wrapper mdc-drawer-app-content">
       <!-- partial:partials/_navbar.html -->
-      <header class="mdc-top-app-bar">
+      <header class="mdc-top-app-bar" >
         <div class="mdc-top-app-bar__row">
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button sidebar-toggler">menu</button>
-            <span class="mdc-top-app-bar__title">{{ user.username }}</span>
-            
+            <span class="mdc-top-app-bar__title">{{ user.username }}'s Materials</span>
           </div>
+          <div class="divider d-none d-md-block"></div>
           <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
             <div class="menu-button-container menu-profile d-none d-md-block">
+              <button class="mdc-button mdc-menu-button">
+                <span class="d-flex align-items-center">
+                  <span class="figure">
+                  {% if picture != no_picture %}
+                    <img src="{{ picture }}" alt="user" class="user">
+                  {% else %}
+                    {% if userPictures.picture == '' %}
+                      <img src="{% static 'Assets/user.png' %}" alt="user" class="user">
+                    {% else %}
+                      <img src="{{ userPictures.picture.url }}" alt="user" class="user">
+                    {% endif %}
+                  {% endif %}
+                  </span>
+                  <span class="user-name">{{user.username}}</span>
+                </span>
+              </button>
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
                   <li class="mdc-list-item" role="menuitem">
@@ -222,7 +152,7 @@
                       <i class="mdi mdi-account-edit-outline text-primary"></i>
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Edit profile</h6>
+                      <a href="/EditProfile" style="text-decoration: None; color: Black;"><h6 class="item-subject font-weight-normal">Edit profile</h6></a>
                     </div>
                   </li>
                   <li class="mdc-list-item" role="menuitem">
@@ -230,7 +160,7 @@
                       <i class="mdi mdi-settings-outline text-primary"></i>                      
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="item-subject font-weight-normal">Logout</h6>
+                      <a style = "text-decoration: None; color: Black;" href="/logout"><h6 class="item-subject font-weight-normal">Logout</h6></a>
                     </div>
                   </li>
                 </ul>
@@ -238,7 +168,9 @@
             </div>
             <div class="divider d-none d-md-block"></div>
             <div class="menu-button-container d-none d-md-block">
-              <a href="/{{ user.username }}" class="mdc-button text-button--danger">Cancel</a>
+              <button class="mdc-button mdc-menu-button" data-bs-toggle="modal" data-bs-target="#newFolder">
+                <i class="mdi mdi-plus"></i>
+              </button>
             </div>
             
           </div>
@@ -247,8 +179,8 @@
       <!-- partial -->
       {% block HomeContent %}{% endblock %}
 
-      <!-- partial:partials/_footer.html -->
-        <footer style=" padding-left: 0px;">
+      <!-- partial:partials/_footer.html 
+        <footer style="padding-left: 0px; background-color: #E9EAEF">
           <div class="mdc-layout-grid">
             <div class="mdc-layout-grid__inner">
               <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">

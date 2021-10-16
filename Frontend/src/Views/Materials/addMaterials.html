@@ -1,6 +1,7 @@
-{% extends 'src\Views\Extensions\Material-Base.html' %}
+{% extends 'src\Views\Extensions\Material-Base-2.html' %}
 {% block HomeContent%}
 {% load embed_video_tags %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,8 +14,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'Assets/Comments.css' %}">
 </head>
 <body>
+
 <script type="text/javascript">
   // The Browser API key obtained from the Google API Console.
   // Replace with your own Browser API key, or your own key.
@@ -87,11 +90,21 @@
     }
   }
 </script>
-    <div class="page-wrapper mdc-toolbar-fixed-adjust" >
+
+    <div class="page-wrapper mdc-toolbar-fixed-adjust" style="background-color: white">
         <main class="content-wrapper">
         <div class="mdc-layout-grid__inner">
         <form action="" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
+              <button data-bs-toggle="modal" style="border-radius: 50%;width: 70px;
+                height: 70px; position: absolute;
+                right:30px;
+                bottom: 100px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color:rgb(15, 180, 64);border-color:rgb(218, 218, 218); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light-warning pmd-btn-raised" data-bs-target="#newFolder"type="button">
+                <i style="font-weight: bolder; color: aliceblue; height: 24px;padding-top: 5px;" class="material-icons">add</i>
+              </button>
               <!--<button type="button" data-bs-toggle="modal" data-bs-target="#newFolder" class="btn btn-outline-info" style="margin: 30px; width:200px; background-color:#76649b; color:aliceblue; border-radius:30px; border-color:#76649b">Upload Files</button><br>-->
               <div class="modal" tabindex="-1" id="newFolder" style="margin-top: 5rem;">
                 <div class="modal-dialog">
@@ -117,13 +130,13 @@
                       </div><br>
                       <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                         <div class="mdc-text-field mdc-text-field--outlined">
-                          <input class="mdc-text-field__input" name="coursename">
+                          <input class="mdc-text-field__input" disabled="disabled" id="email" name="coursename" value= {{ courses.course_name }} style="color: Black;">
                           <div class="mdc-notched-outline">
                             <div class="mdc-notched-outline__leading"></div>
                             <div class="mdc-notched-outline__notch">
-                              <label for="exam_name" class="mdc-floating-label">
-                                Course Name 
-                              </label>    
+                              <label for="name" class="mdc-floating-label">
+                                Course Name
+                              </label>
                             </div>
                             <div class="mdc-notched-outline__trailing"></div>
                           </div>
@@ -181,20 +194,80 @@
       </script>
     {% if material %}
     {% for files in material %}
-    <div class="container-xxl">
-        <div class="shadow-sm p-3 mb-5 bg-body rounded">   
-          <h5 class="card-header" style="border-radius: 10px; color:#76649b;">Course name : {{files.course_name}}</h5>
-          <div class="card-body">
-            <h6>Topic : {{ files.description }}</h6>
-            <p>{{ files.uni_name }}</p>
-            <p>{{ files.pdf }}</p>
-            {% video files.video 'small' %} <br>
-            <a href="{{ files.pdf.url }}" download="{{files.pdf.url}}" class="btn btn-info" style="width: 100px;background-color: rgb(42, 140, 231); color:aliceblue; margin-right:20px;">Edit</a>
-            <a href="/Course/{{coursename}}" class="btn btn-outline-danger" style="width: 100px;">Delete</a>
-            
+    <div class="container-xxl" style="margin-top: 1rem;">
+      <div class="shadow-sm p-3 mb-5 bg-body rounded">   
+        <h5 class="card-header" style="border-radius: 10px; color:#76649b;">Course name : {{files.course_name}}</h5>
+        <div class="card-body">
+          <h6>Topic : {{ files.description }}</h6>
+          <p>{{ files.uni_name }}</p>
+          <p>{{ files.pdf }}</p>
+          {% video files.video 'small' %} <br>
+          <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
+            <img src="{% static "Assets/file-open.png" %}" style="border-radius: 50%; length: 25px; height: 25px;" data-toggle="tooltip" title="Classroom Courses" alt="user" class="user">
+          </a>
+          <a href="{{ files.pdf.url }}" download="{{files.pdf.url}}" class="btn btn-info" style="background-color: rgb(42, 140, 231); color:aliceblue;">
+            <img src="{% static "Assets/download.png" %}" style="border-radius: 50%; length: 25px; height: 25px;" data-toggle="tooltip" title="Classroom Courses" alt="user" class="user">
+          </a>
           </div>
         </div>
-      </div>  
+      <div>
+        <div class="container mt-12">
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+              <div class="headings d-flex justify-content-between align-items-center mb-3">
+                <h5>Comments</h5>
+              </div>
+              
+                {% for comment in comments %}
+                  {% if comment.material_id_id == files.id %}
+              <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="user d-flex flex-row align-items-center">
+                  {% if comment.user_picture == "" %}
+                    <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
+                  {% else %}
+                  {% if comment.googleAcc == 'False' %}
+                    <img src="{{comment.user_picture.url}}" width="30" class="user-img rounded-circle mr-2">
+                  {% else %}
+                    <img src="{{comment.user_picture}}" width="30" class="user-img rounded-circle mr-2">
+                  {% endif %}
+                  {% endif %}  
+                    <span>
+                      <small class="font-weight-bold text-warning">{{comment.username}}</small> 
+                      <small class="font-weight-bold">{{comment.text}}</small>
+                    </span>
+                  </div>
+                  <small>{{comment.created_at}}</small>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+              
+              <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="user d-flex flex-row align-items-center">
+                  {% if picture != no_picture %}
+                    <img src="{{ picture }}" width="30" class="user-img rounded-circle mr-2">
+                  {% else %}
+                    {% if userPictures.picture == '' %}
+                      <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
+                    {% else %}
+                      <img src="{{ userPictures.picture.url }}" width="30" class="user-img rounded-circle mr-2">
+                    {% endif %}
+                  {% endif %}
+                    <span>
+                      <small class="font-weight text-secondary">Write your Comment.</small> 
+                    </span>
+                  </div>
+                  <a href="/addComment/{{files.id}}/" class="mdc-button mdc-button--raised icon-button">
+                    <i class="material-icons mdc-button__icon">add</i>
+                  </a>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
     {% endfor %}
     {% else %}
         <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
@@ -207,6 +280,32 @@
     {% endif %}
 </main>
     </div>
+<footer style="padding-left: 0px;">
+<nav class="my-3 container">
+  <ul class="pagination justify-content-center">
+    {% if material.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{material.previous_page_number}}">Previous</a></li>
+    {% endif %}
+    {% for i in material.paginator.page_range %}
+      {% if material.number == i %}
+        <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if material.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{material.next_page_number}}">Next</a></li>
+    {% endif %}
+  </ul>
+</nav>
+<div class="mdc-layout-grid">
+  <div class="mdc-layout-grid__inner">
+    <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+      <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©<a style="text-decoration: None;" href="/" target="_blank">Team CheckIt</a> 2021</span>
+    </div>
+  </div>
+</div>
+</footer>
 </body>
 </html>
 

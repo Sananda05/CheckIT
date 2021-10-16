@@ -19,6 +19,15 @@
     <div class="mdc-layout-grid__inner">
       <form action="" method="POST">
         {% csrf_token %}
+        <button data-bs-toggle="modal" style="border-radius: 50%;width: 70px;
+                height: 70px; position: absolute;
+                right:30px;
+                bottom: 100px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color:rgb(15, 180, 64);border-color:rgb(218, 218, 218); box-shadow:6px black" class="btn pmd-btn-fab pmd-ripple-effect btn-light-warning pmd-btn-raised" data-bs-target="#newFolder"type="button">
+                <i style="font-weight: bolder; color: aliceblue; height: 24px;padding-top: 5px;" class="material-icons">add</i>
+              </button>
         <div class="modal" tabindex="-1" id="newFolder">
           <div class="modal-dialog">
             <div class="modal-content">
