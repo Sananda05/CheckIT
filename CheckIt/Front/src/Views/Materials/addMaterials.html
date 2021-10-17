@@ -52,21 +52,21 @@
 
                   <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
                     <div class="mdc-text-field mdc-text-field--outlined">
-                   <input type="text" name="university" placeholder="University name" class="mdc-text-field__input">
-                   <div class="mdc-notched-outline">
-                    <div class="mdc-notched-outline__leading"></div>
-                      <div class="mdc-notched-outline__notch">
-                        <label for="university" class="mdc-floating-label">
-                          University Name 
-                        </label>    
+                      <input class="mdc-text-field__input" name="university">
+                      <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                          <label for="exam_name" class="mdc-floating-label">
+                            University Name 
+                          </label>    
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
                       </div>
-                      <div class="mdc-notched-outline__trailing"></div>
                     </div>
                   </div>
-                </div>
               <br>
 
-                  <textarea name = "description" type="text" placeholder="Description" style="height: 100px; width: 400px;"></textarea>
+                  <textarea name = "description" placeholder="Description" style="height: 100px; width: 400px;"></textarea>
                   <br>
                     <div class="input-group">
                       <input type="file" multiple name ="exam_file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
@@ -92,66 +92,78 @@
      
       <div class="shadow-sm p-3 mb-5 bg-body rounded">
       
-        <h5 class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"> {{files.course_name}}</h5>
+        <div class="card-header" style="border-radius: 10px; border-color: rgb(128, 128, 128);color:#76649b;"><div class="row">
+          <div class="col-md-8">
+            <a  href="/addComment/{{files.id}}/" style="text-decoration: none; color:rgb(69, 27, 146)">
+
+             <h5> {{files.course_name}}</h5>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="deleteMaterial/{{files.id}}/" style="float: right; margin:5px; color:darkred">
+              <i class="material-icons">
+                delete
+              </i>
+            </a>
+            <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" style="float: right;margin:5px;color:rgb(19, 136, 72)">
+          
+              <i class="material-icons">
+                file_download
+              </i>
+              
+            </a>&nbsp &nbsp
+            
+   </div></div></div>
 
         <div class="card-body">
           <h6 style="font-weight: bold;">Topic : {{files.description}}</h6>
           <p style="font-weight: 500;">{{files.uni_name}}</p>
-          <p style="color: rgb(11, 59, 161);">{{files.pdf}}</p>
+
+          <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet" style="width:300px;">
+            <div class="mdc-card info-card info-card--success">
+              <div class="card-inner">
+               <a href="{{files.pdf.url}}" target="_blank" style="text-decoration: none;">
+                <h6 style="color: rgb(11, 59, 161);">{{files.pdf}}</h6>      
+               </a>
+                <h5 class="font-weight-light pb-2 mb-1 border-bottom"> 
+                </h5>
+                <p class="tx-12 text-muted"></p>
+               
+                <div class="card-icon-wrapper">
+                  <i class="material-icons">dvr</i>
+                </div>
+              </div>
+            </div>
+          </div><br>
           
-          {% video files.video 'small' %} <br>
-          <div class="row">
-            <div class="col-md-11">
-
-              <a href="{{files.pdf.url}}" target="_blank"  class="btn btn-primary">
-                <i class="material-icons">
-                  file_open
-                </i>
-              </a>
-              <a href="{{files.pdf.url}}" download="{{files.pdf.url}}" class="btn btn-success">
-                
-                <i class="material-icons">
-                  file_download
-                </i>
-                
-              </a>
-          </div>
-
-         <div class="col-md-1">
-          <a href="deleteMaterial/{{files.id}}/" class="btn btn-danger">
-            <i class="material-icons">
-              delete
-            </i>
-          </a></div>
+          {% video files.video 'small' %}
+      
         </div>
-        </div>
-      </br>
+       
+      <br>
       <div>
            <!--comment-->
-    </br>
+    <br>
            <div class="container mt-14">
             <div class="row d-flex">
               <div class="col-md-12">
+                
+                {%if comments%}
                 <div class="headings d-flex justify-content-between align-items-center mb-3">
                   <h5>Comments</h5>
                 </div>
+                {%endif%}
                 
                   {% for comment in comments %}
                     {% if comment.material_id_id == files.id %}
+                  
                 <div class="card p-3">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="user d-flex flex-row align-items-center">
-                    {% if comment.user_picture == "" %}
-                      <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
-                    {% else %}
-                    {% if comment.googleAcc == 'False' %}
-                      <img src="{{comment.user_picture.url}}" width="30" class="user-img rounded-circle mr-2">
-                    {% else %}
-                      <img src="{{comment.user_picture}}" width="30" class="user-img rounded-circle mr-2">
-                    {% endif %}
-                    {% endif %}  
+
+                      <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2"> 
                       <span>
-                        <small class="font-weight-bold text-warning" >{{comment.username}}</small> 
+                        <small class="font-weight-bold text-success" >{{comment.username}}</small> 
                         
                       </span>
                     </div>
@@ -161,28 +173,8 @@
                 </div>
                 {% endif %}
                 {% endfor %}
-                
-                <div class="card p-3">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center">
-                    {% if picture != no_picture %}
-                      <img src="{{ picture }}" width="30" class="user-img rounded-circle mr-2">
-                    {% else %}
-                      {% if userPictures.picture == '' %}
-                        <img src="{% static 'Assets/user.png' %}" width="30" class="user-img rounded-circle mr-2">
-                      {% else %}
-                        <img src="{{ userPictures.picture.url }}" width="30" class="user-img rounded-circle mr-2">
-                      {% endif %}
-                    {% endif %}
-                      <span>
-                        <small class="font-weight text-secondary">Write your Comment.</small> 
-                      </span>
-                    </div>
-                    <a href="/addComment/{{files.id}}/" class="mdc-button mdc-button--raised icon-button">
-                      <i class="material-icons mdc-button__icon">add</i>
-                    </a>
-                  </div>
-                </div>
+
+               
                 
               </div>
             </div>

@@ -1,16 +1,19 @@
-from django.urls import reverse
-from django.db.models.fields import PositiveBigIntegerField
-from .models import materials,Comment,course_list,course_folder
-
 from django.shortcuts import redirect, render
 from HomePage.models import User
 from django.http import HttpResponse
 import os
-import urllib.parse
 from django.conf import settings
-from django.http.response import Http404, HttpResponseRedirect
+from django.http.response import Http404
 from django.contrib import messages
+
+from .models import materials,course_list,course_folder,Comment
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+
+from django.core.mail import EmailMessage
+import CheckIt.settings as set
+from FrontEnd.models import UserPictures, UserDetails
+from django.contrib.auth.models import User
+from allauth.socialaccount.models import SocialAccount 
 
 
 # Create your views here.
@@ -48,8 +51,19 @@ def Course(request):
             
         else:
             zipped_lists = zip(courses, material_count)
+            userPictures = UserPictures.objects.get( user = users.id )
+            userDetails = UserDetails.objects.get( user_id = users.id )
+            socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+            picture = "not available"
+            no_picture = "not available"
+            googleAcc = False
+
+            if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True
             return render(request, 'src/Views/Materials/Courses.html', 
-            {'user' : users,'courselist' : courseslist, "coursefolder":courses, "zipped_lists" : zipped_lists})
+            {'user' : users,'courselist' : courseslist, "coursefolder":courses, "zipped_lists" : zipped_lists,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:
        return redirect("/login")
 
@@ -58,7 +72,7 @@ def Course(request):
 def AddMaterials(request, course_name):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
-        comments=Comment.objects.filter(parent=None)
+        comments=Comment.objects.all()
 
         courses = course_list.objects.get( course_name = course_name )
         material = materials.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
@@ -81,62 +95,41 @@ def AddMaterials(request, course_name):
             
         elif request.method == "GET":
 
-         material = materials.objects.filter(owner_id_id = users.id, course_id_id = courses.id)
-         courses = course_list.objects.all()
-            #pagination
-         page=request.GET.get('page')
-         paginator=Paginator(material,2)
+           material = materials.objects.filter(owner_id_id = users.id, course_id_id = courses.id)
+           courses = course_list.objects.all()
+           userPictures = UserPictures.objects.get( user = users.id )
+           userDetails = UserDetails.objects.get( user_id = users.id )
+           socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+           picture = "not available"
+           no_picture = "not available"
+           googleAcc = False
 
-         try:
-            material=paginator.page(page)
-         except PageNotAnInteger:
-            material=paginator.page(1)
-         except EmptyPage:
-           material=paginator.page(paginator.num_pages)
-        return render(request, "src/Views/Materials/addMaterials.html", {'material':material, 'name' : users.username,'courses':courses,'page':page,'comments':comments})
+           if len(socialaccount_obj):
+                picture = socialaccount_obj[0].extra_data['picture']
+                googleAcc = True
+            #pagination
+           page=request.GET.get('page')
+           paginator=Paginator(material,2)
+
+           try:
+              material=paginator.page(page)
+           except PageNotAnInteger:
+              material=paginator.page(1)
+           except EmptyPage:
+              material=paginator.page(paginator.num_pages)
+        
+        return render(request, "src/Views/Materials/addMaterials.html", {'material':material, 'name' : users.username,'courses':courses,'page':page,'comments':comments,'userPictures' : userPictures, 'picture': picture,
+            'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:
         return redirect("/login")
-
-
-def addComment(request,id):
-    material=materials.objects.get(id=id)
-    comments=Comment.objects.filter(material_id_id=material.id,  parent=None)
-    Material=materials.objects.filter(id=id)
-    if request.method=='POST':
-        comment=request.POST['comment']
-        material_id=material.id
         
-        if request.user.is_authenticated :
-            username='Author'
-        else:
-            username='Viewer'
-        parentid=request.POST['parentid']
-        if parentid:
-            parent=Comment.objects.get(id=parentid)
-            newcom=Comment(text=comment,username=username, material_id_id = material_id,parent=parent)
-            newcom.save()
-        else:
-            newcom=Comment(text=comment,username=username,material_id_id = material_id)
-            newcom.save()
-
-        return redirect('/addComment/'+str(material.id))
-    elif request.method == "GET":
-        return render(request, "src/Views/Materials/Comment.html", {'Material':Material,'comments':comments})
-
-
-def del_course(request, id):
-    if request.user.is_authenticated :
-       users = User.objects.get( username = request.user )
-       folder = course_folder.objects.get(id=id,owner_id_id = users.id)
-       folder.delete()
-       return redirect('/Materials') 
 
 def AllMaterials (request):
     
     Materials = materials.objects.all()
     courseList = course_list.objects.all()
     #m= []
-    comments=Comment.objects.filter(parent=None)
+    comments=Comment.objects.all()
     #for material in Materials:
     #    comments=Comment.objects.filter(material_id_id= material.id,parent=None)
 
@@ -156,9 +149,6 @@ def AllMaterials (request):
 
     return render(request, "src/Views/Materials/AllMaterials.html", {'material':Materials,'list':courseList, 'comments': comments#,'zipped_lists':zipped_lists, 
     })
- 
-
-
 
 def searchMaterials(request):
     params={}
@@ -171,7 +161,7 @@ def searchMaterials(request):
         AllMaterialsUni_name=materials.objects.filter(uni_name__icontains=query)
         AllMaterialsDescription=materials.objects.filter(description__icontains=query)
         AllMaterials=AllMaterialsCourse.union(AllMaterialsUni_name,AllMaterialsDescription)
-    comments=Comment.objects.filter(parent=None)
+    comments=Comment.objects.all()
     if AllMaterials.count()==0:
         messages.warning(request, "No search results found. Please refine your query.")
      
@@ -202,11 +192,20 @@ def deleteMaterial(request,course_name, id):
     else:
         return redirect("/login")
 
+def del_course(request, id):
+    if request.user.is_authenticated :
+       users = User.objects.get( username = request.user )
+       folder = course_folder.objects.get(id=id,owner_id_id = users.id)
+       folder.delete()
+       return redirect('/Materials') 
+
 
 def courseMaterial (request, course_name):
     courses = course_list.objects.get(course_name=course_name)
     material = materials.objects.filter(course_name = courses.course_name)
-    comments=Comment.objects.filter(parent=None)
+    comments=Comment.objects.all()
+    courseList = course_list.objects.all()
+
     #pagination
     page=request.GET.get('page')
     paginator=Paginator(material,2)
@@ -218,7 +217,51 @@ def courseMaterial (request, course_name):
     except EmptyPage:
         material=paginator.page(paginator.num_pages)
     
-    return render(request, "src/Views/Materials/courseMaterials.html", {'material':material,'courses':courses,'page':page,'comments':comments})
+    return render(request, "src/Views/Materials/courseMaterials.html", {'material':material,'courses':courses,'page':page,'comments':comments, 'list':courseList,})
+
+
+def addComment(request,id):
+    material=materials.objects.get(id=id)
+    users = User.objects.get(id= material.owner_id_id)
+    comments=Comment.objects.filter(material_id_id=material.id)
+    Material=materials.objects.filter(id=id)
+    if request.method=='POST':
+        comment=request.POST['comment']
+        material_id=material.id
+        
+        if request.user.is_authenticated :
+            username='Author'
+            
+        else:
+            username='Viewer'
+
+        
+        newcom=Comment(text=comment,username=username,material_id_id = material_id)
+        newcom.save()
+
+            #send mail
+        if request.user.is_authenticated :
+
+            print("Ami teacher")
+        else:    
+            subject = "CheckIt? Comment Notification"
+
+            
+            message= "Dear "+users.username+",\nA viwer has commented on your uploaded material in CheckIt?. Go and check now!"+"\n"+"http://localhost:8000/addComment/"+str(material_id)+"/"
+            to = users.email
+            email = EmailMessage(
+                subject,
+                message,
+                set.EMAIL_HOST_USER,
+                [to],
+            )
+            email.send()
+            print("Sent!!")
+
+        return redirect('/addComment/'+str(material.id))
+    elif request.method == "GET":
+        return render(request, "src/Views/Materials/Comment.html", {'Material':Material,'comments':comments})
+
 
 def courseMaterialComment(request,course_name,id):
     page = request.GET.get('page', '')
@@ -266,6 +309,3 @@ def searchMaterialComment(request,id):
             newcom.save()
 
     return redirect('/searchMaterials/?query='+str(query))
-
-
-

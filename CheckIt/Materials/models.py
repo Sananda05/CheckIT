@@ -36,7 +36,6 @@ class Comment(models.Model):
     material_id = models.ForeignKey(materials,on_delete=CASCADE)
     username=models.CharField(max_length=50)
     text = models.TextField()
-    parent=models.ForeignKey('self',on_delete=models.CASCADE,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
    
 

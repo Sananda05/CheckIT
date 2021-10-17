@@ -13,6 +13,16 @@ class Courses (models.Model):
     def __str__(self):
         return self.name
 
+class Exams (models.Model):
+    exam_name = models.CharField(max_length = 255)
+    exam_question = models.FileField(upload_to = 'ExamQuestions/')
+
+    course_id = models.ForeignKey(Courses, on_delete = CASCADE)
+    owner_id = models.ForeignKey(User, on_delete = CASCADE)
+
+    def __str__(self):
+        return self.name
+
 class ExamFolder(models.Model):
     exam_name = models.CharField(max_length=100)
     semester = models.CharField(max_length=50)

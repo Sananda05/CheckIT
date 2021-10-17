@@ -1,28 +1,41 @@
+from __future__ import print_function
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 
 from django.contrib.auth.models import User
-from .models import Courses, ExamFolder
-from Exams.models import UncheckedFile
+from allauth.socialaccount.models import SocialAccount
+
+from .models import Courses, Exams
+from FrontEnd.models import UserPictures, UserDetails
+from Exams.models import ExamScripts, ScriptDetails
 
 def HomePage(request):
     print (request.user)
 
     if request.user.is_authenticated :
-        users = User.objects.get( username = request.user ) 
-        courses = Courses.objects.filter( owner_id_id = users.id )
-        print(users)
-        print(courses)
-        
-        return render(request, 'src/Views/Home/HomeContent.html', {'username' : request.user, 'email' : users.email, 'courses': courses})
-    else:
-       return redirect("/login")
-
-def AddCourse(request):
-    print (request.user)
-
-    if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        courses = Courses.objects.filter( owner_id_id = users.id )
+        exams = Exams.objects.filter( owner_id_id = users.id )
+
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True
+        
+        exam_count = []
+        for course in courses:
+            count = 0
+            for exam in exams:
+                if exam.course_id_id == course.id:
+                    count = count + 1
+            exam_count.append(count)
         
         if request.method == "POST":
             owner_id = users.id
@@ -38,28 +51,34 @@ def AddCourse(request):
             print(users.username + " added Course " + name)
 
             return redirect('/home')
+            
         else:
-            return render(request, 'src/Views/Home/AddCourse.html', {'username' : request.user, 'email' : users.email})
+            zipped_lists = zip(courses, exam_count)
+            username = users.username
+            return render(request, 'src/Views/Home/HomeContent.html', 
+            {'user' : users, 'username':username, 'userPictures' : userPictures, 'courses' : courses, "zipped_lists" : zipped_lists,
+            'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc, 'userDetails': userDetails})
     else:
        return redirect("/login")
-
-def UserProfile(request, username):
-    if request.user.is_authenticated :
-        users = User.objects.get( username = request.user )
-        courses = Courses.objects.filter( owner_id_id = users.id )
-
-        return render(request, 'src/Views/Users/User.html', {'username' : request.user, 'email' : users.email, 'courses' : courses})
-    else:
-        return redirect("/login")      
 
 def CourseView(request, coursename):
     if request.user.is_authenticated :
         users = User.objects.get( username = request.user )
-        courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
-        exams = ExamFolder.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
-        scripts = UncheckedFile.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
-        
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )
+        userPictures = UserPictures.objects.get( user = users.id )
 
+        courses = Courses.objects.get( name = coursename, owner_id_id = users.id )
+        exams = Exams.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
+        scripts = ExamScripts.objects.filter( owner_id_id = users.id, course_id_id = courses.id )
+        
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True
+        
         script_count = []
         for exam in exams:
             count = 0
@@ -68,43 +87,94 @@ def CourseView(request, coursename):
                     count = count + 1
             script_count.append(count)
         print(script_count)
-
-        print(courses.id)
-
+        
         if request.method == "POST":
+            owner_id = users.id
+            course_id = courses.id
 
-            
-           #owner_id = users.id
-           # course_id = courses.id
-
-            exam_name = request.POST['exam_name']
-            semester = request.POST['semester']
+            exam_name = request.POST.get('exam_name')
+            exam_question = request.FILES.get('exam_question')
 
             print(exam_name)
-            print(semester)
+            print(exam_question)
+                
+            #Exams.objects.create(exam_name = exam_name, course_id_id = course_id, owner_id_id = owner_id)
+            Exams.objects.create(exam_name = exam_name, exam_question = exam_question, course_id_id = course_id, owner_id_id = owner_id)
+                
+            print(users.username + " added exam " + exam_name + " under course " + courses.name)
 
-            ExamFolder.objects.create(exam_name= exam_name, semester=semester,owner_id_id = users.id, course_id_id= courses.id)
-            print(courses.id)
-           
-            return redirect("/Course/"+courses.name)
+            return redirect('/home/'+ courses.name)
+        else:
+            zipped_lists = zip(exams, script_count)
+            return render(request, 'src/Views/Home/Course.html', 
+            {'user' : users, 'userPictures': userPictures,  'coursename' : courses.name, 'exams' : exams, "zipped_lists" : zipped_lists,
+            'picture': picture, 'no_picture': no_picture, 'googleAcc': googleAcc})
+    else:
+        return redirect("/login")
 
-        elif request.method == "GET":
-            
-             zipped_lists = zip(exams, script_count)
-             return render(request, 'src/Views/Users/Course.html', {'exams' : exams,'coursename' : coursename, "zipped_lists" : zipped_lists })
-    else :
-        return redirect("/login")    
+def deleteCourse(request, course_id):
+    if request.user.is_authenticated :
+        courses = Courses.objects.get(id = course_id)
+        exams = Exams.objects.filter(course_id_id = course_id)
+        examScripts = ExamScripts.objects.filter(course_id_id = course_id)
 
-def delete_exam (request,id):
-    if request.method == "POST":
-        exam = ExamFolder.objects.get(id=id)
-        exam.delete()            
+        for examScript in examScripts:
+            scriptDetails = ScriptDetails.objects.filter(Script_id_id = examScript.id)
+            scriptDetails.delete()
+        
+        examScripts.delete()
+        exams.delete()
+        courses.delete()
+
+        return redirect('/home')
+
+    else:
+        return redirect("/login")
 
 def Logout(request):
-        print (request.user, "logging out")
+    print (request.user, "logging out")
 
+    if request.method == "POST":
+       return render(request, 'src/Views/Home/Homepage.html') 
+    else:
+       logout(request)
+       return redirect("/login")
+
+def SetProfile(request):
+    print (request.user)
+
+    if request.user.is_authenticated :
+        users = User.objects.get( username = request.user )
+        userPictures = UserPictures.objects.get( user = users.id )
+        userDetails = UserDetails.objects.get( user_id = users.id )
+        socialaccount_obj = SocialAccount.objects.filter( provider = 'google', user_id = users.id )        
+        
+        picture = "not available"
+        no_picture = "not available"
+        googleAcc = False
+
+        if len(socialaccount_obj):
+            picture = socialaccount_obj[0].extra_data['picture']
+            googleAcc = True        
+        
         if request.method == "POST":
-             return render(request, 'src/Views/Home/Homepage.html') 
+            owner_id = users.id
+                
+            name = request.POST.get('name')
+            CourseCode = request.POST.get('CourseCode')
+
+            print(name)
+            print(CourseCode)
+                
+            Courses.objects.create(name = name, CourseCode = CourseCode, owner_id_id = owner_id)
+                
+            print(users.username + " added Course " + name)
+
+            return redirect('/home')
+            
         else:
-            logout(request)
-            return redirect("/login")
+            return render(request, 'src/Views/Users/NewUser.html', 
+            {'user' : users, 'userPictures' : userPictures, 'picture': picture, 'no_picture': no_picture,
+             'googleAcc': googleAcc, 'userDetails': userDetails})
+    else:
+       return redirect("/login")
